@@ -355,42 +355,176 @@ body{font-family:var(--sans)}
   body[data-mv="tv"] .tv-h{cursor:default}
   .itip,.vprompt,.taphint{bottom:calc(70px + env(safe-area-inset-bottom))}
 }
+
+/* ===== v3.4: icons, glow title, main nav, TV tile, auth, tour ===== */
+.ic{width:1.15em;height:1.15em;vertical-align:-.2em;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:square;stroke-linejoin:miter;flex:none}
+.dup{display:none!important}
+.brand-main .t-long{display:none!important}
+.brand-main .t-short{display:inline!important;font-family:var(--stencil);font-size:24px;letter-spacing:.14em;color:#001014;-webkit-text-stroke:1px #c9fbff}
+.glow{text-shadow:0 0 2px #fff,0 0 6px #22e5ff,0 0 14px #22e5ff,0 0 28px rgba(34,229,255,.55),0 0 46px rgba(255,59,92,.35);animation:atsmGlow 3.4s ease-in-out infinite}
+@keyframes atsmGlow{0%,100%{text-shadow:0 0 2px #fff,0 0 6px #22e5ff,0 0 14px #22e5ff,0 0 28px rgba(34,229,255,.55),0 0 46px rgba(255,59,92,.35)}50%{text-shadow:0 0 3px #fff,0 0 9px #22e5ff,0 0 22px #22e5ff,0 0 40px rgba(34,229,255,.7),0 0 70px rgba(255,59,92,.5)}}
+@media (prefers-reduced-motion:reduce){.glow{animation:none}}
+[data-theme="light"] .brand-main .t-short{color:#fff;-webkit-text-stroke:1px #0f172a}
+.tl .tag,.tagx{font-family:var(--stencil);letter-spacing:.08em;color:#ffc400;font-weight:400}
+.tl.err .tag{color:#ff3b5c}.tl.ok .tag{color:#3dff7a}
+.satIcon{color:#22e5ff}.satIcon .ic{width:20px;height:20px;stroke-width:2}
+#tabbar{display:flex;align-items:stretch;gap:2px;padding:0 12px;background:#000;border-bottom:1px solid #262626;min-height:44px;position:relative;z-index:19;flex:none}
+#tabbar>button{display:flex;align-items:center;gap:7px;background:transparent;border:none;border-bottom:2px solid transparent;color:#a3a3a3;font-family:var(--stencil);font-size:12px;letter-spacing:.1em;padding:0 14px;min-height:44px}
+#tabbar>button em{font-style:normal}
+#tabbar>button:hover{color:#f5f5f5}
+#tabbar>button.active{color:#22e5ff;border-bottom-color:#22e5ff;text-shadow:0 0 8px rgba(34,229,255,.6)}
+.navx{margin-left:auto;display:flex;align-items:center;gap:8px}
+.secind{font-family:var(--mono);font-size:11px;color:#3dff7a;border:1px solid #1f3d28;padding:4px 8px;border-radius:4px;white-space:nowrap}
+.navbtn{background:#0a0a0a;color:#f5f5f5;border:1px solid #333;border-radius:6px;font-family:var(--stencil);font-size:11px;letter-spacing:.08em;min-height:34px;padding:0 10px;display:flex;align-items:center;gap:6px;max-width:180px;overflow:hidden;white-space:nowrap}
+.navbtn:hover{border-color:#22e5ff}
+[data-theme="light"] #tabbar{background:#fff;border-bottom-color:#e2e8f0}[data-theme="light"] .navbtn{background:#f1f5f9;color:#0f172a;border-color:#cbd5e1}
+#hud{grid-template-columns:minmax(220px,1fr) minmax(280px,1.7fr) minmax(200px,1fr) minmax(290px,1.15fr)}
+.tvslot{min-width:0;min-height:0;display:flex}
+.tv.dock{position:relative;left:auto!important;top:auto!important;right:auto!important;bottom:auto!important;width:100%;height:100%;display:flex;flex-direction:column;border-radius:8px;box-shadow:none;z-index:auto}
+.tv.dock .tv-h{cursor:default}.tv.dock .tv-body{flex:1;aspect-ratio:auto;min-height:0}.tv.dock .tv-src{display:none}
+.tv-standby{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;width:100%;background:repeating-linear-gradient(0deg,#000 0 3px,#060606 3px 4px);color:#22e5ff;border:none;font-family:var(--stencil);letter-spacing:.12em}
+.tv-standby b{font-weight:400;font-size:13px;text-shadow:0 0 8px rgba(34,229,255,.6)}.tv-standby small{font-family:var(--mono);color:#a3a3a3;font-size:10.5px;letter-spacing:.04em}
+.tv.on .tv-standby{display:none}
+.tv-h b .ic{color:#ff3b5c}
+.tv.flash{outline:2px solid #ffc400;outline-offset:-2px}
+#term.settings .tout,#term.settings .tprompt,#term.settings .tsuggest,#term.settings .emw{display:none}
+#term.settings .tpanel{max-height:none;flex:0 0 auto}
+#term.settings{overflow-y:auto}
+.vault-h{font-size:12px}.vkey{display:flex;flex-direction:column;gap:6px;border:1px solid #262626;border-radius:6px;padding:8px}
+.vkey b{font-family:var(--stencil);font-weight:400;letter-spacing:.08em;color:#22e5ff}
+.mask{font-family:var(--mono);color:#3dff7a}
+.prow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:3px 0;border-bottom:1px dashed #1f1f1f}.prow .pn{flex:1;min-width:140px}.prow.core .pn{color:#a3a3a3}.prow label{display:flex;align-items:center;gap:4px}.prow button{min-width:64px;min-height:34px}@media (pointer:coarse){.prow button{min-height:44px}}
+@media (min-width:761px) and (max-width:1100px){.secind{display:none}#tabbar>button{padding:0 10px;font-size:11px}#hud{grid-template-columns:minmax(0,1fr) minmax(0,1.3fr) minmax(0,1.3fr)!important}#hud>div:nth-of-type(3){display:none}}
+@media (min-width:761px) and (max-width:900px){#hud{height:206px!important;max-height:none!important;overflow:hidden!important}}
+@media (max-width:760px){
+  #tabbar{position:fixed;left:0;right:0;bottom:0;z-index:72;border-bottom:none;border-top:1px solid #2a2a2a;min-height:0;padding:0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+  #tabbar .navx{display:none}
+  #tabbar>button{border-bottom:none;font-family:var(--stencil);font-size:9.5px;flex-direction:column;gap:3px;padding:4px 2px}
+  #tabbar>button .ic{width:20px;height:20px}
+  #tabbar>button.active{box-shadow:inset 0 2px 0 #22e5ff}
+  .tv.dock{position:absolute;left:8px!important;right:8px!important;top:8px!important;width:auto;height:auto;z-index:8;border-radius:8px}
+  .tv.dock .tv-body{flex:none;height:min(44vw,24vh)}
+  body:not([data-mv="graph"]):not([data-mv="tv"]) .tv{display:none}
+  body[data-mv="graph"] .pillbar{top:calc(min(44vw,24vh) + 62px)}
+  body[data-mv="graph"] .emchip{top:calc(min(44vw,24vh) + 116px)}
+  body[data-mv="tv"] .tv{position:fixed;top:calc(env(safe-area-inset-top) + 64px)!important;bottom:calc(64px + env(safe-area-inset-bottom))!important}
+  body[data-mv="tv"] .tv .tv-body{flex:1;height:auto}
+  #tvPop{display:none}
+  .mquick #btnHelpM,.mquick #btnUserM{min-width:44px;padding:6px 8px}
+  .brand-main .t-short{font-size:19px}
+}
+@media (max-width:440px){.mquick #btnInstallM{display:none!important}#liveTxt{display:none}.brand-main .t-short{font-size:17px;letter-spacing:.1em}.mquick #btnMenu{padding:6px 8px;font-size:11px}}
+@media (max-width:380px){.brand-main .t-short{font-size:15px;letter-spacing:.08em}}
+#auth{position:fixed;inset:0;z-index:300;background:#000;color:#f5f5f5;overflow:auto;display:flex;align-items:flex-start;justify-content:center;padding:max(24px,env(safe-area-inset-top)) 16px 24px}
+#auth[hidden]{display:none}
+.auth-box{width:100%;max-width:440px;margin:auto 0;border:1px solid #2a2a2a;border-radius:12px;padding:22px;background:#030303;box-shadow:0 0 60px rgba(34,229,255,.08)}
+.auth-brand{font-family:var(--stencil);font-size:38px;letter-spacing:.16em;text-align:center;color:#001014;-webkit-text-stroke:1px #c9fbff}
+.auth-sub{font-family:var(--stencil);text-align:center;color:#ffc400;font-size:12px;letter-spacing:.14em;margin:6px 0 16px}
+.auth-tabs{display:flex;gap:6px;margin-bottom:12px}.auth-tabs button{flex:1;min-height:44px;background:#0a0a0a;color:#a3a3a3;border:1px solid #333;border-radius:6px;font-family:var(--stencil);letter-spacing:.1em}
+.auth-tabs button.on{color:#22e5ff;border-color:#22e5ff}
+.auth-profiles{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}.auth-profiles button{min-height:44px;background:#000;color:#f5f5f5;border:1px dashed #3a3a3a;border-radius:6px;padding:0 12px;font-family:var(--mono)}
+.auth-profiles button.on{border-style:solid;border-color:#3dff7a;color:#3dff7a}
+#authForm{display:flex;flex-direction:column;gap:10px}
+#authForm label{display:flex;flex-direction:column;gap:4px;font-family:var(--stencil);font-size:11px;letter-spacing:.1em;color:#a3a3a3}
+#authForm label[hidden]{display:none}
+#authForm input{min-height:44px;font-size:16px;background:#000;color:#f5f5f5;border:1px solid #3a3a3a;border-radius:6px;padding:0 10px;font-family:var(--mono)}
+#authForm input:focus{outline:2px solid #22e5ff;outline-offset:0}
+#authGo,#authGuest{min-height:48px;width:100%}#authGuest{margin-top:10px}
+.auth-err{min-height:18px;color:#ff3b5c;font-family:var(--mono);font-size:13px;margin-top:8px}
+.auth-note{font-family:var(--mono);font-size:12px;color:#a3a3a3;line-height:1.5;margin:12px 0 0}
+#tour{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom));z-index:120;width:min(440px,calc(100vw - 20px));background:#030303;border:1px solid #ffc400;border-radius:10px;padding:14px 16px;box-shadow:0 0 40px rgba(255,196,0,.15);color:#f5f5f5}
+#tour[hidden]{display:none}
+#tour h4{margin:0 0 6px;font-family:var(--stencil);font-weight:400;letter-spacing:.1em;color:#ffc400;font-size:14px}
+#tour p{margin:0 0 10px;font-family:var(--mono);font-size:13px;line-height:1.5}
+#tour .row{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+#tour button{min-height:44px;min-width:72px;background:#0a0a0a;color:#f5f5f5;border:1px solid #333;border-radius:6px;font-family:var(--stencil);letter-spacing:.08em}
+#tour button.pri{border-color:#22e5ff;color:#22e5ff}
+#tour .steps{font-family:var(--mono);font-size:11px;color:#a3a3a3;margin-right:auto;align-self:center}
+@media (min-width:761px){.vprompt{top:128px}}
+.tabs{display:none!important}
+.tour-hl{outline:2px solid #ffc400!important;outline-offset:2px;box-shadow:0 0 18px rgba(255,196,0,.45)!important}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-term" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16"/><path d="M7 9l3 3-3 3M12 15h5"/></symbol>
+<symbol id="i-crosshair" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/><path d="M12 2v6M12 16v6M2 12h6M16 12h6"/><circle cx="12" cy="12" r="1"/></symbol>
+<symbol id="i-sat" viewBox="0 0 24 24"><path d="M9.5 9.5l5 5M8 11l5 5-2 2-5-5zM11 8l5 5 2-2-5-5z"/><path d="M3 9l3-3 3 3-3 3zM15 21l3-3 3 3"/><path d="M17 3a4 4 0 0 1 4 4M17 6.5a.5.5 0 0 1 .5.5"/></symbol>
+<symbol id="i-antenna" viewBox="0 0 24 24"><circle cx="12" cy="9" r="1.6"/><path d="M12 11L7 21M12 11l5 10M9 17h6M8 5a6 6 0 0 0 0 8M16 5a6 6 0 0 1 0 8M5 2.5a10 10 0 0 0 0 13M19 2.5a10 10 0 0 1 0 13"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><circle cx="12" cy="11" r="1.8"/><path d="M12 12.8V16"/></symbol>
+<symbol id="i-radar" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><path d="M12 12l6.5-6.5"/><circle cx="15.5" cy="9.5" r=".8"/></symbol>
+<symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3M8 21h8"/></symbol>
+<symbol id="i-speaker" viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4zM16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11"/></symbol>
+<symbol id="i-mute" viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4zM16 9l5 6M21 9l-5 6"/></symbol>
+<symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3M14.5 8.5l2 2"/></symbol>
+<symbol id="i-core" viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10"/><rect x="10" y="10" width="4" height="4"/><path d="M9.5 3v4M14.5 3v4M9.5 17v4M14.5 17v4M3 9.5h4M3 14.5h4M17 9.5h4M17 14.5h4"/></symbol>
+<symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6"/></symbol>
+<symbol id="i-play" viewBox="0 0 24 24"><path d="M7 5l12 7-12 7z"/></symbol>
+<symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.8.4-1 1-1 1.7V14M12 17v.6"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4.5-6 8-6s7 2 8 6"/></symbol>
+<symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+<symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></symbol>
+<symbol id="i-tv" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13"/><path d="M8 3l4 4 4-4"/></symbol>
+<symbol id="i-theme" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor"/></symbol>
+<symbol id="i-pop" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-8 8M18 14v6H4V6h6"/></symbol>
+<symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+<symbol id="i-min" viewBox="0 0 24 24"><path d="M5 18h14"/></symbol>
+</defs></svg>
+<div id="auth" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+  <div class="auth-box">
+    <div class="auth-brand glow" id="authTitle">ATSMATRIX</div>
+    <div class="auth-sub">[ SECURE ACCESS ] // OPERATOR LOGIN</div>
+    <div class="auth-tabs" role="tablist"><button type="button" id="authModeIn" class="on">SIGN IN</button><button type="button" id="authModeUp">CREATE PROFILE</button></div>
+    <div class="auth-profiles" id="authProfiles"></div>
+    <form id="authForm" autocomplete="off" novalidate>
+      <label>CALLSIGN (USERNAME)<input id="authUser" autocomplete="username" maxlength="24" spellcheck="false" autocapitalize="off"></label>
+      <label>PASSWORD<input id="authPass" type="password" autocomplete="current-password"></label>
+      <label id="authPass2Row" hidden>CONFIRM PASSWORD<input id="authPass2" type="password" autocomplete="new-password"></label>
+      <button id="authGo" class="btn primary" type="submit">UNLOCK</button>
+    </form>
+    <div class="auth-err" id="authErr" role="alert"></div>
+    <button id="authGuest" class="btn" type="button">CONTINUE AS GUEST</button>
+    <p class="auth-note">Accounts are stored on this device only. Your keys are encrypted with your password. Forgetting the password means re-entering your keys. There is no server and no cross-device sync.</p>
+    <p class="auth-note">Guest: keys you enter are kept in memory for this session only.</p>
+  </div>
+</div>
+<div id="tour" hidden role="dialog" aria-live="polite" aria-labelledby="tourH"><h4 id="tourH"></h4><p id="tourP"></p><div class="row"><span class="steps" id="tourN"></span><button type="button" id="tourSkip">SKIP</button><button type="button" id="tourBack">BACK</button><button type="button" class="pri" id="tourNext">NEXT</button></div></div>
 <div id="app">
 <div id="voicePrompt" class="vprompt" hidden role="dialog" aria-label="Enable voice">
-  <div class="vp-ic">🔊</div>
+  <div class="vp-ic"><svg class="ic" aria-hidden="true"><use href="#i-speaker"/></svg></div>
   <div class="vp-txt"><b>Let ATSMATRIX talk to you?</b><div>It greets you and speaks short summaries of its answers. Turn it off any time with <code>/voice off</code>.</div></div>
-  <div class="vp-btns"><button id="vpEnable" class="btn primary">🔊 ENABLE VOICE</button><button id="vpLater" class="btn">NOT NOW</button></div>
+  <div class="vp-btns"><button id="vpEnable" class="btn primary"><svg class="ic" aria-hidden="true"><use href="#i-speaker"/></svg> ENABLE VOICE</button><button id="vpLater" class="btn">NOT NOW</button></div>
 </div>
-<div id="tapHint" class="taphint" hidden>🔊 Tap anywhere to hear ATSMATRIX</div>
+<div id="tapHint" class="taphint" hidden>[ VOX ] Tap anywhere to hear ATSMATRIX</div>
 <div id="installTip" class="itip" hidden role="dialog" aria-label="Install instructions"><button id="installTipClose" aria-label="Close">✕</button><div id="installTipBody"></div></div>
 <header>
   <div>
-    <div class="brand-sub">◈ ATSMATRIX // RESEARCH COLLISION ENGINE</div>
-    <div class="brand-main"><span class="t-long">Autonomous research &amp; invention agent on live NASA + satellite data</span><span class="t-short">ATSMATRIX</span>
+    <div class="brand-sub">◈ Autonomous research &amp; invention agent // live NASA + satellite data</div>
+    <div class="brand-main"><span class="t-long">Autonomous research &amp; invention agent on live NASA + satellite data</span><span class="t-short glow">ATSMATRIX</span>
       <span class="live" id="liveBadge" title="Reflects the last real network call"><span class="dot"></span><span id="liveTxt">BOOTING</span></span>
     </div>
   </div>
   <div class="mquick">
-    <button class="btn primary" id="btnInstallM" hidden aria-label="Install app" title="Install app">⬇</button>
-    <button class="btn gem" id="btnTermM" aria-label="Open terminal">⌨ TERMINAL</button>
-    <button class="btn" id="btnMenu" aria-label="Menu" aria-expanded="false" aria-controls="hbtns">☰</button>
+    <button class="btn primary" id="btnInstallM" hidden aria-label="Install app" title="Install app"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg></button>
+    <button class="btn gem" id="btnTermM" aria-label="Open terminal"><svg class="ic" aria-hidden="true"><use href="#i-term"/></svg> COMMAND</button>
+    <button class="btn" id="btnHelpM" aria-label="Help and quick tour" title="Help"><svg class="ic" aria-hidden="true"><use href="#i-help"/></svg></button>
+    <button class="btn" id="btnUserM" aria-label="Operator profile and key vault" title="Profile / key vault"><svg class="ic" aria-hidden="true"><use href="#i-user"/></svg></button>
+    <button class="btn" id="btnMenu" aria-label="Menu" aria-expanded="false" aria-controls="hbtns">MENU</button>
   </div>
   <div class="hbtns" id="hbtns">
-    <button class="btn gem" id="btnChat" title="Open the terminal (` or Ctrl+K)">✨ CHAT WITH GEMINI</button>
-    <button class="btn" id="btnAuto" title="Autonomous mode: /auto &lt;goal&gt;">🤖 AUTO</button>
-    <button class="btn" id="btnOps">🛰 SPACE OPS</button>
-    <button class="btn primary" id="btnConnect">⚡ CONNECT YOUR AI</button>
-    <button class="btn" id="btnBoost" title="Visual only: doubles the graph's drift speed">🚀 BOOST: 2X</button>
+    <button class="btn gem dup" id="btnChat" title="Open the terminal (` or Ctrl+K)"><svg class="ic" aria-hidden="true"><use href="#i-term"/></svg> CHAT WITH GEMINI</button>
+    <button class="btn" id="btnAuto" title="Autonomous mode: /auto &lt;goal&gt;"><svg class="ic" aria-hidden="true"><use href="#i-radar"/></svg> AUTO</button>
+    <button class="btn dup" id="btnOps"><svg class="ic" aria-hidden="true"><use href="#i-sat"/></svg> SPACE OPS</button>
+    <button class="btn primary" id="btnConnect"><svg class="ic" aria-hidden="true"><use href="#i-antenna"/></svg> CONNECT YOUR AI</button>
+    <button class="btn" id="btnBoost" title="Visual only: doubles the graph's drift speed">BOOST: 2X</button>
     <button class="btn" id="btnReset" title="Clear log, stats, evidence wall, terminal and agent session">↺ RESET</button>
-    <button class="btn primary" id="btnInstall" hidden title="Install ATSMATRIX as an app (/install)">⬇ INSTALL APP</button>
-    <button class="btn" id="btnTv" title="Live TV picture-in-picture (/tv)">📺 LIVE TV</button>
-    <button class="btn" id="btnVoiceH" title="Voice settings">🔊</button>
-    <button class="btn" id="btnTheme" title="Toggle light/dark theme" aria-label="Toggle theme">🌓</button>
+    <button class="btn primary" id="btnInstall" hidden title="Install ATSMATRIX as an app (/install)"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg> INSTALL APP</button>
+    <button class="btn dup" id="btnTv" title="Live TV picture-in-picture (/tv)"><svg class="ic" aria-hidden="true"><use href="#i-tv"/></svg> LIVE TV</button>
+    <button class="btn" id="btnVoiceH" title="Voice settings"><svg class="ic" aria-hidden="true"><use href="#i-speaker"/></svg> VOX</button>
+    <button class="btn" id="btnTheme" title="Toggle light/dark theme" aria-label="Toggle theme"><svg class="ic" aria-hidden="true"><use href="#i-theme"/></svg></button>
   </div>
 </header>
+<nav id="tabbar" aria-label="Main navigation"><button data-mv="term" title="Terminal: commands and chat (` or Ctrl+K)"><svg class="ic" aria-hidden="true"><use href="#i-term"/></svg><em>COMMAND</em></button><button data-mv="graph" title="Collision graph"><svg class="ic" aria-hidden="true"><use href="#i-crosshair"/></svg><em>GRAPH</em></button><button data-mv="ops" title="Space Ops: ISS, satellites, NASA data"><svg class="ic" aria-hidden="true"><use href="#i-sat"/></svg><em>SPACE OPS</em></button><button data-mv="tv" title="Live TV (NASA ISS feeds)"><svg class="ic" aria-hidden="true"><use href="#i-antenna"/></svg><em>TV</em></button><button data-mv="settings" title="Key vault, voice, engine"><svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg><em>SETTINGS</em></button><div class="navx"><span class="secind" id="secInd" aria-live="polite">SECTOR // GRAPH</span><button class="navbtn" id="btnHelp" title="Help and quick tour"><svg class="ic" aria-hidden="true"><use href="#i-help"/></svg> HELP</button><button class="navbtn" id="btnUser" title="Profile and key vault"><svg class="ic" aria-hidden="true"><use href="#i-user"/></svg> <span id="userName">GUEST</span></button></div></nav>
 
 <div id="stage">
   <div class="tabs">
@@ -400,54 +534,54 @@ body{font-family:var(--sans)}
   <div id="graphView">
     <canvas id="graph"></canvas>
     <div class="pillbar">
-      <label for="goalIn">⚡ SEND AGENT EVENT</label>
+      <label for="goalIn">[ OPS ] SEND AGENT EVENT</label>
       <input id="goalIn" placeholder="Ask, or a command like /iss · /auto invent a Mars dust shield" maxlength="600">
       <button id="btnFire">FIRE NOW</button>
     </div>
     <div class="legend">Wired to the agent: <b style="color:var(--blue)">DISCOVERY</b> = data tool calls · <b style="color:var(--purple)">REASONING</b> = Gemini steps · <b style="color:var(--magenta)">VERIFICATION</b> = result &amp; citation checks · <b style="color:var(--cyan)">SYNTHESIS</b> = answers / speech. Idle = calm drift; nothing fires without a real event. Tap or click a cluster for its event log; drag to move; pinch or Ctrl+scroll to zoom.</div>
     <div class="gstat" id="gstat">graph events: 0</div>
-    <div class="emchip" id="emChip" role="status" title="Engine Monitor"><b>⚙ ENGINE MONITOR</b><span class="em-mode"></span><span class="em-g"></span><span class="em-l"></span></div>
+    <div class="emchip" id="emChip" role="status" title="Engine Monitor"><b>[ CORE ] ENGINE MONITOR</b><span class="em-mode"></span><span class="em-g"></span><span class="em-l"></span></div>
     <div class="hubpop" id="hubPop" hidden></div>
   </div>
   <div id="opsView">
     <div id="mapWrap"><div id="map"></div></div>
     <div id="cards">
-      <div class="card"><h3>🛰 ISS — live <span class="muted" id="issAge"></span></h3><div class="kv" id="issKv"><b>status</b><span>waiting…</span></div><div class="src">wheretheiss.at · refreshes every 5 s</div></div>
-      <div class="card"><h3>📡 Satellite tracker</h3>
+      <div class="card"><h3><svg class="ic" aria-hidden="true"><use href="#i-sat"/></svg> [ SAT-TRK ] ISS — live <span class="muted" id="issAge"></span></h3><div class="kv" id="issKv"><b>status</b><span>waiting…</span></div><div class="src">wheretheiss.at · refreshes every 5 s</div></div>
+      <div class="card"><h3><svg class="ic" aria-hidden="true"><use href="#i-radar"/></svg> [ SAT-TRK ] Satellite tracker</h3>
         <div class="row"><input type="text" id="satIn" placeholder="Name or NORAD id: ISS, 25544, Aqua, GOES-18…"><button class="btn small primary" id="btnTrack">TRACK</button></div>
         <div id="satOut" class="kv" style="margin-top:6px"></div>
         <ul class="satlist" id="satList"></ul>
         <div class="src">CelesTrak TLE → (ISS) wheretheiss.at TLE, propagated in-browser with satellite.js (SGP4) · fallback: NASA SSCWeb ephemeris</div>
       </div>
-      <div class="card"><h3>🌌 Astronomy Picture of the Day <button class="btn small" id="btnApod" title="reload">↻</button></h3><div id="apodBody" class="muted">loading…</div><div class="src">NASA APOD · api.nasa.gov</div></div>
-      <div class="card"><h3>☀ Space weather (7 days) <button class="btn small" id="btnWx" title="reload">↻</button></h3><div id="wxBody" class="muted">loading…</div><div class="src">NASA DONKI (ccmc.gsfc.nasa.gov/DONKI-API) + NOAA SWPC planetary Kp</div></div>
-      <div class="card"><h3>☄ Near-Earth objects today <button class="btn small" id="btnNeo" title="reload">↻</button></h3><div id="neoBody" class="muted">loading…</div><div class="src">NASA NeoWs · api.nasa.gov</div></div>
-      <div class="card"><h3>👩‍🚀 People in space <button class="btn small" id="btnPeople" title="reload">↻</button></h3><div id="peopleBody" class="muted">loading…</div><div class="src">community dataset (corquaid ISS APIs on GitHub Pages)</div></div>
-      <div class="card"><h3>🌍 EPIC — latest Earth image <button class="btn small" id="btnEpic" title="reload">↻</button></h3><div id="epicBody" class="muted">loading…</div><div class="src">NASA EPIC (DSCOVR) · epic.gsfc.nasa.gov</div></div>
+      <div class="card"><h3>[ INTEL ] Astronomy Picture of the Day <button class="btn small" id="btnApod" title="reload">↻</button></h3><div id="apodBody" class="muted">loading…</div><div class="src">NASA APOD · api.nasa.gov</div></div>
+      <div class="card"><h3>[ WX ] Space weather (7 days) <button class="btn small" id="btnWx" title="reload">↻</button></h3><div id="wxBody" class="muted">loading…</div><div class="src">NASA DONKI (ccmc.gsfc.nasa.gov/DONKI-API) + NOAA SWPC planetary Kp</div></div>
+      <div class="card"><h3>[ NEO ] Near-Earth objects today <button class="btn small" id="btnNeo" title="reload">↻</button></h3><div id="neoBody" class="muted">loading…</div><div class="src">NASA NeoWs · api.nasa.gov</div></div>
+      <div class="card"><h3>[ CREW ] People in space <button class="btn small" id="btnPeople" title="reload">↻</button></h3><div id="peopleBody" class="muted">loading…</div><div class="src">community dataset (corquaid ISS APIs on GitHub Pages)</div></div>
+      <div class="card"><h3>[ EARTH ] EPIC — latest Earth image <button class="btn small" id="btnEpic" title="reload">↻</button></h3><div id="epicBody" class="muted">loading…</div><div class="src">NASA EPIC (DSCOVR) · epic.gsfc.nasa.gov</div></div>
     </div>
   </div>
 
   <section id="term" aria-label="ATSMATRIX terminal">
     <div class="term-h">
-      <span class="term-title">⌨ TERMINAL</span>
+      <span class="term-title"><svg class="ic" aria-hidden="true"><use href="#i-term"/></svg> COMMAND</span>
       <span class="term-status" id="termStatus"></span>
       <span class="badge auto" id="autoBadge" hidden>AUTO</span>
       <span class="badge watch" id="watchBadge" hidden>WATCH</span>
-      <span class="badge speak" id="speakBadge" hidden>🔊 SPEAKING</span>
-      <span class="badge listen" id="listenBadge" hidden>🎤 LISTENING</span>
+      <span class="badge speak" id="speakBadge" hidden>[ VOX ] SPEAKING</span>
+      <span class="badge listen" id="listenBadge" hidden>[ MIC ] LISTENING</span>
       <span class="term-btns">
-        <button id="tMic" title="Speak a message (/listen)">🎤</button>
-        <button id="tVoice" title="Voice settings (/voice settings)">🔊</button>
-        <button id="tKeys" title="API keys &amp; model (/keys)">🔑</button>
-        <button id="tEngine" title="Engine Monitor (/engine)">⚙</button>
-        <button id="tAuto" title="Autonomous mode (/auto)">🤖</button>
+        <button id="tMic" title="Speak a message (/listen)"><svg class="ic" aria-hidden="true"><use href="#i-mic"/></svg></button>
+        <button id="tVoice" title="Voice settings (/voice settings)"><svg class="ic" aria-hidden="true"><use href="#i-speaker"/></svg></button>
+        <button id="tKeys" title="API keys &amp; model (/keys)"><svg class="ic" aria-hidden="true"><use href="#i-key"/></svg></button>
+        <button id="tEngine" title="Engine Monitor (/engine)"><svg class="ic" aria-hidden="true"><use href="#i-core"/></svg></button>
+        <button id="tAuto" title="Autonomous mode (/auto)"><svg class="ic" aria-hidden="true"><use href="#i-radar"/></svg></button>
         <button id="tExport" title="Export transcript (/export)">⤓</button>
-        <button id="tClear" title="Clear terminal (/clear)">🗑</button>
+        <button id="tClear" title="Clear terminal (/clear)"><svg class="ic" aria-hidden="true"><use href="#i-trash"/></svg></button>
         <button id="tStop" class="stop" hidden title="Stop (/stop)">■ STOP</button>
         <button id="tClose" title="Close (` or Ctrl+K)">✕</button>
       </span>
     </div>
-    <div class="emw" id="emw" role="status" title="Engine Monitor (tap for settings)"><b>⚙ ENGINE</b> <span class="em-mode"></span> <span class="em-g"></span> <span class="em-l"></span></div>
+    <div class="emw" id="emw" role="status" title="Engine Monitor (tap for settings)"><b>[ CORE ]</b> <span class="em-mode"></span> <span class="em-g"></span> <span class="em-l"></span></div>
     <div class="tpanel" id="enginePanel" hidden>
       <div class="row">Engine <select id="emPref"><option value="auto">Auto · Gemini first, instant failover to ATSMATRIX Core (local)</option><option value="gemini">Gemini only</option><option value="local">ATSMATRIX Core (local) only · free, offline, private</option></select></div>
       <div class="row"><label><input type="checkbox" id="emPar"> Parallel: ask both engines at once, show the first good answer, keep the other as a second opinion (costs the same Gemini requests; uses more battery)</label></div>
@@ -456,12 +590,26 @@ body{font-family:var(--sans)}
       <pre class="muted" id="emStats" style="margin:0;white-space:pre-wrap;font-size:10.5px"></pre>
     </div>
     <div class="tpanel" id="keysPanel" hidden>
-      <div>Gemini API key <span id="gemState" class="muted"></span> · <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer">get a free key</a></div>
-      <div class="row"><input type="password" id="gemKey" autocomplete="off" placeholder="paste Gemini key (stored only in this browser)" style="flex:1"><button id="saveGem">SAVE</button></div>
+      <div class="vault-h"><b class="tagx">[ KEY VAULT ]</b> <span id="vaultWho" class="muted"></span></div>
+      <div class="muted" id="vaultNote"></div>
+      <div class="vkey"><div><b>GEMINI</b> <span id="gemState" class="muted"></span> · <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer">get a free key</a></div>
+      <div class="row"><input type="password" id="gemKey" autocomplete="off" placeholder="paste Gemini key" style="flex:1"><button id="saveGem">SAVE</button><button id="testGem" title="1 request: models list (no generation)">TEST</button><button id="delGem">DELETE</button></div></div>
       <div class="row">Model <input id="modelIn" list="models" spellcheck="false" style="flex:1"><datalist id="models"><option value="gemini-2.5-flash"><option value="gemini-flash-latest"><option value="gemini-3.5-flash"><option value="gemini-3.8-flash"></datalist></div>
-      <div>NASA API key <span id="nasaState" class="muted"></span> · <a href="https://api.nasa.gov" target="_blank" rel="noopener noreferrer">get a free key</a> (DEMO_KEY ≈ 30 req/hour per IP)</div>
-      <div class="row"><input type="password" id="nasaKey" autocomplete="off" placeholder="blank = DEMO_KEY" style="flex:1"><button id="saveNasa">SAVE</button></div>
-      <div class="row"><button id="forgetKeys">FORGET ALL KEYS</button><span class="muted">Keys stay in this browser's localStorage; sent only to Google / api.nasa.gov.</span></div>
+      <div class="vkey"><div><b>NASA</b> <span id="nasaState" class="muted"></span> · <a href="https://api.nasa.gov" target="_blank" rel="noopener noreferrer">get a free key</a> (blank = DEMO_KEY, about 30 req/hour per IP)</div>
+      <div class="row"><input type="password" id="nasaKey" autocomplete="off" placeholder="paste NASA key" style="flex:1"><button id="saveNasa">SAVE</button><button id="testNasa" title="1 small request">TEST</button><button id="delNasa">DELETE</button></div></div>
+      <div class="vkey" id="provBox"><div><b>AI PROVIDERS</b> <span class="muted">use any API key · the Engine Monitor tries enabled providers top to bottom, then ATSMATRIX Core (local)</span></div>
+      <div id="provList" class="provlist"></div>
+      <div class="row"><select id="provSel" aria-label="Provider" style="flex:1"></select></div>
+      <div class="row"><input type="password" id="provKey" autocomplete="off" placeholder="paste API key" style="flex:1"><button id="provSave">SAVE</button><button id="provTest" title="1 request: models list (no generation)">TEST</button><button id="provDel">DELETE</button></div>
+      <div class="row">Model <input id="provModel" spellcheck="false" style="flex:1"></div>
+      <div class="row" id="provBaseRow" hidden>Base URL <input id="provBase" spellcheck="false" placeholder="http://localhost:11434/v1" style="flex:1"></div>
+      <div class="muted" id="provHint"></div></div>
+      <div class="vkey"><div><b>OTHER API KEYS</b> <span class="muted">stored encrypted for future tools</span></div>
+      <div id="xList"></div>
+      <div class="row"><input id="xName" placeholder="name, e.g. openweather" maxlength="32" spellcheck="false" style="flex:1"><input type="password" id="xVal" autocomplete="off" placeholder="key value" style="flex:1"><button id="xAdd">SAVE</button></div></div>
+      <div class="row"><button id="forgetKeys">DELETE ALL MY KEYS</button><button id="delProfile">DELETE MY PROFILE</button></div>
+      <div class="row">Auto-lock <select id="lockMin"><option value="5">after 5 min idle</option><option value="15">after 15 min idle</option><option value="30">after 30 min idle</option><option value="60">after 60 min idle</option><option value="0">never</option></select><button id="btnLock">LOCK NOW</button><button id="btnLogout">LOG OUT</button><button id="btnSwitch">SWITCH USER</button></div>
+      <div class="muted">Accounts are stored on this device only. Your keys are encrypted with your password (PBKDF2-SHA-256, 250,000 iterations, AES-GCM). Forgetting the password means re-entering your keys. Keys are sent only to Google / api.nasa.gov.</div>
     </div>
     <div class="tpanel" id="voicePanel" hidden>
       <div class="row"><label><input type="checkbox" id="vOn"> Speak answers (text-to-speech)</label><span id="vSupport" class="muted"></span></div>
@@ -472,7 +620,7 @@ body{font-family:var(--sans)}
       <div class="row">Rate <input type="range" id="vRate" min="0.6" max="1.6" step="0.05"> <span id="vRateV"></span> · Pitch <input type="range" id="vPitch" min="0.5" max="1.5" step="0.05"> <span id="vPitchV"></span></div>
       <div class="row"><label><input type="checkbox" id="vAiSum"> Ask Gemini for a 1–2 sentence spoken summary of long answers (+1 request each)</label></div>
       <div class="row"><label><input type="checkbox" id="vHands"> Hands-free conversation (listen → answer → speak → listen)</label></div>
-      <div class="row"><button id="vTest">▶ TEST VOICE</button><button id="vListen">🎤 LISTEN ONCE</button><span class="muted">Speech recognition in Chrome/Edge sends audio to the browser vendor's servers.</span></div>
+      <div class="row"><button id="vTest"><svg class="ic" aria-hidden="true"><use href="#i-play"/></svg> TEST VOICE</button><button id="vListen"><svg class="ic" aria-hidden="true"><use href="#i-mic"/></svg> LISTEN ONCE</button><span class="muted">Speech recognition in Chrome/Edge sends audio to the browser vendor's servers.</span></div>
     </div>
     <div class="tpanel tasks" id="taskPanel" hidden>
       <div><b id="taskTitle">AUTONOMOUS RUN</b> <span class="muted" id="taskMeta"></span></div>
@@ -505,20 +653,19 @@ body{font-family:var(--sans)}
     <div class="hud-title">Evidence wall · last 112 events</div>
     <div id="wall"></div>
   </div>
+  <div class="tvslot" id="tvDock" aria-label="Live TV tile"></div>
 </div>
 </div>
 
-<div id="tv" class="tv" hidden role="dialog" aria-label="Live TV">
-  <div class="tv-h" id="tvBar"><b>📺 LIVE TV</b><select id="tvCh" aria-label="Channel"></select><button id="tvMin" title="Collapse / expand" aria-label="Collapse">▁</button><button id="tvClose" title="Close (/tv off)" aria-label="Close">✕</button></div>
-  <div class="tv-body"><iframe id="tvFrame" title="Live TV" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+<div id="tv" class="tv dock" role="region" aria-label="Live TV">
+  <div class="tv-h" id="tvBar"><b><svg class="ic" aria-hidden="true"><use href="#i-antenna"/></svg> [ TV-LINK ]</b><select id="tvCh" aria-label="Channel"></select><button id="tvPop" title="Pop out / dock" aria-label="Pop out or dock"><svg class="ic" aria-hidden="true"><use href="#i-pop"/></svg></button><button id="tvMin" title="Collapse / expand" aria-label="Collapse"><svg class="ic" aria-hidden="true"><use href="#i-min"/></svg></button><button id="tvClose" title="Stop stream (/tv off)" aria-label="Stop stream"><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button></div>
+  <div class="tv-body"><button class="tv-standby" id="tvStandby" type="button"><b>[ TV-LINK ] STANDBY</b><small>tap to connect · NASA ISS live · muted</small></button><iframe id="tvFrame" title="Live TV" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
   <div class="tv-src" id="tvSrc"></div>
 </div>
-<nav id="tabbar" aria-label="Sections">
-  <button data-mv="term"><span>⌨</span>TERMINAL</button><button data-mv="graph"><span>◉</span>GRAPH</button><button data-mv="ops"><span>🛰</span>SPACE OPS</button><button data-mv="tv"><span>📺</span>TV</button><button data-mv="settings"><span>⚙</span>SETTINGS</button>
-</nav>
+
 <div id="modal" role="dialog" aria-modal="true">
   <div class="mbox">
-    <div class="row" style="justify-content:space-between"><h2>⚡ Connect your AI (how it really works)</h2><button class="btn small" id="btnCloseModal">✕</button></div>
+    <div class="row" style="justify-content:space-between"><h2>[ COMMS ] Connect your AI (how it really works)</h2><button class="btn small" id="btnCloseModal">✕</button></div>
     <p>This is a <b>browser-only, static page</b>. It has no server, so outside agents <b>cannot POST</b> to it (GitHub Pages and other static hosts don't accept POST requests). These client-side options do work:</p>
     <div class="ctabs" id="ctabs">
       <button data-t="bc" class="active">BroadcastChannel</button><button data-t="pm">postMessage</button><button data-t="paste">Paste JSON</button><button data-t="hook">Real webhook</button>
@@ -543,7 +690,7 @@ w.postMessage({ type: 'agent_event', source: 'my-bot', message: 'hello from outs
 <script src="https://cdn.jsdelivr.net/npm/satellite.js@5.0.0/dist/satellite.min.js"
         integrity="sha384-e6V1JVpc+kVNTxT0gEOla7yL4c92Romsw7itPoipfzHbEjzUwPhTv6oeVDMHHzqT" crossorigin="anonymous"></script>
 
-<script>
+<script type="text/plain" id="atsmMain">
 'use strict';
 /* =====================================================================
    ATSMATRIX — autonomous research agent (browser-only)
@@ -552,9 +699,10 @@ w.postMessage({ type: 'agent_event', source: 'my-bot', message: 'hello from outs
 const $ = id => document.getElementById(id);
 const LSK = { gem:'atsm.geminiKey', nasa:'atsm.nasaKey', model:'atsm.model', theme:'atsm.theme' };
 const store = {
-  get(k, d=''){ try{ const v = localStorage.getItem(k); return v === null ? d : v; }catch(e){ return d; } },
-  set(k, v){ try{ localStorage.setItem(k, v); }catch(e){} },
-  del(k){ try{ localStorage.removeItem(k); }catch(e){} }
+  /* v3.4: API keys are routed to the encrypted per-profile vault (ATSM_AUTH); everything else is namespaced per profile. */
+  get(k, d=''){ const A = window.ATSM_AUTH; if(A && A.isKey(k)){ const v = A.keyGet(k); return v ? v : d; } try{ const v = localStorage.getItem(A ? A.ns(k) : k); return v === null ? d : v; }catch(e){ return d; } },
+  set(k, v){ const A = window.ATSM_AUTH; if(A && A.isKey(k)){ A.keySet(k, v); return; } try{ localStorage.setItem(A ? A.ns(k) : k, v); }catch(e){} },
+  del(k){ const A = window.ATSM_AUTH; if(A && A.isKey(k)){ A.keyDel(k); return; } try{ localStorage.removeItem(A ? A.ns(k) : k); }catch(e){} }
 };
 const DEFAULT_MODEL = 'gemini-2.5-flash';
 const FALLBACK_MODEL = 'gemini-flash-latest';
@@ -674,7 +822,7 @@ async function nasaGet(path, params){
   try{ return await fetchJSON(`https://api.nasa.gov${path}?${q}`, { timeout: 25000 }); }
   catch(e){
     if(e.status === 429) e.message += ' (NASA rate limit: DEMO_KEY allows ~30 requests/hour per IP. Get a free key at https://api.nasa.gov)';
-    if(e.status === 403) e.message += ' (NASA rejected the API key; check it under 🔑 KEYS)';
+    if(e.status === 403) e.message += ' (NASA rejected the API key; check it under SETTINGS > KEY VAULT)';
     throw e;
   }
 }
@@ -949,7 +1097,7 @@ async function pollISS(){
     $('issAge').textContent = 'poll #' + issPolls + ' · ' + new Date().toLocaleTimeString([], { hour12:false });
     if(map){
       const ll = [d.latitude, d.longitude];
-      if(!issMarker){ issMarker = L.marker(ll, { icon: satIcon('🛰️', 'ISS'), zIndexOffset: 1000 }).addTo(map); issCircle = L.circle(ll, { radius: d.footprint_km * 500, color: '#0284c7', weight: 1, fillOpacity: .06 }).addTo(map); }
+      if(!issMarker){ issMarker = L.marker(ll, { icon: satIcon(ICON('sat'), 'ISS'), zIndexOffset: 1000 }).addTo(map); issCircle = L.circle(ll, { radius: d.footprint_km * 500, color: '#0284c7', weight: 1, fillOpacity: .06 }).addTo(map); }
       else { issMarker.setLatLng(ll); issCircle.setLatLng(ll); }
       issTrail.push(ll); if(issTrail.length > 720) issTrail.shift();
       if(issLine) issLine.remove(); issLine = L.polyline(trailSegments(issTrail), { color: '#0284c7', weight: 2, opacity: .7 }).addTo(map);
@@ -968,7 +1116,7 @@ function updateTracked(){
       if(t.kind === 'tle') p = propagateTLE(t.sat);
       else { p = sscInterp(t.samples); if(!p && !t.refreshing){ t.refreshing = true; sscFetchSamples(t.id).then(s => { t.samples = s; }).catch(e => log('ERR', `SSCWeb refresh ${t.name}: ${e.message}`)).finally(() => { t.refreshing = false; }); } }
       if(!p) continue; t.pos = p; t.err = null;
-      if(map){ if(!t.marker) t.marker = L.marker([0, 0], { icon: satIcon('📡', t.name) }).addTo(map); t.marker.setLatLng([p.lat, wrapLon(p.lon)]); }
+      if(map){ if(!t.marker) t.marker = L.marker([0, 0], { icon: satIcon(ICON('radar'), t.name) }).addTo(map); t.marker.setLatLng([p.lat, wrapLon(p.lon)]); }
     }catch(e){ t.err = e.message; }
   }
   renderSatList();
@@ -993,12 +1141,12 @@ async function loadApod(){
   const el = $('apodBody'); el.className = 'muted'; el.textContent = 'loading…';
   try{
     const a = await runTool('nasa_apod', {}, 'ui'); el.className = ''; el.innerHTML = '';
-    const h = document.createElement('div'); h.innerHTML = `<b>${esc(a.title)}</b> <span class="muted mono">${esc(a.date)}</span>`; el.appendChild(h); if(a.upstream_warning){ const w = document.createElement('div'); w.className = 'err'; w.textContent = '⚠ ' + a.upstream_warning; el.appendChild(w); if(a.page_url){ const l = document.createElement('a'); l.href = a.page_url; l.target = '_blank'; l.rel = 'noopener noreferrer'; l.textContent = '↗ ' + a.page_url; el.appendChild(l); } }
+    const h = document.createElement('div'); h.innerHTML = `<b>${esc(a.title)}</b> <span class="muted mono">${esc(a.date)}</span>`; el.appendChild(h); if(a.upstream_warning){ const w = document.createElement('div'); w.className = 'err'; w.textContent = '[!] ' + a.upstream_warning; el.appendChild(w); if(a.page_url){ const l = document.createElement('a'); l.href = a.page_url; l.target = '_blank'; l.rel = 'noopener noreferrer'; l.textContent = '-> ' + a.page_url; el.appendChild(l); } }
     const img = safeUrl(a.media_type === 'image' ? a.url : a.thumbnail_url);
     if(img){ const i = document.createElement('img'); i.src = img; i.alt = a.title || 'APOD'; i.loading = 'lazy'; i.referrerPolicy = 'no-referrer'; el.appendChild(i); }
-    if(a.media_type !== 'image' && safeUrl(a.url)){ const l = document.createElement('a'); l.href = safeUrl(a.url); l.target = '_blank'; l.rel = 'noopener noreferrer'; l.textContent = '▶ open ' + a.media_type; el.appendChild(l); }
+    if(a.media_type !== 'image' && safeUrl(a.url)){ const l = document.createElement('a'); l.href = safeUrl(a.url); l.target = '_blank'; l.rel = 'noopener noreferrer'; l.textContent = '> open ' + a.media_type; el.appendChild(l); }
     const d = document.createElement('details'); const s = document.createElement('summary'); s.textContent = 'explanation'; const p = document.createElement('p'); p.textContent = a.explanation || ''; d.append(s, p); el.appendChild(d);
-    if(a.copyright){ const c = document.createElement('div'); c.className = 'src'; c.textContent = '© ' + a.copyright; el.appendChild(c); }
+    if(a.copyright){ const c = document.createElement('div'); c.className = 'src'; c.textContent = '(c) ' + a.copyright; el.appendChild(c); }
   }catch(e){ showErr(el, e); }
 }
 async function loadWx(){
@@ -1202,7 +1350,7 @@ async function runTool(name, args = {}, origin = 'agent'){
   if(!quiet) log('CALL', `${origin} ▸ ${name}(${argStr})`);
   stage('COLLECT');
   if(origin === 'agent') gHandoff(CL.REASONING, CL.DISCOVERY, { n: 6, color: 'var(--blue)' });
-  gPulse(CL.DISCOVERY, { label: quiet ? null : '▶ ' + name, color: 'var(--blue)', strength: quiet ? .15 : 1, ev: `▶ ${name}(${argStr}) [${origin}]` });
+  gPulse(CL.DISCOVERY, { label: quiet ? null : '> ' + name, color: 'var(--blue)', strength: quiet ? .15 : 1, ev: `> ${name}(${argStr}) [${origin}]` });
   const t0 = performance.now(); const off0 = window.__offlineHits || 0;
   try{
     const res = await t.run(args || {});
@@ -1234,7 +1382,8 @@ async function runTool(name, args = {}, origin = 'agent'){
 const TRANSCRIPT = [];
 const tOut = $('tOut');
 function tScroll(){ const nearBottom = tOut.scrollHeight - tOut.scrollTop - tOut.clientHeight < 160; if(nearBottom) tOut.scrollTop = tOut.scrollHeight; }
-function tLine(cls, text){ const el = document.createElement('div'); el.className = 'tl ' + cls; el.textContent = redact(text); tOut.appendChild(el); TRANSCRIPT.push({ t: Date.now(), cls, text: redact(text) }); trimOut(); tScroll(); return el; }
+function tLine(cls, text){ const el = document.createElement('div'); el.className = 'tl ' + cls; el.textContent = redact(text);
+  const tg = /^\[[A-Z!][A-Z0-9 !-]{0,12}\]/.exec(el.textContent); if(tg){ const sp = document.createElement('span'); sp.className = 'tag'; sp.textContent = tg[0]; el.textContent = el.textContent.slice(tg[0].length); el.prepend(sp); } tOut.appendChild(el); TRANSCRIPT.push({ t: Date.now(), cls, text: redact(text) }); trimOut(); tScroll(); return el; }
 function tMD(md, extraCls = ''){ const el = document.createElement('div'); el.className = 'tl md ' + extraCls; el.innerHTML = renderMarkdown(md); tOut.appendChild(el); TRANSCRIPT.push({ t: Date.now(), cls: 'md', text: md }); trimOut(); tScroll(); return el; }
 function tKV(pairs){ const el = document.createElement('div'); el.className = 'tl tkv'; pairs.forEach(([k, v]) => { const b = document.createElement('b'); b.textContent = k; const s = document.createElement('span'); s.textContent = v; el.append(b, s); }); tOut.appendChild(el); TRANSCRIPT.push({ t: Date.now(), cls: 'kv', text: pairs.map(([k, v]) => `${k}: ${v}`).join('\n') }); trimOut(); tScroll(); return el; }
 function tNode(node, text){ const el = document.createElement('div'); el.className = 'tl'; el.appendChild(node); tOut.appendChild(el); TRANSCRIPT.push({ t: Date.now(), cls: 'node', text: text || node.textContent }); trimOut(); tScroll(); return el; }
@@ -1293,8 +1442,147 @@ async function readSSE(resp, onChunk, signal, stallMs = 0, onStall = null){
   }
   if(buf.trim()) flush(buf);
 }
+/* =====================================================================
+   v3.4 PROVIDERS ("use any API key"). Requests are built in Gemini format by the agent loop and translated
+   to OpenAI-compatible Chat Completions or Anthropic Messages (streaming + tool calling), then translated
+   back, so the agent, tools and Engine Monitor stay the same. All listed endpoints allow browser CORS
+   (preflight-checked 2026-10-02). Keys live in the encrypted vault.
+   ===================================================================== */
+const PROVIDERS = [
+  { id: 'gemini', label: 'Google Gemini', kind: 'gemini', site: 'https://aistudio.google.com/apikey' },
+  { id: 'openai', label: 'OpenAI', kind: 'openai', base: 'https://api.openai.com/v1', model: 'gpt-6-luna', maxField: 'max_completion_tokens', site: 'https://platform.openai.com/api-keys' },
+  { id: 'anthropic', label: 'Anthropic Claude', kind: 'anthropic', base: 'https://api.anthropic.com/v1', model: 'claude-haiku-4-5', site: 'https://console.anthropic.com/settings/keys' },
+  { id: 'groq', label: 'Groq', kind: 'openai', base: 'https://api.groq.com/openai/v1', model: 'llama-3.3-70b-versatile', site: 'https://console.groq.com/keys' },
+  { id: 'openrouter', label: 'OpenRouter', kind: 'openai', base: 'https://openrouter.ai/api/v1', model: 'openrouter/auto', site: 'https://openrouter.ai/keys' },
+  { id: 'mistral', label: 'Mistral', kind: 'openai', base: 'https://api.mistral.ai/v1', model: 'mistral-small-latest', site: 'https://console.mistral.ai/api-keys' },
+  { id: 'xai', label: 'xAI Grok', kind: 'openai', base: 'https://api.x.ai/v1', model: 'grok-4.6', site: 'https://console.x.ai' },
+  { id: 'deepseek', label: 'DeepSeek', kind: 'openai', base: 'https://api.deepseek.com', model: 'deepseek-flash', site: 'https://platform.deepseek.com/api_keys' },
+  { id: 'together', label: 'Together AI', kind: 'openai', base: 'https://api.together.xyz/v1', model: 'meta-llama/Llama-3.3-70B-Instruct-Turbo', site: 'https://api.together.ai/settings/api-keys' },
+  { id: 'custom', label: 'Custom OpenAI-compatible', kind: 'openai', base: '', model: '', keyOptional: true, site: '' }];
+const PROV = id => PROVIDERS.find(p => p.id === id);
+const LSK6 = { prov: 'atsm.providers' };
+const PCFG = Object.assign({ order: PROVIDERS.map(p => p.id), models: {}, base: {}, off: {} }, (() => { try{ return JSON.parse(store.get(LSK6.prov, '{}')) || {}; }catch(e){ return {}; } })());
+PCFG.order = PCFG.order.filter(id => PROV(id)); PROVIDERS.forEach(p => { if(!PCFG.order.includes(p.id)) PCFG.order.push(p.id); });
+function pcfgSave(){ store.set(LSK6.prov, JSON.stringify(PCFG)); }
+const vk = { get: n => (window.ATSM_AUTH ? window.ATSM_AUTH.keyGet(n) : '') || '', set: (n, v) => window.ATSM_AUTH && window.ATSM_AUTH.keySet(n, v), del: n => window.ATSM_AUTH && window.ATSM_AUTH.keyDel(n) };
+function provKey(id){ return id === 'gemini' ? gemKey() : String(vk.get('p.' + id)).trim(); }
+function provModel(id){ return id === 'gemini' ? model() : (PCFG.models[id] || PROV(id).model || ''); }
+function provBase(id){ return String(id === 'custom' ? (PCFG.base.custom || '') : (PROV(id).base || '')).replace(/\/+$/, ''); }
+function provReady(id){ const p = PROV(id); if(!p || PCFG.off[id]) return false; if(id === 'custom') return !!provBase(id) && !!provModel(id); return !!provKey(id); }
+function provChain(){ return PCFG.order.filter(provReady); }
+const anyCloud = () => provChain().length > 0;
+const provLabel = id => (PROV(id) || { label: id }).label;
+const safeJSON = s => { if(s && typeof s === 'object') return s; try{ return JSON.parse(s || '{}') || {}; }catch(e){ return { _raw: String(s).slice(0, 2000) }; } };
+function lcSchema(x){ if(Array.isArray(x)) return x.map(lcSchema); if(!x || typeof x !== 'object') return x; const o = {}; for(const [k, v] of Object.entries(x)) o[k] = k === 'type' && typeof v === 'string' ? v.toLowerCase() : lcSchema(v); return o; }
+const bodyDecls = body => (body.tools || []).flatMap(t => t.functionDeclarations || []);
+const sysText = body => (body.systemInstruction?.parts || []).map(p => p.text || '').join('\n').trim();
+/* Gemini contents -> neutral turns; tool calls get stable ids so results pair up with their calls */
+function neutralTurns(body){ const out = []; let pending = [];
+  (body.contents || []).forEach((c, ci) => { const parts = (c.parts || []).filter(p => !p.thought);
+    if(c.role === 'model'){ const calls = parts.filter(p => p.functionCall).map((p, k) => ({ id: p.functionCall.id || `call_${ci}_${k}`, name: p.functionCall.name, args: p.functionCall.args || {} })); pending = calls.slice();
+      out.push({ role: 'assistant', text: parts.filter(p => p.text).map(p => p.text).join(''), calls }); }
+    else { const results = parts.filter(p => p.functionResponse).map(p => { let i = p.functionResponse.id ? pending.findIndex(x => x.id === p.functionResponse.id) : -1; if(i < 0) i = pending.findIndex(x => x.name === p.functionResponse.name); const id = i >= 0 ? pending.splice(i, 1)[0].id : (p.functionResponse.id || `call_${ci}_r`); return { id, name: p.functionResponse.name, content: JSON.stringify(p.functionResponse.response ?? {}) }; });
+      out.push({ role: 'user', text: parts.filter(p => p.text).map(p => p.text).join('\n'), results }); } });
+  return out; }
+function toOpenAI(body, p, mdl, stream){ const messages = []; const sys = sysText(body); if(sys) messages.push({ role: 'system', content: sys });
+  for(const t of neutralTurns(body)){
+    if(t.role === 'assistant'){ const m = { role: 'assistant', content: t.text || (t.calls.length ? null : '') }; if(t.calls.length) m.tool_calls = t.calls.map(c => ({ id: c.id, type: 'function', function: { name: c.name, arguments: JSON.stringify(c.args) } })); messages.push(m); }
+    else { t.results.forEach(r => messages.push({ role: 'tool', tool_call_id: r.id, content: r.content })); if(t.text) messages.push({ role: 'user', content: t.text }); } }
+  const req = { model: mdl, messages, stream: !!stream }; const decls = bodyDecls(body);
+  if(decls.length) req.tools = decls.map(d => ({ type: 'function', function: { name: d.name, description: d.description || '', parameters: lcSchema(d.parameters || { type: 'OBJECT', properties: {} }) } }));
+  const g = body.generationConfig || {}; if(g.temperature != null) req.temperature = g.temperature; if(g.maxOutputTokens) req[p.maxField || 'max_tokens'] = g.maxOutputTokens;
+  if(req.tools && body.toolConfig?.functionCallingConfig?.mode === 'NONE') req.tool_choice = 'none';
+  return req; }
+function toAnthropic(body, mdl, stream){ const messages = [];
+  const push = (role, blocks) => { if(!blocks.length) return; const last = messages[messages.length - 1]; if(last && last.role === role) last.content.push(...blocks); else messages.push({ role, content: blocks }); };
+  for(const t of neutralTurns(body)){
+    if(t.role === 'assistant') push('assistant', [...(t.text ? [{ type: 'text', text: t.text }] : []), ...t.calls.map(c => ({ type: 'tool_use', id: c.id, name: c.name, input: c.args }))]);
+    else push('user', [...t.results.map(r => ({ type: 'tool_result', tool_use_id: r.id, content: r.content })), ...(t.text ? [{ type: 'text', text: t.text }] : [])]); }
+  const g = body.generationConfig || {}; const req = { model: mdl, max_tokens: g.maxOutputTokens || 4096, messages, stream: !!stream };
+  const sys = sysText(body); if(sys) req.system = sys; if(g.temperature != null) req.temperature = Math.min(1, g.temperature);
+  const decls = bodyDecls(body); if(decls.length) req.tools = decls.map(d => ({ name: d.name, description: d.description || '', input_schema: lcSchema(d.parameters || { type: 'OBJECT', properties: {} }) }));
+  if(req.tools && body.toolConfig?.functionCallingConfig?.mode === 'NONE') req.tool_choice = { type: 'none' };
+  return req; }
+function provHeaders(p, key){ const h = { 'Content-Type': 'application/json' };
+  if(p.kind === 'anthropic'){ h['x-api-key'] = key; h['anthropic-version'] = '2023-06-01'; h['anthropic-dangerous-direct-browser-access'] = 'true'; }
+  else if(key) h['Authorization'] = 'Bearer ' + key;
+  if(p.id === 'openrouter'){ h['HTTP-Referer'] = location.origin; h['X-Title'] = 'ATSMATRIX'; }
+  return h; }
+const PSTAT = window.__provStats = {};
+/* one request to a non-Gemini provider; returns a Gemini-shaped response */
+async function provCall(p, body, { run = null, stream = true, onDelta = null, label = 'step', sysFn = null } = {}){
+  if(run){ if(run.aborted) throw new DOMException('aborted', 'AbortError'); if(run.reqs >= run.budget) throw Object.assign(new Error(`request budget exhausted (${run.reqs}/${run.budget})`), { code: 'BUDGET' }); }
+  if(sysFn) body.systemInstruction = { parts: [{ text: sysFn() }] };
+  const mdl = provModel(p.id), key = provKey(p.id), base = provBase(p.id), isA = p.kind === 'anthropic';
+  const url = base + (isA ? '/messages' : '/chat/completions'); const req = isA ? toAnthropic(body, mdl, stream) : toOpenAI(body, p, mdl, stream);
+  const st = PSTAT[p.id] || (PSTAT[p.id] = { req: 0, ok: 0, err: 0, last: '' }); st.req++;
+  M.steps++; bumpReqDay(); if(run){ run.reqs++; renderRunMeta(run); } updStats(); stage('CROSS-LINK');
+  gPulse(CL.REASONING, { label: `◆ LLM req ${M.steps} · ${p.label}`, color: 'var(--purple)', strength: 1, ev: `◆ ${label}: request ${run ? run.reqs + '/' + run.budget : M.steps} → ${p.label} ${mdl}${stream ? ' (stream)' : ''}` });
+  log('MODEL', `${p.label} · ${mdl} (request ${M.steps}${run ? ` · run ${run.reqs}/${run.budget}` : ''})`);
+  const ctrl = new AbortController(); if(run) run.ctrls.add(ctrl); const fo = emFailoverOn(run);
+  const to = setTimeout(() => { ctrl.timedOut = true; ctrl.abort(); }, fo ? EMT().headerMs : 120000); const t0 = performance.now();
+  try{
+    const resp = await fetch(url, { method: 'POST', headers: provHeaders(p, key), body: JSON.stringify(req), signal: ctrl.signal, cache: 'no-store' });
+    if(fo) clearTimeout(to);
+    if(!resp.ok){ const txt = await resp.text().catch(() => ''); let msg = txt.slice(0, 300); try{ const j = JSON.parse(txt); msg = j.error?.message || j.message || (typeof j.error === 'string' ? j.error : msg); }catch(e){}
+      throw Object.assign(new Error(`HTTP ${resp.status}: ${clip(String(msg || resp.statusText).replace(/\s+/g, ' '), 300)}`), { status: resp.status }); }
+    const parts = []; let usage = null, finish = null, chunks = 0;
+    const addText = t => { if(!t) return; mergeParts(parts, [{ text: t }]); if(onDelta) onDelta({ thought: false, text: t }); };
+    const ct = resp.headers.get('content-type') || '';
+    if(stream && /event-stream/.test(ct) && resp.body){
+      if(onDelta) onDelta({ reset: true }); const tc = [];
+      await readSSE(resp, j => { chunks++;
+        if(isA){
+          if(j.type === 'content_block_start' && j.content_block?.type === 'tool_use') tc[j.index] = { id: j.content_block.id, name: j.content_block.name, args: '' };
+          else if(j.type === 'content_block_delta'){ if(j.delta?.type === 'text_delta') addText(j.delta.text); else if(j.delta?.type === 'input_json_delta' && tc[j.index]) tc[j.index].args += j.delta.partial_json || ''; }
+          else if(j.type === 'message_start' && j.message?.usage) usage = j.message.usage;
+          else if(j.type === 'message_delta'){ finish = j.delta?.stop_reason || finish; if(j.usage) usage = Object.assign({}, usage, j.usage); }
+          else if(j.type === 'error') throw Object.assign(new Error('stream error: ' + (j.error?.message || j.error?.type || 'unknown')), { status: j.error?.type === 'overloaded_error' ? 529 : j.error?.type === 'rate_limit_error' ? 429 : 500 });
+        } else {
+          if(j.error) throw Object.assign(new Error('stream error: ' + (j.error.message || 'unknown')), { status: j.error.code === 429 ? 429 : 500 });
+          if(j.usage) usage = j.usage; const ch = j.choices?.[0]; if(!ch) return; const d = ch.delta || {}; if(d.content) addText(d.content);
+          for(const t of d.tool_calls || []){ const i = t.index ?? tc.length; const a = tc[i] || (tc[i] = { id: '', name: '', args: '' }); if(t.id) a.id = t.id; if(t.function?.name) a.name += t.function.name; if(t.function?.arguments) a.args += t.function.arguments; }
+          if(ch.finish_reason) finish = ch.finish_reason;
+        } }, ctrl.signal, fo ? EMT().stallMs : 0, () => { ctrl.timedOut = true; });
+      tc.filter(Boolean).forEach((a, k) => parts.push({ functionCall: { id: a.id || `call_s${k}`, name: a.name, args: safeJSON(a.args) } }));
+    } else {
+      const j = JSON.parse(await resp.text());
+      if(isA){ for(const b of j.content || []){ if(b.type === 'text') addText(b.text); else if(b.type === 'tool_use') parts.push({ functionCall: { id: b.id, name: b.name, args: b.input || {} } }); } finish = j.stop_reason; usage = j.usage; }
+      else { const m = j.choices?.[0]?.message || {}; addText(m.content || ''); (m.tool_calls || []).forEach((t, k) => parts.push({ functionCall: { id: t.id || `call_n${k}`, name: t.function?.name, args: safeJSON(t.function?.arguments) } })); finish = j.choices?.[0]?.finish_reason; usage = j.usage; }
+    }
+    const ms = performance.now() - t0; M.last = ms; M.lat.push(ms); M.sources.add(p.label); st.ok++; st.last = 'ok'; updStats();
+    const tot = usage ? (usage.total_tokens ?? ((usage.input_tokens || 0) + (usage.output_tokens || 0))) : '?';
+    log('MODEL', `${p.label} ${mdl} replied · ${Math.round(ms)} ms · ${tot} tokens${chunks ? ' · ' + chunks + ' SSE chunks' : ''}`); wallFlash('model', `${p.label} · ${Math.round(ms)} ms`);
+    return { candidates: [{ content: { role: 'model', parts }, finishReason: finish }], usageMetadata: { totalTokenCount: tot }, modelVersion: mdl, _provider: p.id, _chunks: chunks };
+  }catch(e){
+    if(e.name === 'AbortError' && !ctrl.timedOut) throw e;
+    if(ctrl.timedOut || e.stalled) e = Object.assign(new Error(e.stalled ? 'Timed out: the stream stalled mid-answer' : 'Timed out'), {});
+    else if(e instanceof TypeError) e = Object.assign(new Error('Network/CORS error (' + e.message + ')'), {});
+    e.provider = p.id; st.err++; st.last = clip(e.message, 80); M.errors++; updStats();
+    wallFlash('err', `${p.label} error: ${e.message}`); log('ERR', `${p.label} ${mdl}: ${e.message}`);
+    gPulse(CL.REASONING, { kind: 'error', label: `✗ ${p.label} ${e.status || ''}`, strength: .8, ev: `✗ ${p.label} ${mdl}: ${clip(e.message, 160)}` });
+    throw e;
+  }finally{ clearTimeout(to); if(run) run.ctrls.delete(ctrl); }
+}
+function provWhy(e){ const k = emClassify(e); return ({ auth: 'key rejected (HTTP ' + e.status + ')', '429m': 'rate-limited (HTTP 429)', '429d': 'out of quota (HTTP 429)', '503': 'server busy (HTTP ' + (e.status || 503) + ')', timeout: 'timed out', net: 'unreachable', offline: 'device offline' })[k] || clip(e.message, 80); }
+/* the Engine Monitor's ordered cloud chain; ATSMATRIX Core (local) remains the last resort via the existing failover */
+async function gemini(body, opts = {}){
+  const chain = provChain(); if(!chain.length) throw Object.assign(new Error('NO_KEY'), { code: 'NO_KEY' });
+  const run = opts.run; let i = run && run.prov && chain.includes(run.prov) ? chain.indexOf(run.prov) : 0, last = null;
+  for(; i < chain.length; i++){ const id = chain[i];
+    if(id === 'gemini' && i < chain.length - 1 && EM.gem.until > Date.now() && /daily|rate/.test(EM.gem.state)) continue;
+    try{ const d = id === 'gemini' ? await geminiCall(body, opts) : await provCall(PROV(id), body, opts); if(run) run.prov = id; EM.cloud = id; return d; }
+    catch(e){ if(e.name === 'AbortError' || e.code === 'BUDGET') throw e; last = e; if(!e.provider) e.provider = id;
+      const nxt = chain[i + 1]; if(!nxt) break; const why = id === 'gemini' ? emReasonText(e) : provLabel(id) + ' ' + provWhy(e);
+      EM.switches.push({ t: Date.now(), from: id, to: nxt, reason: why }); if(EM.switches.length > 30) EM.switches.shift();
+      tLine('warn', `[CORE] Engine Monitor: ${why}; failing over to ${provLabel(nxt)}.`); log('AGENT', `Engine Monitor: ${why} → ${provLabel(nxt)}`);
+      gPulse(CL.REASONING, { label: `⇄ failover → ${provLabel(nxt)}`, color: 'var(--amber)', strength: 1.2, ev: `⇄ Engine Monitor: ${why} → ${provLabel(nxt)}` });
+      if(VOICE.on) sayLater(`${provLabel(id)} is unavailable. Switching to ${provLabel(nxt)}.`); } }
+  if(last && last.provider !== 'gemini' && emFailoverOn(run)) throw Object.assign(new Error(last.message), { code: 'FAILOVER', kind: emClassify(last), status: last.status, provider: last.provider });
+  throw last;
+}
 /* one Gemini request (with retries). Every HTTP request sent is counted. */
-async function gemini(body, { run = null, stream = true, onDelta = null, label = 'step', sysFn = null } = {}){
+async function geminiCall(body, { run = null, stream = true, onDelta = null, label = 'step', sysFn = null } = {}){
   const key = gemKey(); if(!key) throw Object.assign(new Error('NO_KEY'), { code: 'NO_KEY' });
   let busy = 0;
   for(let attempt = 0; attempt < 6; attempt++){
@@ -1409,7 +1697,7 @@ function termStatus(s){ $('termStatus').textContent = s || `model ${model()} · 
 /* ---------- visible task list ---------- */
 const ST_ICON = { pending: '○', active: '◔', done: '✓', failed: '✗', skipped: '–' };
 function renderTasks(run){
-  const p = $('taskPanel'); p.hidden = false; $('taskTitle').textContent = (run.mode === 'auto' ? '🤖 AUTONOMOUS · ' : run.mode === 'research' ? '🔎 RESEARCH · ' : '💡 INVENT · ') + clip(run.goal, 80);
+  const p = $('taskPanel'); p.hidden = false; $('taskTitle').textContent = (run.mode === 'auto' ? '[AUTO] AUTONOMOUS · ' : run.mode === 'research' ? '[INTEL] RESEARCH · ' : '[INVENT] INVENT · ') + clip(run.goal, 80);
   const ol = $('taskList'); ol.innerHTML = '';
   (run.tasks || []).forEach(t => { const li = document.createElement('li'); li.className = t.status; const s = document.createElement('span'); s.className = 'st'; s.textContent = ST_ICON[t.status] || '○'; const x = document.createElement('span'); x.textContent = t.title + (t.note ? ' — ' + t.note : ''); li.append(s, x); ol.appendChild(li); });
   renderRunMeta(run);
@@ -1421,7 +1709,7 @@ function applyPlan(run, args){
   run.tasks = tasks.map((t, i) => ({ id: String(t.id || i + 1), title: clip(t.title || 'task', 140), status: ST_ICON[t.status] ? t.status : 'pending', note: t.note ? clip(t.note, 160) : '' }));
   renderTasks(run);
   const done = run.tasks.filter(t => t.status === 'done').length;
-  gPulse(CL.REASONING, { label: `☰ plan ${done}/${run.tasks.length} done`, color: 'var(--purple)', strength: .6, ev: `☰ plan: ${run.tasks.map(t => ST_ICON[t.status] + ' ' + t.title).join(' | ')}` });
+  gPulse(CL.REASONING, { label: `[PLAN] ${done}/${run.tasks.length} done`, color: 'var(--purple)', strength: .6, ev: `[PLAN] ${run.tasks.map(t => ST_ICON[t.status] + ' ' + t.title).join(' | ')}` });
   log('AGENT', `plan updated: ${done}/${run.tasks.length} done`);
   return { ok: true, tasks: run.tasks.length, done };
 }
@@ -1429,7 +1717,7 @@ function applyPlan(run, args){
 /* ---------- live streaming view ---------- */
 function makeStreamView(){
   let thoughtEl = null, mdEl = null, thought = '', text = '', pending = false, done = false;
-  const paint = () => { pending = false; if(done) return; if(mdEl){ mdEl.innerHTML = renderMarkdown(text); mdEl.classList.add('caret'); } if(thoughtEl) thoughtEl.textContent = '💭 ' + clip(thought.trim().split('\n').slice(-4).join(' '), 600); tScroll(); };
+  const paint = () => { pending = false; if(done) return; if(mdEl){ mdEl.innerHTML = renderMarkdown(text); mdEl.classList.add('caret'); } if(thoughtEl) thoughtEl.textContent = '[THINK] ' + clip(thought.trim().split('\n').slice(-4).join(' '), 600); tScroll(); };
   return {
     delta(d){
       if(d.reset){ thought = ''; text = ''; if(thoughtEl){ thoughtEl.remove(); thoughtEl = null; } if(mdEl){ mdEl.remove(); mdEl = null; } return; }
@@ -1442,8 +1730,8 @@ function makeStreamView(){
     text(){ return text; },
     finish(finalText, isFinal){
       done = true;
-      if(thoughtEl) TRANSCRIPT.push({ t: Date.now(), cls: 'thought', text: '💭 ' + clip(thought.trim(), 1200) });
-      if(mdEl){ mdEl.classList.remove('caret'); if(isFinal){ mdEl.innerHTML = renderMarkdown(finalText); TRANSCRIPT.push({ t: Date.now(), cls: 'md', text: finalText }); } else { mdEl.remove(); if(finalText) tLine('thought', '🧭 ' + clip(finalText, 600)); } }
+      if(thoughtEl) TRANSCRIPT.push({ t: Date.now(), cls: 'thought', text: '[THINK] ' + clip(thought.trim(), 1200) });
+      if(mdEl){ mdEl.classList.remove('caret'); if(isFinal){ mdEl.innerHTML = renderMarkdown(finalText); TRANSCRIPT.push({ t: Date.now(), cls: 'md', text: finalText }); } else { mdEl.remove(); if(finalText) tLine('thought', '[PLAN] ' + clip(finalText, 600)); } }
       else if(isFinal && finalText) tMD(finalText);
       return mdEl;
     }
@@ -1501,24 +1789,24 @@ function emRecord(m, kind, e){
 }
 const emFailoverOn = run => EM.pref === 'auto' && !!run && !run.noFailover;
 function emCanFailover(e, run){ return EM.pref === 'auto' && !run.aborted && (e.code === 'FAILOVER' || e.code === 'QUOTA' || e.code === 'NO_KEY'); }
-function emReasonText(e){ const k = e.kind || emClassify(e);
+function emReasonText(e){ if(e.provider && e.provider !== 'gemini') return provLabel(e.provider) + ' ' + provWhy(e); const k = e.kind || emClassify(e);
   return ({ '429d': 'Gemini out of daily quota', '429m': 'Gemini rate-limited (per-minute)', '503': 'Gemini overloaded (HTTP ' + (e.status || 503) + ')', timeout: 'Gemini timed out' + (/stalled/.test(e.message) ? ' mid-answer' : ''), net: 'Gemini unreachable (network)', offline: 'Device offline', nokey: 'No Gemini key' })[k] || ('Gemini failed: ' + clip(e.message, 80)); }
 /* before a run: should it go straight to the local engine (saves a doomed request)? */
 function emPreRoute(mode){
   if(EM.pref === 'local') return 'engine set to local (/engine auto to re-enable Gemini)';
   if(EM.pref !== 'auto') return null;
-  if(!gemKey()) return 'No Gemini key';
+  if(!anyCloud()) return 'No AI provider key';
   if(navigator.onLine === false) return 'Device offline';
-  if(EM.gem.until > Date.now() && /daily|rate/.test(EM.gem.state)) return `Gemini ${EM.gem.state === 'daily' ? 'out of daily quota' : 'rate-limited'} until ${fmtT(EM.gem.until)}`;
+  if(provChain().length === 1 && provChain()[0] === 'gemini' && EM.gem.until > Date.now() && /daily|rate/.test(EM.gem.state)) return `Gemini ${EM.gem.state === 'daily' ? 'out of daily quota' : 'rate-limited'} until ${fmtT(EM.gem.until)}`;
   return null;
 }
 function emSwitch(to, reason, { quiet = false } = {}){
   const from = EM.active; EM.active = to; EM.switches.push({ t: Date.now(), from, to, reason }); if(EM.switches.length > 30) EM.switches.shift();
   const msg = to === 'local' ? `${reason}, switching to ATSMATRIX Core (local)` : `${reason}, switching back to Gemini`;
-  tLine(to === 'local' ? 'warn' : 'ok', '⚙ Engine Monitor: ' + msg); log('AGENT', 'Engine Monitor: ' + msg); wallFlash(to === 'local' ? 'err' : 'verify', 'engine: ' + msg);
+  tLine(to === 'local' ? 'warn' : 'ok', '[CORE] Engine Monitor: ' + msg); log('AGENT', 'Engine Monitor: ' + msg); wallFlash(to === 'local' ? 'err' : 'verify', 'engine: ' + msg);
   gPulse(CL.REASONING, { label: to === 'local' ? '⇄ failover → Core (local)' : '⇄ back to Gemini', color: 'var(--amber)', strength: 1.2, ev: '⇄ Engine Monitor: ' + msg });
   gHandoff(CL.REASONING, CL.SYNTHESIS, { n: 8, color: 'var(--amber)' });
-  if(!quiet && VOICE.on) speak(to === 'local' ? `${reason.replace(/\(.*?\)/g, '')}. Switching to my local core.` : 'Gemini is back. Switching back.');
+  if(!quiet && VOICE.on) sayLater(to === 'local' ? `${reason.replace(/\(.*?\)/g, '')}. Switching to my local core.` : 'Gemini is back. Switching back.');
   emUI();
 }
 function emScheduleProbe(){
@@ -1537,11 +1825,11 @@ async function emProbe(force = false){
   try{
     const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(m)}:generateContent`, { method: 'POST', cache: 'no-store', headers: { 'Content-Type': 'application/json', 'x-goog-api-key': gemKey() },
       body: JSON.stringify({ contents: [{ role: 'user', parts: [{ text: 'ping' }] }], generationConfig: { maxOutputTokens: 1, thinkingConfig: { thinkingBudget: 0 } } }) });
-    if(r.ok){ emRecord(m, 'ok'); if(EM.active !== 'gemini') emSwitch('gemini', 'Gemini is available again (probe OK, 1 request)'); else tLine('ok', '⚙ Engine Monitor: Gemini probe OK.'); return { ok: true }; }
+    if(r.ok){ emRecord(m, 'ok'); if(EM.active !== 'gemini') emSwitch('gemini', 'Gemini is available again (probe OK, 1 request)'); else tLine('ok', '[CORE] Engine Monitor: Gemini probe OK.'); return { ok: true }; }
     const txt = await r.text(); let quota = null, msg = txt.slice(0, 200);
     try{ const er = JSON.parse(txt).error; msg = er.message || msg; const v = (er.details || []).find(d => /QuotaFailure/.test(d['@type'] || ''))?.violations?.[0]; if(v) quota = { id: v.quotaId || '', model: m, value: v.quotaValue || '' }; }catch(e){}
     const e = Object.assign(new Error(`HTTP ${r.status}: ${msg}`), { status: r.status, quota }); const kind = emClassify(e); emRecord(m, kind, e);
-    tLine('sys', `⚙ Engine Monitor: Gemini probe → still unavailable (${emReasonText(Object.assign(e, { kind }))}); next check ${EM.gem.until ? fmtT(EM.gem.until) : 'on next request'}. Using ATSMATRIX Core meanwhile.`);
+    tLine('sys', `[CORE] Engine Monitor: Gemini probe → still unavailable (${emReasonText(Object.assign(e, { kind }))}); next check ${EM.gem.until ? fmtT(EM.gem.until) : 'on next request'}. Using ATSMATRIX Core meanwhile.`);
     return { ok: false, kind };
   }catch(e){ const kind = emClassify(e); emRecord(m, kind, e); return { ok: false, kind }; }
 }
@@ -1574,12 +1862,12 @@ async function coreLoad(why = 'manual'){
       } else {
         EM.loc.device = (navigator.gpu && await navigator.gpu.requestAdapter().catch(() => null)) ? 'webgpu' : 'wasm';
         const ch = coreChoice(); Object.assign(EM.loc, { model: ch.id, label: ch.label });
-        tLine('sys', `⚙ Engine Monitor: loading ATSMATRIX Core (${ch.label}, ~${ch.mb} MB, ${EM.loc.device === 'webgpu' ? 'WebGPU' : 'CPU/WASM'}; ${why}). Downloaded once, then cached in this browser.`);
+        tLine('sys', `[CORE] Engine Monitor: loading ATSMATRIX Core (${ch.label}, ~${ch.mb} MB, ${EM.loc.device === 'webgpu' ? 'WebGPU' : 'CPU/WASM'}; ${why}). Downloaded once, then cached in this browser.`);
         const T = CORE.tf = await import(TFJS_URL);
         const files = {}; const prog = x => { if(x.status === 'progress' && x.total){ files[x.file] = [x.loaded, x.total]; const v = Object.values(files); const L = v.reduce((a, b) => a + b[0], 0), Tt = v.reduce((a, b) => a + b[1], 0); EM.loc.pct = Math.min(99, Math.round(100 * L / Math.max(Tt, 1))); EM.loc.loadedMB = Math.round(L / 1e6); emUI(); } };
         CORE.tok = await T.AutoTokenizer.from_pretrained(ch.id, { progress_callback: prog });
         try{ CORE.model = await T.AutoModelForCausalLM.from_pretrained(ch.id, { dtype: ch.dtype, device: EM.loc.device, progress_callback: prog }); }
-        catch(err){ if(ch.key === 'tiny' && EM.loc.device === 'wasm') throw err; tLine('warn', `⚙ Engine Monitor: ${ch.label} failed on ${EM.loc.device} (${clip(err.message, 120)}); falling back to SmolLM2 135M on CPU.`); EM.loc.device = 'wasm'; CORE.forceKey = 'tiny'; const fb = coreChoice(); Object.assign(EM.loc, { model: fb.id, label: fb.label });
+        catch(err){ if(ch.key === 'tiny' && EM.loc.device === 'wasm') throw err; tLine('warn', `[CORE] Engine Monitor: ${ch.label} failed on ${EM.loc.device} (${clip(err.message, 120)}); falling back to SmolLM2 135M on CPU.`); EM.loc.device = 'wasm'; CORE.forceKey = 'tiny'; const fb = coreChoice(); Object.assign(EM.loc, { model: fb.id, label: fb.label });
           CORE.tok = await T.AutoTokenizer.from_pretrained(fb.id, { progress_callback: prog }); CORE.model = await T.AutoModelForCausalLM.from_pretrained(fb.id, { dtype: fb.dtype, device: 'wasm', progress_callback: prog }); }
       }
       EM.loc.state = 'ready'; EM.loc.pct = 100; emUI();
@@ -1644,7 +1932,7 @@ async function coreTakeover(run, { goal, mode, history, turn, used, partial, rea
   if(EM.loc.state !== 'ready'){ run.state = 'loading local engine'; renderRunMeta(run); const ok = await coreLoad('failover'); if(!ok) throw new Error(`${reason}, and ATSMATRIX Core (local) could not load: ${EM.loc.err || 'unknown error'}`); }
   if(run.aborted) throw new DOMException('aborted', 'AbortError');
   const extra = coreRoute(goal, used);
-  for(const [name, args] of extra){ tLine('tool', `▶ ${name}(${clip(JSON.stringify(args), 120)}) · by Core`); try{ const t0 = performance.now(); const r = await runTool(name, args, 'agent'); used.add(name); run.toolCalls++; turn.push({ role: 'user', parts: [{ functionResponse: { name, response: { result: packResult(r) } } }] }); tLine('res', `✓ ${name} · ${Math.round(performance.now() - t0)} ms · ${clip(JSON.stringify(r), 140)}`); }catch(e){ tLine('err', `✗ ${name}: ${clip(e.message, 200)}`); } }
+  for(const [name, args] of extra){ tLine('tool', `> ${name}(${clip(JSON.stringify(args), 120)}) · by Core`); try{ const t0 = performance.now(); const r = await runTool(name, args, 'agent'); used.add(name); run.toolCalls++; turn.push({ role: 'user', parts: [{ functionResponse: { name, response: { result: packResult(r) } } }] }); tLine('res', `✓ ${name} · ${Math.round(performance.now() - t0)} ms · ${clip(JSON.stringify(r), 140)}`); }catch(e){ tLine('err', `✗ ${name}: ${clip(e.message, 200)}`); } }
   const results = gatherToolResults(turn);
   if(mode !== 'chat' && run.tasks && run.tasks.length){ run.tasks.forEach(t => { if(t.status === 'pending' || t.status === 'active'){ t.status = 'done'; t.note = 'finished by ATSMATRIX Core (local), lower confidence'; } }); renderTasks(run); }
   run.state = 'writing answer (local)'; renderRunMeta(run); termStatus(`ATSMATRIX Core (local · ${EM.loc.label}) writing…`);
@@ -1665,33 +1953,33 @@ async function coreOnlyRun({ goal, mode, reason }){
   run.signal = run.abort.signal; $('tStop').hidden = false; let finalText = '', ended = 'done';
   const turn = [{ role: 'user', parts: [{ text: goal }] }]; const history = mode === 'chat' ? turns.slice(-2).flat() : []; const used = new Set();
   try{
-    if(EM.active !== 'local') emSwitch('local', reason, { quiet: true }); else tLine('sys', `⚙ Engine Monitor: ${reason}; using ATSMATRIX Core (local).`);
+    if(EM.active !== 'local') emSwitch('local', reason, { quiet: true }); else tLine('sys', `[CORE] Engine Monitor: ${reason}; using ATSMATRIX Core (local).`);
     finalText = await coreTakeover(run, { goal, mode, history, turn, used, partial: '', reason: null }).catch(e => { throw e; });
     if(mode === 'chat'){ turns.push([...turn, { role: 'model', parts: [{ text: finalText }] }]); if(turns.length > 6) turns.shift(); }
-    gPulse(CL.SYNTHESIS, { label: `★ answer (Core) · ${finalText.length} chars`, color: 'var(--cyan)', strength: 1.2, ev: `★ final answer by ATSMATRIX Core (local) · ${finalText.length} chars` });
+    gPulse(CL.SYNTHESIS, { label: `* answer (Core) · ${finalText.length} chars`, color: 'var(--cyan)', strength: 1.2, ev: `* final answer by ATSMATRIX Core (local) · ${finalText.length} chars` });
     run.state = 'done'; speakAnswer(finalText, run);
-  }catch(e){ ended = (e.name === 'AbortError' || run.aborted) ? 'stopped' : 'error'; tLine(ended === 'stopped' ? 'warn' : 'err', ended === 'stopped' ? '■ Stopped.' : '⚠ ' + e.message); }
+  }catch(e){ ended = (e.name === 'AbortError' || run.aborted) ? 'stopped' : 'error'; tLine(ended === 'stopped' ? 'warn' : 'err', ended === 'stopped' ? '■ Stopped.' : '[!] ' + e.message); }
   finally{ AG.run = null; $('tStop').hidden = true; termStatus(); window.__lastRun = { mode, ended, engine: 'local', handoff: run.handoff, reqs: 0, toolCalls: run.toolCalls, tasks: [], finalChars: finalText.length }; }
   return window.__lastRun;
 }
 /* parallel: Core races Gemini in the background; first good answer is primary */
 function coreRace(run, goal, history){
   const race = { done: false, text: '', primary: null, t0: Date.now() };
-  tLine('sys', '⚙ Engine Monitor: parallel mode — ATSMATRIX Core (local) is racing Gemini on this question.');
+  tLine('sys', '[CORE] Engine Monitor: parallel mode — ATSMATRIX Core (local) is racing Gemini on this question.');
   (async () => {
     if(!(await coreLoad('parallel'))) return;
     const used = new Set(), turn = [{ role: 'user', parts: [{ text: goal }] }];
     for(const [name, args] of coreRoute(goal, used)){ try{ const r = await runTool(name, args, 'agent'); used.add(name); turn.push({ role: 'user', parts: [{ functionResponse: { name, response: { result: packResult(r) } } }] }); }catch(e){} }
     let t = await coreGenerate(coreMessages({ goal, mode: 'chat', history, results: gatherToolResults(turn), partial: '' }), { signal: run.signal });
     t = ensureSources(t, used); race.done = true; race.text = t; race.ms = Date.now() - race.t0;
-    if(race.primary === null && run.state !== 'done' && !run.aborted){ race.primary = 'local'; tLine('ok', `⚡ First answer · ATSMATRIX Core (local) in ${(race.ms / 1000).toFixed(1)} s — Gemini still working; its answer will be kept as a second opinion.`); tMD(t); gPulse(CL.SYNTHESIS, { label: '⚡ Core answered first', color: 'var(--green)', strength: 1, ev: '⚡ parallel: Core answered first' }); speakAnswer(t, run); }
+    if(race.primary === null && run.state !== 'done' && !run.aborted){ race.primary = 'local'; tLine('ok', `[CORE] First answer · ATSMATRIX Core (local) in ${(race.ms / 1000).toFixed(1)} s — Gemini still working; its answer will be kept as a second opinion.`); tMD(t); gPulse(CL.SYNTHESIS, { label: '[OPS] Core answered first', color: 'var(--green)', strength: 1, ev: '[OPS] parallel: Core answered first' }); speakAnswer(t, run); }
     else if(!run.aborted){ const d = document.createElement('details'); d.className = 'tl second'; const s = document.createElement('summary'); s.textContent = `Second opinion · ATSMATRIX Core (local) · ${(race.ms / 1000).toFixed(1)} s`; const b = document.createElement('div'); b.className = 'tl md'; b.innerHTML = renderMarkdown(t); d.append(s, b); tOut.appendChild(d); tScroll(); }
   })().catch(e => { race.done = true; race.err = e.message; });
   return race;
 }
 /* ---------- widget + panel ---------- */
 let emUIT = 0; function emUIThrottled(){ if(emUIT) return; emUIT = setTimeout(() => { emUIT = 0; emUI(); }, 400); }
-function emGemText(){ const g = EM.gem; if(!gemKey()) return ['Gemini: no key', 'warn'];
+function emGemText(){ const g = EM.gem; if(!gemKey()){ const c = provChain(); return c.length ? ['Cloud: ' + c.map(provLabel).join(' > '), 'ok'] : ['Cloud: no key', 'warn']; }
   if(navigator.onLine === false) return ['Gemini: offline', 'err'];
   if(g.until > Date.now()){ if(g.state === 'daily') return [`Gemini: out of daily quota · back ${fmtT(g.until)}`, 'err']; if(g.state === 'rate') return [`Gemini: rate-limited until ${fmtT(g.until)}`, 'warn']; return [`Gemini: ${g.reason}`, 'warn']; }
   return [`Gemini: OK · ${reqDayCount()} req today`, 'ok']; }
@@ -1717,8 +2005,8 @@ async function agentRun({ goal, mode = 'chat', budget = null, timeBudget = null 
   if(AG.run){ tLine('warn', 'The agent is still working. /stop first.'); return; }
   const pre = emPreRoute(mode);
   if(pre) return coreOnlyRun({ goal, mode, budget, timeBudget, reason: pre });
-  if(!gemKey()){
-    tLine('warn', '🔑 A Gemini API key is needed for the agent (free at https://aistudio.google.com/apikey). Open /keys and paste it there. Data commands (/iss, /sat, /apod, /weather, /neo, /epic, /people, /images, /wiki) work without one.');
+  if(!anyCloud()){
+    tLine('warn', '[KEY] An AI key is needed for the agent: a free Gemini key (https://aistudio.google.com/apikey) or any provider under SETTINGS > KEY VAULT > AI PROVIDERS (OpenAI, Anthropic, Groq, OpenRouter, Mistral, xAI, DeepSeek, Together, or a custom/local endpoint). Data commands (/iss, /sat, /apod, /weather, /neo, /epic, /people, /images, /wiki) work without one.');
     $('keysPanel').hidden = false; log('SYS', 'Agent request not run: no Gemini key set');
     gPulse(CL.REASONING, { kind: 'error', label: '✗ no Gemini key', strength: .4, ev: '✗ agent not run: no Gemini key' }); return;
   }
@@ -1729,7 +2017,7 @@ async function agentRun({ goal, mode = 'chat', budget = null, timeBudget = null 
   $('tStop').hidden = false; $('autoBadge').hidden = mode !== 'auto'; $('autoBadge').textContent = mode.toUpperCase();
   if(mode !== 'chat'){ $('taskPanel').hidden = false; renderTasks(run); } else $('taskPanel').hidden = true;
   log('AGENT', `${mode} run · goal: ${clip(goal, 140)} · budget ${run.budget} requests`);
-  tLine('sys', `${mode.toUpperCase()} · budget ${run.budget} Gemini requests${mode === 'auto' ? ` / ${Math.round(run.timeBudget / 60000)} min` : ''} · free tier is roughly 20 requests/day on the fallback model · /stop to abort`);
+  tLine('sys', `${mode.toUpperCase()} · budget ${run.budget} LLM requests (${provChain().map(provLabel).join(' > ') || 'none'})${mode === 'auto' ? ` / ${Math.round(run.timeBudget / 60000)} min` : ''} · free tier is roughly 20 requests/day on the fallback model · /stop to abort`);
   const turn = [{ role: 'user', parts: [{ text: (mode === 'invent' ? 'Invention idea to brainstorm: ' : mode === 'research' ? 'Research topic: ' : mode === 'auto' ? 'Goal: ' : '') + goal }] }];
   const history = mode === 'chat' ? turns.slice(-2).flat() : [];
   if(mode === 'chat'){ turns.push(turn); if(turns.length > 6) turns.shift(); }
@@ -1775,7 +2063,7 @@ async function agentRun({ goal, mode = 'chat', budget = null, timeBudget = null 
         if(run.aborted) result = { error: 'stopped by user' };
         else if(name === 'update_plan') result = applyPlan(run, args || {});
         else {
-          tLine('tool', `▶ ${name}(${clip(JSON.stringify(args || {}), 160)})`);
+          tLine('tool', `> ${name}(${clip(JSON.stringify(args || {}), 160)})`);
           try{ if(!TOOLS[name]) throw new Error('unknown tool'); const t0 = performance.now(); result = await runTool(name, args || {}, 'agent'); used.add(name); run.toolCalls++;
             tLine('res', `✓ ${name} · ${Math.round(performance.now() - t0)} ms · ${fmtBytes(JSON.stringify(result).length)} · ${clip(JSON.stringify(result), 160)}`); }
           catch(e){ result = { error: e.message }; tLine('err', `✗ ${name}: ${clip(e.message, 240)}`); }
@@ -1796,21 +2084,21 @@ async function agentRun({ goal, mode = 'chat', budget = null, timeBudget = null 
     stage('VERIFY');
     const v = verifyCitations(finalText, used);
     const note = `Trace check: ${used.size} tool(s) used [${[...used].join(', ') || 'none'}]; answer cites ${v.cited.length} by name` +
-      (v.phantom.length ? `; ⚠ cites tools never called: ${v.phantom.join(', ')}` : '') + (v.uncited.length ? `; used but not cited: ${v.uncited.join(', ')}` : '');
+      (v.phantom.length ? `; [!] cites tools never called: ${v.phantom.join(', ')}` : '') + (v.uncited.length ? `; used but not cited: ${v.uncited.join(', ')}` : '');
     log('VERIFY', note); wallFlash('verify', note);
-    gPulse(CL.VERIFICATION, { label: v.phantom.length ? '⚠ citation mismatch' : `✓ trace: ${v.cited.length} cited`, color: v.phantom.length ? 'var(--amber)' : 'var(--green)', strength: 1, ev: note });
+    gPulse(CL.VERIFICATION, { label: v.phantom.length ? '[!] citation mismatch' : `✓ trace: ${v.cited.length} cited`, color: v.phantom.length ? 'var(--amber)' : 'var(--green)', strength: 1, ev: note });
     stage('SYNTH');
     gHandoff(CL.VERIFICATION, CL.SYNTHESIS, { n: 8, color: 'var(--cyan)' }); gHandoff(CL.REASONING, CL.SYNTHESIS, { n: 8, color: 'var(--cyan)' });
-    gPulse(CL.SYNTHESIS, { label: `★ answer · ${finalText.length} chars`, color: 'var(--cyan)', strength: 1.5, ev: `★ final answer (${mode}) · ${finalText.length} chars · ${run.reqs} requests · ${run.toolCalls} tool calls` });
+    gPulse(CL.SYNTHESIS, { label: `* answer · ${finalText.length} chars`, color: 'var(--cyan)', strength: 1.5, ev: `* final answer (${mode}) · ${finalText.length} chars · ${run.reqs} requests · ${run.toolCalls} tool calls` });
     if(!finalText) tLine('warn', '(The model returned an empty answer.)');
-    tLine('sys', `${note} · ${run.reqs} Gemini request(s) · ${run.toolCalls} tool call(s) · ${Math.round((Date.now() - run.t0) / 1000)} s`);
+    tLine('sys', `${note} · ${run.reqs} LLM request(s)${run.prov ? ' via ' + provLabel(run.prov) : ''} · ${run.toolCalls} tool call(s) · ${Math.round((Date.now() - run.t0) / 1000)} s`);
     log('AGENT', `final answer · ${finalText.length} chars · ${run.rounds} round(s) · ${run.reqs} request(s)`);
     run.state = 'done';
     if(finalText && !run.skipSpeak) speakAnswer(finalText, run);
   }catch(e){
     if(e.name === 'AbortError' || run.aborted){ ended = 'stopped'; run.state = 'stopped'; tLine('warn', `■ Stopped by user after ${run.reqs} request(s) and ${run.toolCalls} tool call(s).`); log('AGENT', 'stopped by user'); }
     else if(e.code === 'BUDGET'){ ended = 'budget'; run.state = 'budget exhausted'; tLine('warn', `Budget exhausted: ${run.reqs}/${run.budget} Gemini requests used before a final answer (retries count). Raise it with /budget <n> or simplify the goal.`); log('AGENT', 'budget exhausted'); }
-    else { ended = 'error'; run.state = 'error'; tLine('err', '⚠ Agent error: ' + (e.code === 'NO_KEY' ? 'a Gemini API key is needed.' : e.message)); }
+    else { ended = 'error'; run.state = 'error'; tLine('err', '[!] Agent error: ' + (e.code === 'NO_KEY' ? 'a Gemini API key is needed.' : e.message)); }
     if(mode === 'chat') turns.pop();
     gPulse(CL.SYNTHESIS, { kind: ended === 'error' ? 'error' : 'info', color: 'var(--amber)', label: ended === 'error' ? '✗ run failed' : '■ ' + ended, strength: .6, ev: `run ended: ${ended} (${clip(e.message, 120)})` });
   }finally{
@@ -1852,7 +2140,7 @@ function syncVoiceUI(){
   $('vOn').checked = VOICE.on; $('vRate').value = VOICE.rate; $('vRateV').textContent = (+VOICE.rate).toFixed(2); $('vPitch').value = VOICE.pitch; $('vPitchV').textContent = (+VOICE.pitch).toFixed(2);
   $('vAiSum').checked = VOICE.aiSum; $('vHands').checked = VOICE.hands;
   $('vSupport').textContent = `TTS: ${TTS ? 'supported' : 'not supported in this browser'} · STT: ${SR ? 'supported' : 'not supported (e.g. Firefox); type instead'}`;
-  $('tVoice').classList.toggle('on', VOICE.on); $('btnVoiceH').textContent = VOICE.on ? '🔊' : '🔇'; $('btnVoiceH').classList.toggle('on', VOICE.on);
+  $('tVoice').classList.toggle('on', VOICE.on); $('btnVoiceH').innerHTML = VOICE.on ? ICON('speaker') + ' VOX' : ICON('mute') + ' MUTE'; $('btnVoiceH').classList.toggle('on', VOICE.on);
   $('tMic').disabled = !SR; $('tMic').title = SR ? 'Speak a message (/listen)' : 'Speech recognition not supported in this browser';
 }
 if(TTS){ try{ speechSynthesis.addEventListener('voiceschanged', fillVoices); }catch(e){} }
@@ -1881,35 +2169,58 @@ function localSummary(md){
   return clip(out.trim(), 320);
 }
 /* speak(): natural (Gemini TTS) when chosen and available, otherwise the device voice */
-function speak(text, { onend = null, force = false, natural = false } = {}){
-  text = clip(stripMd(text), 600);
+function speak(text, { onend = null, force = false, natural = false, report = null } = {}){
+  text = clip(stripMd(text), 1500);
   const useNat = natural && naturalReady();
-  if(!text || (!TTS && !useNat) || (!VOICE.on && !force)){ if(onend) onend(); return false; }
-  if(!VOICE.gestured){ VOICE.queued = { text, onend, natural }; showTapHint(true); return false; }
+  const done = () => { if(onend) onend(); setTimeout(drainAfter, 0); };
+  if(!text || (!TTS && !useNat) || (!VOICE.on && !force)){ if(report) report(!text ? 'nothing to say' : (!TTS && !useNat) ? 'speech synthesis is not supported in this browser' : 'voice is off (/voice on)'); done(); return false; }
+  if(!VOICE.gestured){ VOICE.queued = { text, onend, natural, report }; showTapHint(true); if(report) tLine('sys', '[VOX] Waiting for a tap or key press (browsers only allow speech after a user gesture).'); return false; }
   stopSpeaking(true);
-  if(useNat){ speakNatural(text, onend); return true; }
-  if(!TTS){ if(onend) onend(); return false; }
-  return speakDevice(text, onend);
+  if(useNat){ speakNatural(text, done, report); return true; }
+  if(!TTS){ if(report) report('speech synthesis is not supported in this browser'); done(); return false; }
+  return speakDevice(text, done, report);
 }
-function speakDevice(text, onend){
-  try{ speechSynthesis.cancel(); }catch(e){}
-  const u = new SpeechSynthesisUtterance(text);
-  const v = voices().find(x => x.voiceURI === VOICE.voiceURI) || bestVoice(); if(v){ u.voice = v; u.lang = v.lang; }
-  u.rate = +VOICE.rate || 1; u.pitch = +VOICE.pitch || 1;
-  let ended = false; const fin = () => { if(ended) return; ended = true; VOICE.speaking = false; $('speakBadge').hidden = true; if(onend) onend(); };
-  u.onstart = () => { VOICE.speaking = true; $('speakBadge').hidden = false; gPulse(CL.SYNTHESIS, { label: '🔊 speaking', color: 'var(--cyan)', strength: .5, ev: '🔊 speaking: ' + clip(text, 120) }); };
-  u.onend = fin; u.onerror = ev => { if(ev && ev.error && ev.error !== 'interrupted' && ev.error !== 'canceled') tLine('warn', 'Speech error: ' + ev.error); fin(); };
-  VOICE.speaking = true; $('speakBadge').hidden = false;
-  VS.spoken.push(text); if(VS.spoken.length > 50) VS.spoken.shift();
-  try{ speechSynthesis.speak(u); }catch(e){ tLine('warn', 'Speech failed: ' + e.message); fin(); return false; }
+/* queue for announcements (failover, watch alerts) so they never cut off an answer */
+function sayLater(text){ if(!VOICE.on || !text) return; if(VOICE.speaking || AG.run && AG.run.state === 'running'){ VOICE.after = (VOICE.after || []).slice(-4); VOICE.after.push(text); } else speak(text); }
+function drainAfter(){ if(!VOICE.after || !VOICE.after.length || VOICE.speaking || (AG.run && AG.run.state === 'running')) return; speak(VOICE.after.shift()); }
+/* Chrome stops utterances after ~15 s and some engines choke on long text: speak sentence-sized chunks in sequence */
+function speechChunks(text, max = 180){ const out = []; const sents = String(text).replace(/\s+/g, ' ').trim().split(/(?<=[.!?;:])\s+/);
+  for(let s of sents){ while(s.length > max){ let cut = s.lastIndexOf(', ', max); if(cut < max * .5) cut = s.lastIndexOf(' ', max); if(cut < 20) cut = max; out.push(s.slice(0, cut + 1).trim()); s = s.slice(cut + 1).trim(); }
+    if(!s) continue; const last = out[out.length - 1]; if(last && last.length + s.length + 1 <= max && !/[.!?]$/.test(last) === false && last.length < 60) out[out.length - 1] = last + ' ' + s; else out.push(s); }
+  return out.filter(Boolean); }
+function waitVoices(ms = 1500){ return new Promise(res => { let v = []; try{ v = speechSynthesis.getVoices(); }catch(e){} if(v.length) return res(v); const t = setTimeout(() => res(speechSynthesis.getVoices()), ms); try{ speechSynthesis.addEventListener('voiceschanged', () => { clearTimeout(t); res(speechSynthesis.getVoices()); }, { once: true }); }catch(e){} }); }
+const VQ = { id: 0, keep: null };
+function speakDevice(text, onend, report = null){
+  const id = ++VQ.id; let wasBusy = false; try{ wasBusy = speechSynthesis.speaking || speechSynthesis.pending; speechSynthesis.cancel(); }catch(e){}
+  const chunks = speechChunks(text); VS.lastChunks = chunks; VS.chunked = (VS.chunked || 0) + (chunks.length > 1 ? 1 : 0);
+  let k = 0, retry = 0, ended = false, started = false;
+  const fin = err => { if(ended) return; ended = true; clearInterval(VQ.keep); VQ.keep = null; clearTimeout(VQ.watch); if(id === VQ.id){ VOICE.speaking = false; $('speakBadge').hidden = true; }
+    if(report) report(err || null, `device voice · ${chunks.length} chunk(s)${VOICE._vname ? ' · ' + VOICE._vname : ''}`); if(onend) onend(); };
+  const next = () => { if(ended) return; if(id !== VQ.id) return fin('interrupted'); if(k >= chunks.length) return fin(null);
+    const u = new SpeechSynthesisUtterance(chunks[k]);
+    const v = voices().find(x => x.voiceURI === VOICE.voiceURI) || bestVoice(); if(v){ u.voice = v; u.lang = v.lang; VOICE._vname = v.name; }
+    u.rate = +VOICE.rate || 1; u.pitch = +VOICE.pitch || 1;
+    u.onstart = () => { if(!started){ started = true; clearTimeout(VQ.watch); gPulse(CL.SYNTHESIS, { label: '[VOX] speaking', color: 'var(--cyan)', strength: .5, ev: '[VOX] speaking: ' + clip(text, 120) }); } };
+    u.onend = () => { k++; retry = 0; next(); };
+    u.onerror = ev => { const er = (ev && ev.error) || 'unknown'; if(er === 'interrupted' || er === 'canceled') return fin(id === VQ.id ? er : null);
+      if(retry < 1){ retry++; VS.retries = (VS.retries || 0) + 1; setTimeout(next, 250); return; }
+      tLine('warn', '[VOX] Speech error: ' + er + (er === 'not-allowed' ? ' (the browser needs a tap first)' : '')); k++; retry = 0; if(k >= chunks.length) fin(er); else next(); };
+    VS.utterances = (VS.utterances || 0) + 1;
+    try{ speechSynthesis.speak(u); }catch(e){ tLine('warn', '[VOX] Speech failed: ' + e.message); fin(e.message); } };
+  VOICE.speaking = true; $('speakBadge').hidden = false; VS.spoken.push(text); if(VS.spoken.length > 50) VS.spoken.shift();
+  VQ.keep = setInterval(() => { try{ if(speechSynthesis.paused) speechSynthesis.resume(); }catch(e){} }, 4000); // Chrome pauses synthesis in background tabs
+  clearTimeout(VQ.watch); VQ.watch = setTimeout(() => { if(!started && !ended && id === VQ.id){ if(report){ const r = report; report = null; r('no speech started within 6 s (no voices installed, muted output, or blocked by the browser)'); } } }, 6000);
+  const go = () => setTimeout(() => { if(id === VQ.id) next(); }, wasBusy ? 80 : 0); // cancel() then speak() too fast drops the utterance in Chrome
+  let have = []; try{ have = speechSynthesis.getVoices(); }catch(e){} if(have.length) go(); else waitVoices(1500).then(go);
   return true;
 }
-function stopSpeaking(quiet){ const was = VOICE.speaking || !!NAT.audio || (TTS && speechSynthesis.speaking); if(was && !quiet) VS.cancels++; stopNatural(); if(TTS){ try{ speechSynthesis.cancel(); }catch(e){} } VOICE.speaking = false; $('speakBadge').hidden = true; $('speakBadge').textContent = '🔊 SPEAKING'; }
+document.addEventListener('visibilitychange', () => { if(document.visibilityState === 'visible' && TTS){ try{ if(speechSynthesis.paused) speechSynthesis.resume(); }catch(e){} } });
+function stopSpeaking(quiet){ const was = VOICE.speaking || !!NAT.audio || (TTS && speechSynthesis.speaking); if(was && !quiet) VS.cancels++; VQ.id++; if(!quiet) VOICE.after = []; stopNatural(); if(TTS){ try{ speechSynthesis.cancel(); }catch(e){} } VOICE.speaking = false; $('speakBadge').hidden = true; $('speakBadge').textContent = '[VOX] SPEAKING'; }
 async function speakAnswer(md, run){
   const after = () => { if(VOICE.hands) setTimeout(() => startListening(true), 350); };
   if(!VOICE.on){ after(); return; }
   let summary = localSummary(md), how = 'local';
-  if(VOICE.aiSum && md.length > 700 && gemKey()){
+  if(VOICE.aiSum && md.length > 700 && anyCloud()){
     try{
       termStatus('asking Gemini for a spoken summary (+1 request)…');
       const d = await gemini({ contents: [{ role: 'user', parts: [{ text: 'Summarize this answer for text-to-speech in at most 2 short plain sentences. No markdown, no URLs, no brackets:\n\n' + md.slice(0, 6000) }] }], generationConfig: { temperature: 0.3, maxOutputTokens: 120 } }, { stream: false, label: 'spoken summary' });
@@ -1918,25 +2229,25 @@ async function speakAnswer(md, run){
     }catch(e){ tLine('warn', 'Spoken-summary request failed (' + clip(e.message, 120) + '); using a local summary.'); }
     termStatus();
   }
-  tLine('sys', `🔊 (${how} summary) ${summary}`);
+  tLine('sys', `[VOX] (${how} summary) ${summary}`);
   speak(summary, { onend: after, natural: true });
 }
 
 let recFinal = '';
 function startListening(fromLoop = false){
-  if(!SR){ tLine('warn', '🎤 Speech recognition isn\'t supported in this browser (Firefox and some others lack it). Use Chrome/Edge/Safari, or just type.'); return false; }
+  if(!SR){ tLine('warn', '[MIC] Speech recognition isn\'t supported in this browser (Firefox and some others lack it). Use Chrome/Edge/Safari, or just type.'); return false; }
   if(VOICE.listening) return true;
   stopSpeaking();
   let rec; try{ rec = new SR(); }catch(e){ tLine('err', 'Could not start speech recognition: ' + e.message); return false; }
   VOICE.rec = rec; rec.lang = navigator.language || 'en-US'; rec.interimResults = true; rec.continuous = false; rec.maxAlternatives = 1; recFinal = '';
-  rec.onstart = () => { VOICE.listening = true; VS.recogStarts++; $('listenBadge').hidden = false; $('tMic').classList.add('on'); $('tIn').placeholder = '🎤 listening… speak now'; };
+  rec.onstart = () => { VOICE.listening = true; VS.recogStarts++; $('listenBadge').hidden = false; $('tMic').classList.add('on'); $('tIn').placeholder = '[MIC] listening… speak now'; };
   rec.onspeechstart = () => stopSpeaking();
   rec.onresult = ev => { let interim = ''; for(let i = ev.resultIndex; i < ev.results.length; i++){ const r = ev.results[i]; if(r.isFinal) recFinal += r[0].transcript; else interim += r[0].transcript; } $('tIn').value = (recFinal + interim).trim(); };
   rec.onerror = ev => {
     const er = ev && ev.error;
-    if(er === 'no-speech'){ VOICE.noSpeech++; if(!VOICE.hands || VOICE.noSpeech >= 3){ tLine('sys', '🎤 No speech heard.' + (VOICE.hands ? ' Hands-free paused; /handsfree on to resume.' : '')); if(VOICE.hands){ VOICE.hands = false; syncVoiceUI(); } } return; }
+    if(er === 'no-speech'){ VOICE.noSpeech++; if(!VOICE.hands || VOICE.noSpeech >= 3){ tLine('sys', '[MIC] No speech heard.' + (VOICE.hands ? ' Hands-free paused; /handsfree on to resume.' : '')); if(VOICE.hands){ VOICE.hands = false; syncVoiceUI(); } } return; }
     if(er === 'aborted') return;
-    tLine('warn', '🎤 ' + (er === 'not-allowed' || er === 'service-not-allowed' ? 'Microphone permission was denied. Allow it in the browser\'s site settings.' : er === 'network' ? 'Speech service unreachable (network).' : 'Speech recognition error: ' + er));
+    tLine('warn', '[MIC] ' + (er === 'not-allowed' || er === 'service-not-allowed' ? 'Microphone permission was denied. Allow it in the browser\'s site settings.' : er === 'network' ? 'Speech service unreachable (network).' : 'Speech recognition error: ' + er));
     if(VOICE.hands){ VOICE.hands = false; syncVoiceUI(); }
   };
   rec.onend = () => {
@@ -1946,7 +2257,7 @@ function startListening(fromLoop = false){
     else if(VOICE.hands && VOICE.noSpeech < 3 && !AG.run) setTimeout(() => startListening(true), 300);
   };
   try{ rec.start(); }catch(e){ tLine('err', 'Speech recognition failed to start: ' + e.message); return false; }
-  if(!fromLoop) tLine('sys', '🎤 Listening… (speak; it stops on a pause)');
+  if(!fromLoop) tLine('sys', '[MIC] Listening… (speak; it stops on a pause)');
   return true;
 }
 function stopListening(){ if(VOICE.rec){ try{ VOICE.rec.abort(); }catch(e){} } VOICE.listening = false; $('listenBadge').hidden = true; }
@@ -1957,7 +2268,8 @@ function setHandsFree(on){
   else { stopListening(); tLine('sys', 'Hands-free off.'); }
   syncVoiceUI();
 }
-function onGesture(e){ if(VOICE.gestured) return; VOICE.gestured = true; showTapHint(false); if(VOICE.queued && !(e && e.target && e.target.closest && e.target.closest('#voicePrompt'))){ const q = VOICE.queued; VOICE.queued = null; setTimeout(() => speak(q.text, { onend: q.onend, natural: q.natural }), 0); } }
+function onGesture(e){ try{ const AC = window.AudioContext || window.webkitAudioContext; if(AC){ if(!NAT.ctx) NAT.ctx = new AC(); if(NAT.ctx.state === 'suspended') NAT.ctx.resume().catch(() => {}); } }catch(x){} if(VOICE.gestured) return; VOICE.gestured = true; showTapHint(false);
+  if(TTS && !VOICE.unlocked){ VOICE.unlocked = true; try{ const u = new SpeechSynthesisUtterance(' '); u.volume = 0; speechSynthesis.speak(u); VS.unlocked = true; }catch(x){} } /* iOS Safari: first speak() must happen inside a gesture */ if(VOICE.queued && !(e && e.target && e.target.closest && e.target.closest('#voicePrompt'))){ const q = VOICE.queued; VOICE.queued = null; setTimeout(() => speak(q.text, { onend: q.onend, natural: q.natural, report: q.report }), 60); } }
 ['pointerdown', 'keydown'].forEach(t => window.addEventListener(t, onGesture, { capture: true }));
 
 /* =====================================================================
@@ -1968,10 +2280,10 @@ window.__watch = WATCH;
 try{ const w = JSON.parse(store.get(LSK2.watch, 'null')); if(w && typeof w.lat === 'number') { WATCH.loc = { lat: w.lat, lon: w.lon }; WATCH.km = w.km || 1500; } }catch(e){}
 function haversine(a, b){ const R = 6371, r = x => x * Math.PI / 180; const dLat = r(b.lat - a.lat), dLon = r(b.lon - a.lon); const h = Math.sin(dLat / 2) ** 2 + Math.cos(r(a.lat)) * Math.cos(r(b.lat)) * Math.sin(dLon / 2) ** 2; return 2 * R * Math.asin(Math.min(1, Math.sqrt(h))); }
 function announce(msg, { speakIt = true } = {}){
-  WATCH.events++; tLine('watch', '📣 ' + msg); log('WATCH', msg); wallFlash('verify', 'watch: ' + msg);
+  WATCH.events++; tLine('watch', '[WATCH] ' + msg); log('WATCH', msg); wallFlash('verify', 'watch: ' + msg);
   gHandoff(CL.VERIFICATION, CL.SYNTHESIS, { n: 5, color: 'var(--amber)' });
-  gPulse(CL.SYNTHESIS, { label: '📣 ' + clip(msg, 46), color: 'var(--amber)', strength: 1, ev: '📣 watch: ' + msg });
-  if(speakIt && VOICE.on && !AG.run) speak(msg);
+  gPulse(CL.SYNTHESIS, { label: '[WATCH] ' + clip(msg, 46), color: 'var(--amber)', strength: 1, ev: '[WATCH] watch: ' + msg });
+  if(speakIt && VOICE.on) sayLater(msg);
 }
 async function watchISS(){
   WATCH.issPolls++;
@@ -2045,7 +2357,7 @@ async function fetchNaturalAudio(text){
   const m = VOICE.ttsModel; const t0 = performance.now();
   M.steps++; bumpTtsDay(); updStats();
   log('MODEL', `TTS generateContent → ${m} · voice ${VOICE.gVoice} · ${text.length} chars (TTS request ${ttsDayCount()} today, this browser)`);
-  gPulse(CL.SYNTHESIS, { label: `🗣 TTS · ${VOICE.gVoice}`, color: 'var(--cyan)', strength: .7, ev: `🗣 natural voice request → ${m} (${VOICE.gVoice}, ${text.length} chars)` });
+  gPulse(CL.SYNTHESIS, { label: `[VOX] TTS · ${VOICE.gVoice}`, color: 'var(--cyan)', strength: .7, ev: `[VOX] natural voice request → ${m} (${VOICE.gVoice}, ${text.length} chars)` });
   try{
     const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(m)}:generateContent`, { method: 'POST', signal: ctrl.signal, cache: 'no-store',
       headers: { 'Content-Type': 'application/json', 'x-goog-api-key': gemKey() },
@@ -2073,32 +2385,38 @@ function natFailure(e){
   VS.naturalFallbacks.push(e.status ? 'HTTP ' + e.status : e.message);
   if(e.status === 429 && ((e.quota && /PerDay/i.test(e.quota.id)) || /per ?day/i.test(e.message))){
     store.set(LSK3.ttsBlock, JSON.stringify({ d: ptDate(), model: VOICE.ttsModel, limit: e.quota?.value || '' }));
-    tLine('warn', `🗣 Natural-voice daily free-tier quota reached for ${VOICE.ttsModel}${e.quota?.value ? ' (limit ' + e.quota.value + ' requests/day)' : ''}. Using the device voice until it resets at midnight Pacific (3 AM ET).`);
-  } else if(e.status === 429){ NAT.coolUntil = Date.now() + 60000; tLine('warn', '🗣 Natural voice rate-limited (HTTP 429); using the device voice for the next minute.'); }
-  else if(e.status === 404 || e.status === 400 || e.status === 403){ NAT.coolUntil = Infinity; tLine('warn', `🗣 Natural voice unavailable (${clip(e.message, 140)}). Using the device voice; pick another TTS model in voice settings.`); }
-  else tLine('warn', `🗣 Natural voice failed (${clip(e.message, 120)}); used the device voice instead.`);
+    tLine('warn', `[VOX] Natural-voice daily free-tier quota reached for ${VOICE.ttsModel}${e.quota?.value ? ' (limit ' + e.quota.value + ' requests/day)' : ''}. Using the device voice until it resets at midnight Pacific (3 AM ET).`);
+  } else if(e.status === 429){ NAT.coolUntil = Date.now() + 60000; tLine('warn', '[VOX] Natural voice rate-limited (HTTP 429); using the device voice for the next minute.'); }
+  else if(e.status === 404 || e.status === 400 || e.status === 403){ NAT.coolUntil = Infinity; tLine('warn', `[VOX] Natural voice unavailable (${clip(e.message, 140)}). Using the device voice; pick another TTS model in voice settings.`); }
+  else tLine('warn', `[VOX] Natural voice failed (${clip(e.message, 120)}); used the device voice instead.`);
   log('ERR', 'TTS: ' + e.message); syncNatUI();
 }
-async function speakNatural(text, onend){
+async function speakNatural(text, onend, report = null){
   const seq = ++NAT.seq;
-  VOICE.speaking = true; $('speakBadge').hidden = false; $('speakBadge').textContent = '🗣 VOICING…';
+  VOICE.speaking = true; $('speakBadge').hidden = false; $('speakBadge').textContent = '[VOX] VOICING…';
   try{
     const a = await fetchNaturalAudio(text);
     if(seq !== NAT.seq) return;
     if(NAT.url) URL.revokeObjectURL(NAT.url);
     NAT.url = URL.createObjectURL(new Blob([a.wav], { type: 'audio/wav' }));
-    const audio = NAT.audio = new Audio(NAT.url); audio.playbackRate = Math.max(.75, Math.min(1.5, +VOICE.rate || 1));
-    let ended = false; const fin = () => { if(ended) return; ended = true; if(NAT.audio === audio) NAT.audio = null; VOICE.speaking = false; $('speakBadge').hidden = true; if(onend) onend(); };
+    const rate = Math.max(.75, Math.min(1.5, +VOICE.rate || 1)); let audio = null, viaCtx = false;
+    let ended = false; const fin = () => { if(ended) return; ended = true; if(NAT.audio === audio) NAT.audio = null; VOICE.speaking = false; $('speakBadge').hidden = true; if(report) report(null, `Gemini natural voice (${VOICE.gVoice}) · ${a.seconds}s${viaCtx ? ' · Web Audio' : ''}`); if(onend) onend(); };
+    const ctx = NAT.ctx; if(ctx && ctx.state === 'suspended'){ try{ await ctx.resume(); }catch(e){} }
+    if(ctx && ctx.state === 'running'){ try{ const buf = await ctx.decodeAudioData(a.wav.buffer.slice(a.wav.byteOffset, a.wav.byteOffset + a.wav.byteLength)); if(seq !== NAT.seq) return; const src = ctx.createBufferSource(); src.buffer = buf; src.playbackRate.value = rate; src.connect(ctx.destination);
+      audio = NAT.audio = { currentTime: 0, duration: 1, onpause: null, pause(){ try{ src.onended = null; src.stop(); }catch(e){} } }; src.onended = fin; viaCtx = true;
+      VS.natural.push({ chars: text.length, bytes: a.bytes, mime: a.mime, rate: a.rate, seconds: a.seconds, wavHeader: String.fromCharCode(...a.wav.slice(0, 4)) + '/' + String.fromCharCode(...a.wav.slice(8, 12)), cached: !!a.cached, model: a.model, voice: VOICE.gVoice, path: 'webaudio' }); VS.spoken.push(text);
+      $('speakBadge').textContent = '[VOX] SPEAKING'; src.start(); gPulse(CL.SYNTHESIS, { label: `[VOX] speaking · ${a.seconds}s`, color: 'var(--cyan)', strength: .5, ev: `[VOX] natural voice (${VOICE.gVoice}) ${a.seconds}s: ${clip(text, 100)}` }); return; }catch(e){ VS.ctxFail = clip(e.message, 80); } }
+    audio = NAT.audio = new Audio(NAT.url); audio.playbackRate = rate;
     audio.onended = fin; audio.onerror = fin; audio.onpause = () => { if(audio.currentTime < audio.duration) fin(); };
     VS.natural.push({ chars: text.length, bytes: a.bytes, mime: a.mime, rate: a.rate, seconds: a.seconds, wavHeader: String.fromCharCode(...a.wav.slice(0, 4)) + '/' + String.fromCharCode(...a.wav.slice(8, 12)), cached: !!a.cached, model: a.model, voice: VOICE.gVoice });
     VS.spoken.push(text);
-    $('speakBadge').textContent = '🗣 SPEAKING';
+    $('speakBadge').textContent = '[VOX] SPEAKING';
     await audio.play();
-    gPulse(CL.SYNTHESIS, { label: `🗣 speaking · ${a.seconds}s`, color: 'var(--cyan)', strength: .5, ev: `🗣 natural voice (${VOICE.gVoice}) ${a.seconds}s${a.cached ? ' (cached audio)' : ''}: ${clip(text, 100)}` });
+    gPulse(CL.SYNTHESIS, { label: `[VOX] speaking · ${a.seconds}s`, color: 'var(--cyan)', strength: .5, ev: `[VOX] natural voice (${VOICE.gVoice}) ${a.seconds}s${a.cached ? ' (cached audio)' : ''}: ${clip(text, 100)}` });
   }catch(e){
     if(seq !== NAT.seq || e.name === 'AbortError'){ VOICE.speaking = false; $('speakBadge').hidden = true; return; }
-    natFailure(e); VOICE.speaking = false; $('speakBadge').textContent = '🔊 SPEAKING';
-    speakDevice(text, onend);
+    natFailure(e); VOICE.speaking = false; $('speakBadge').textContent = '[VOX] SPEAKING';
+    speakDevice(text, onend, report);
   }
 }
 function stopNatural(){ NAT.seq++; if(NAT.ctrl){ try{ NAT.ctrl.abort(); }catch(e){} } if(NAT.audio){ const a = NAT.audio; NAT.audio = null; try{ a.onpause = null; a.pause(); }catch(e){} } }
@@ -2106,7 +2424,7 @@ function syncNatUI(){
   if(!$('vEngine')) return;
   $('vEngine').value = VOICE.engine; $('vGVoice').value = VOICE.gVoice; $('vTtsModel').value = VOICE.ttsModel;
   const why = naturalReason();
-  $('vNatState').textContent = VOICE.engine === 'gemini' ? (why ? `⚠ natural voice off: ${why} → device voice is used` : `✓ natural voice ready · ${ttsDayCount()} TTS request(s) today from this browser`) : 'Device voice: free, unlimited, works offline (quality depends on your OS voices).';
+  $('vNatState').textContent = VOICE.engine === 'gemini' ? (why ? `[!] natural voice off: ${why} → device voice is used` : `✓ natural voice ready · ${ttsDayCount()} TTS request(s) today from this browser`) : 'Device voice: free, unlimited, works offline (quality depends on your OS voices).';
   $('natRows').hidden = VOICE.engine !== 'gemini';
 }
 
@@ -2127,7 +2445,7 @@ function bestVoice(){ const vs = voices(); if(!vs.length) return null; return [.
 function showVoicePrompt(){ if(VOICE.decided || !(TTS || typeof Audio !== 'undefined')) return; $('voicePrompt').hidden = false; }
 function enableVoiceFromPrompt(){
   VOICE.on = true; VOICE.decided = true; VOICE.gestured = true; saveVoice(); $('voicePrompt').hidden = true;
-  tLine('ok', `🔊 Voice enabled (remembered). ${VOICE.engine === 'gemini' ? 'Natural Gemini voice' : 'Device voice: ' + ((voices().find(v => v.voiceURI === VOICE.voiceURI) || bestVoice() || {}).name || 'browser default')}. /voice off to disable.`);
+  tLine('ok', `[VOX] Voice enabled (remembered). ${VOICE.engine === 'gemini' ? 'Natural Gemini voice' : 'Device voice: ' + ((voices().find(v => v.voiceURI === VOICE.voiceURI) || bestVoice() || {}).name || 'browser default')}. /voice off to disable.`);
   speak(window.__greeting || 'Voice on. I will speak short summaries of my answers.');
 }
 function declineVoiceFromPrompt(){ VOICE.on = false; VOICE.decided = true; saveVoice(); $('voicePrompt').hidden = true; tLine('sys', 'Voice stays off (remembered). /voice on any time.'); }
@@ -2142,7 +2460,7 @@ const isIOS = () => /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.
 let deferredInstall = null;
 window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferredInstall = e; APP.installEvent = true; updInstallBtn(); log('SYS', 'This browser offers app install (beforeinstallprompt)'); });
 window.addEventListener('appinstalled', () => { deferredInstall = null; APP.installed = true; updInstallBtn(); tLine('ok', '✓ ATSMATRIX was installed. Open it from your home screen / app list.'); log('SYS', 'App installed'); });
-function updInstallBtn(){ $('btnInstall').hidden = isStandalone() || !(deferredInstall || isIOS()); $('btnInstallM').hidden = $('btnInstall').hidden; $('btnInstall').textContent = isIOS() && !deferredInstall ? '⬇ ADD TO HOME SCREEN' : '⬇ INSTALL APP'; }
+function updInstallBtn(){ $('btnInstall').hidden = isStandalone() || !(deferredInstall || isIOS()); $('btnInstallM').hidden = $('btnInstall').hidden; $('btnInstall').textContent = isIOS() && !deferredInstall ? 'ADD TO HOME SCREEN' : 'INSTALL APP'; }
 function showInstallTip(html){ const t = $('installTip'); $('installTipBody').innerHTML = html; t.hidden = false; }
 async function doInstall(){
   if(isStandalone()){ tLine('ok', 'Already running as an installed app.'); return 'standalone'; }
@@ -2179,17 +2497,17 @@ window.addEventListener('online', () => { setLive('ok', 'LIVE'); tLine('ok', 'Ba
 const looksLikeKey = s => /\bAIza[0-9A-Za-z_\-]{30,}\b/.test(s) || /^[A-Za-z0-9]{40}$/.test(s.trim());
 const needArg = (a, usage) => { if(!a){ tLine('warn', 'usage: ' + usage); return true; } return false; };
 const toSynth = what => gHandoff(CL.VERIFICATION, CL.SYNTHESIS, { n: 3, color: 'var(--cyan)' }) || gPulse(CL.SYNTHESIS, { strength: .3, ev: '▤ rendered ' + what + ' in terminal' });
-async function dataCmd(name, args, render){ try{ const r = await runTool(name, args, 'cmd'); if(r && r._offline_copy) tLine('warn', '⚠ ' + r._offline_copy); render(r); toSynth(name); return r; }catch(e){ tLine('err', `✗ ${name}: ${e.message}`); return null; } }
+async function dataCmd(name, args, render){ try{ const r = await runTool(name, args, 'cmd'); if(r && r._offline_copy) tLine('warn', '[!] ' + r._offline_copy); render(r); toSynth(name); return r; }catch(e){ tLine('err', `✗ ${name}: ${e.message}`); return null; } }
 const CMDS = {
   help: { d: 'list commands', run(){
     tLine('ok', 'ATSMATRIX terminal · data commands need no Gemini key · plain text goes to the agent');
-    const groups = [['LIVE DATA', ['iss','sat','apod','neo','weather','epic','people','images','wiki']], ['AGENT', ['invent','research','auto','engine','stop','budget','model','keys']], ['VOICE', ['voice','listen','handsfree']], ['SYSTEM', ['install','tv','watch','status','boot','ops','graph','clear','export','theme','help']]];
+    const groups = [['LIVE DATA', ['iss','sat','apod','neo','weather','epic','people','images','wiki']], ['AGENT', ['invent','research','auto','engine','stop','budget','model','keys']], ['VOICE', ['voice','listen','handsfree']], ['SYSTEM', ['whoami','lock','logout','tour','install','tv','watch','status','boot','ops','graph','clear','export','theme','help']]];
     for(const [g, list] of groups){ tLine('sys', '— ' + g); tKV(list.map(c => ['/' + c + (CMDS[c].a ? ' ' + CMDS[c].a : ''), CMDS[c].d])); }
     tLine('sys', 'Keys: ` or Ctrl+K toggles the terminal · Tab completes · ↑/↓ history · Esc closes panels.');
   }},
   iss: { d: 'live ISS position (wheretheiss.at)', run: () => dataCmd('iss_position', {}, d => {
     tKV([['lat / lon', `${d.latitude}°, ${d.longitude}°`], ['altitude', d.altitude_km + ' km'], ['velocity', d.velocity_km_h.toLocaleString() + ' km/h'], ['lighting', d.visibility], ['footprint', d.footprint_km.toLocaleString() + ' km'], ['time', d.timestamp_utc.replace('T', ' ').slice(0, 19) + ' UTC'], ['latency', Math.round(M.last) + ' ms']]);
-    tNode(tLink(`https://www.openstreetmap.org/?mlat=${d.latitude}&mlon=${d.longitude}#map=3/${d.latitude}/${d.longitude}`, '↗ open position on OpenStreetMap')); }) },
+    tNode(tLink(`https://www.openstreetmap.org/?mlat=${d.latitude}&mlon=${d.longitude}#map=3/${d.latitude}/${d.longitude}`, '-> open position on OpenStreetMap')); }) },
   sat: { a: '<name|norad>', d: 'track a satellite (CelesTrak/SGP4, ISS TLE, NASA SSCWeb)', run: a => { if(needArg(a, '/sat ISS · /sat 25544 · /sat Aqua')) return; return dataCmd('track_satellite', { query: a }, r => {
     tKV([['name', r.name], ['lat / lon', `${r.latitude}°, ${r.longitude}°`], ['altitude', r.altitude_km.toLocaleString() + ' km'], ['speed', r.speed_km_s + ' km/s'], ['method', r.method]]
       .concat(r.tle_epoch_utc ? [['TLE epoch', r.tle_epoch_utc.slice(0, 19) + ' UTC']] : []).concat(r.fallback_reason?.length ? [['fallback because', r.fallback_reason.join(' | ')]] : []));
@@ -2197,13 +2515,13 @@ const CMDS = {
   apod: { a: '[YYYY-MM-DD]', d: 'NASA Astronomy Picture of the Day', run: a => {
     if(a && (!/^\d{4}-\d{2}-\d{2}$/.test(a) || a < '1995-06-16' || a > utcDate())){ tLine('warn', 'Date must be YYYY-MM-DD between 1995-06-16 and today (UTC).'); return; }
     return dataCmd('nasa_apod', a ? { date: a } : {}, x => {
-      tLine('ok', `${x.title || '(untitled)'} · ${x.date}${x.copyright ? ' · © ' + x.copyright : ''}${x._cached ? ' (cached)' : ''}`); if(x.upstream_warning) tLine('warn', '⚠ ' + x.upstream_warning); if(x.page_url) tNode(tLink(x.page_url, '↗ ' + x.page_url));
+      tLine('ok', `${x.title || '(untitled)'} · ${x.date}${x.copyright ? ' · (c) ' + x.copyright : ''}${x._cached ? ' (cached)' : ''}`); if(x.upstream_warning) tLine('warn', '[!] ' + x.upstream_warning); if(x.page_url) tNode(tLink(x.page_url, '-> ' + x.page_url));
       const img = x.media_type === 'image' ? x.url : x.thumbnail_url; if(img) tImg(img, x.title, x.hdurl || x.url);
-      if(x.media_type !== 'image' && x.url) tNode(tLink(x.url, '▶ open ' + x.media_type));
+      if(x.media_type !== 'image' && x.url) tNode(tLink(x.url, '> open ' + x.media_type));
       tLine('', clip(x.explanation, 700)); }); } },
   neo: { d: 'near-Earth asteroids today (NASA NeoWs)', run: () => dataCmd('nasa_neo_feed', {}, n => {
     tLine('ok', `${n.count} close approaches on ${n.range[0]} (UTC) · ${n.hazardous_count} flagged potentially hazardous`);
-    tKV(n.closest.slice(0, 6).map(c => [c.name + (c.hazardous ? ' ⚠' : ''), `${c.miss_distance_km.toLocaleString()} km (${c.miss_distance_lunar} LD) · ${c.speed_km_s} km/s · ~${c.diameter_m[0]}–${c.diameter_m[1]} m`])); }) },
+    tKV(n.closest.slice(0, 6).map(c => [c.name + (c.hazardous ? ' [!]' : ''), `${c.miss_distance_km.toLocaleString()} km (${c.miss_distance_lunar} LD) · ${c.speed_km_s} km/s · ~${c.diameter_m[0]}–${c.diameter_m[1]} m`])); }) },
   weather: { a: '[days]', d: 'space weather: flares, CMEs, storms, Kp (DONKI + NOAA)', run: a => dataCmd('space_weather', { days: parseInt(a) || 7 }, w => {
     const byc = w.flares ? Object.entries(w.flares.by_class).map(([k, v]) => `${k}:${v}`).join(' ') : ''; const st = w.geomagnetic_storms;
     tKV([['Kp now', w.latest_kp ? `${w.latest_kp.kp} (${w.latest_kp.noaa_scale}) @ ${String(w.latest_kp.time_utc).slice(0, 16).replace('T', ' ')} UTC` : 'n/a'],
@@ -2221,10 +2539,10 @@ const CMDS = {
     tNode(g, r.items.map(it => `${it.title} ${it.page}`).join('\n')); }); } },
   wiki: { a: '<query>', d: 'Wikipedia lookup (search + summaries)', run: a => { if(needArg(a, '/wiki ion thruster')) return; return dataCmd('wikipedia_search', { query: a, limit: 2 }, r => {
     if(!r.results.length){ tLine('warn', r.note || 'No results.'); return; }
-    r.results.forEach(x => { const h = document.createElement('div'); const b = document.createElement('b'); b.textContent = x.title; h.appendChild(b); if(x.description){ h.appendChild(document.createTextNode(' — ' + x.description)); } tNode(h); tLine('', clip(x.extract, 600)); if(x.url) tNode(tLink(x.url, '↗ ' + x.url)); }); }); } },
+    r.results.forEach(x => { const h = document.createElement('div'); const b = document.createElement('b'); b.textContent = x.title; h.appendChild(b); if(x.description){ h.appendChild(document.createTextNode(' — ' + x.description)); } tNode(h); tLine('', clip(x.extract, 600)); if(x.url) tNode(tLink(x.url, '-> ' + x.url)); }); }); } },
   invent: { a: '<idea>', d: 'structured invention brainstorm (prior art via Wikipedia + NASA images)', async run(a){
     if(needArg(a, '/invent a dust-repelling coating for Mars solar panels')) return;
-    if(gemKey()) return agentRun({ goal: a, mode: 'invent' });
+    if(anyCloud()) return agentRun({ goal: a, mode: 'invent' });
     tLine('warn', 'No Gemini key: I can gather prior art, but the Concept / How it works / Materials brainstorm needs the model (/keys).');
     const [w, im] = await Promise.all([runTool('wikipedia_search', { query: a, limit: 3 }, 'cmd').catch(e => ({ error: e.message })), runTool('nasa_image_search', { query: a }, 'cmd').catch(e => ({ error: e.message }))]);
     const md = ['## Problem', a, '', '## Prior art (live search, unreviewed)'].concat(w.error ? ['- Wikipedia failed: ' + w.error] : w.results.map(x => `- **${x.title}**: ${clip(x.description || x.extract, 160)} ${x.url || ''}`))
@@ -2232,7 +2550,7 @@ const CMDS = {
     tMD(md.join('\n')); toSynth('prior-art template'); } },
   research: { a: '<topic>', d: 'autonomous multi-step research with a visible plan', run: a => needArg(a, '/research how do CMEs affect GPS?') ? null : agentRun({ goal: a, mode: 'research' }) },
   auto: { a: '<goal>', d: `autonomous goal loop (plan → tools → self-check), budget ${'{n}'} requests`, run: a => needArg(a, '/auto find the next close asteroid approach and explain the risk') ? null : agentRun({ goal: a, mode: 'auto' }) },
-  engine: { a: 'auto|gemini|local|parallel on|off|load|probe|preload wifi|always|off|model tiny|small|plus|auto', d: 'Engine Monitor: Gemini ↔ ATSMATRIX Core (local) failover', async run(a){
+  engine: { a: 'auto|gemini|local|parallel on|off|load|probe|preload wifi|always|off|model tiny|small|plus|auto', d: 'Engine Monitor: Gemini <-> ATSMATRIX Core (local) failover', async run(a){
     const [x, y] = String(a || '').trim().toLowerCase().split(/\s+/);
     if(['auto', 'gemini', 'local'].includes(x)){ emSetPref(x); tLine('ok', `Engine: ${x}${x === 'auto' ? ' (Gemini first, instant failover to ATSMATRIX Core)' : ''}.`); }
     else if(x === 'parallel'){ EM.parallel = y !== 'off'; emSave(); tLine('ok', `Parallel mode ${EM.parallel ? 'on: both engines answer chat questions; first good answer wins' : 'off (sequential failover, saves quota)'}.`); }
@@ -2244,11 +2562,16 @@ const CMDS = {
     tKV([['engine', EM.pref + (EM.parallel ? ' + parallel' : '') + ' · active ' + (EM.active === 'local' ? 'ATSMATRIX Core (local)' : 'Gemini')], ['gemini', gt + (EM.gem.lastErr ? ' · last error: ' + EM.gem.lastErr : '')], ['local', lt + (EM.loc.err ? ' · ' + EM.loc.err : '')], ['preload', EM.preload + ' · ' + (preloadAllowed().ok ? 'allowed here' : preloadAllowed().why)], ['probes', String(EM.probes) + ' (max 1 request each)'],
       ...Object.entries(EM.models).map(([m, s]) => [m, `${s.req} req · ${s.ok} ok · 429/min ${s.r429m} · 429/day ${s.r429d} · 503 ${s.r503} · timeouts ${s.timeouts} · net ${s.net}`])]);
   } },
-  tv: { a: '[on|off|next|list|1-4]', d: 'Live TV picture-in-picture (NASA ISS live, Sen 4K, afarTV)', run(a){ a = String(a || '').trim().toLowerCase();
+  tv: { a: '[on|off|next|list|1-4]', d: 'Live TV tile on the main page (NASA ISS live, Sen 4K, afarTV); /tv pop to pop out', run(a){ a = String(a || '').trim().toLowerCase();
     if(a === 'off'){ tvClose(); tLine('sys', 'Live TV off.'); return; }
+    if(a === 'pop' || a === 'dock'){ TV.mode = a === 'pop' ? 'float' : 'dock'; tvSave(); tvMount(); if(!TV.on) tvOpen(); tLine('ok', '[TV-LINK] ' + (a === 'pop' ? 'Popped out (drag the bar to move).' : 'Docked on the main page.')); return; }
     if(a === 'list'){ TV_CHANNELS.forEach((c, i) => tLine('sys', `${i + 1}. ${c.name} · ${c.src}`)); return; }
     const n = parseInt(a); if(n >= 1 && n <= TV_CHANNELS.length){ tvOpen(n - 1); } else if(a === 'next'){ tvOpen(TV.ch + 1); } else if(a === 'on' || !a){ if(TV.on && !a){ tvClose(); tLine('sys', 'Live TV off.'); return; } tvOpen(); }
-    tLine('ok', `📺 Live TV: ${TV_CHANNELS[TV.ch].name} (muted autoplay; tap the player for sound). /tv next · /tv list · /tv off`); } },
+    tLine('ok', `[TV-LINK] Live TV: ${TV_CHANNELS[TV.ch].name} (muted autoplay; tap the player for sound). /tv next · /tv list · /tv off`); } },
+  tour: { d: 'replay the quick tour', run(){ tourShow(0); } },
+  whoami: { d: 'show the signed-in profile', run(){ const A = window.ATSM_AUTH; tLine('sys', A && !A.guest ? `[SYS] Operator ${A.user.name} · keys encrypted on this device (PBKDF2-SHA-256 ${A.iter.toLocaleString()} iterations, AES-GCM) · auto-lock ${A.lockMin ? A.lockMin + ' min' : 'off'}` : '[SYS] Guest session · keys kept in memory for this session only'); } },
+  lock: { d: 'lock the app now (keys are cleared from memory)', run(){ const A = window.ATSM_AUTH; if(!A || A.guest){ tLine('sys', 'Guest sessions have no lock; use /logout.'); return; } A.lock(); } },
+  logout: { d: 'log out / switch user', run(){ window.ATSM_AUTH && window.ATSM_AUTH.logout(); } },
   stop: { d: 'stop the agent, speech, listening and hands-free', run(){ if(!stopAll()) tLine('sys', 'Nothing running.'); } },
   budget: { a: '[n]', d: 'show/set the request budget for /auto /research /invent', run: a => { if(a){ const n = parseInt(a); if(!(n >= 2 && n <= 60)){ tLine('warn', 'Budget must be 2–60 requests.'); return; } store.set(LSK2.budget, String(n)); }
     tLine('ok', `Run budget: ${autoBudget()} Gemini requests (time: 5 min for /auto, 4 min otherwise). This session: ${M.steps}; today in this browser (Pacific day): ${reqDayCount()}. Free tier is roughly 20/day on the fallback model.`); } },
@@ -2265,7 +2588,7 @@ const CMDS = {
     if(a === 'natural' || a === 'device'){ VOICE.engine = a === 'natural' ? 'gemini' : 'device'; saveVoice(); const why = naturalReason(); tLine(a === 'natural' && why ? 'warn' : 'ok', a === 'natural' ? (why ? `Natural voice selected, but not usable now (${why}); the device voice is used until it is.` : `Natural Gemini voice selected (${VOICE.gVoice} on ${VOICE.ttsModel}). Each spoken answer is 1 TTS request; the greeting and watch alerts use the free device voice.`) : 'Device voice selected (free, unlimited).'); return; }
     if(a === 'voices'){ const vs = voices(); const bv = bestVoice(); tLine('sys', `${vs.length} device voice(s); auto pick: ${bv ? bv.name + ' (' + bv.lang + ')' : 'browser default'}. Gemini voices: ${GEMINI_VOICES.map(v => v[0] + ' (' + v[1] + ')').join(', ')}`); if(vs.length) tKV([...vs].sort((x, y) => voiceScore(y) - voiceScore(x)).slice(0, 12).map(v => [v.name, `${v.lang}${v.localService ? '' : ' · online'} · score ${voiceScore(v)}`])); return; }
     if(a === 'on' || a === 'off'){ if(a === 'on' && !TTS && !naturalReady()){ tLine('warn', 'Speech synthesis is not supported in this browser.'); return; } VOICE.decided = true; $('voicePrompt').hidden = true; VOICE.on = a === 'on'; if(!VOICE.on){ stopSpeaking(); if(VOICE.hands) setHandsFree(false); } saveVoice(); tLine('ok', `Voice ${VOICE.on ? 'on' : 'off'} (remembered).`); if(VOICE.on) speak('Voice on. I will speak short summaries of my answers.'); return; }
-    if(a === 'test'){ const nat = naturalReady(); speak('This is the ATSMATRIX voice. Systems are live.', { force: true, natural: true }); tLine('sys', nat ? `🗣 test phrase sent to Gemini TTS (${VOICE.gVoice}; 1 request)` : TTS ? `🔊 test phrase sent to the device voice${VOICE.engine === 'gemini' ? ' (natural voice not usable: ' + naturalReason() + ')' : ''}` : 'TTS unsupported'); return; }
+    if(a === 'test'){ voiceTest(); return; }
     $('voicePanel').hidden = !$('voicePanel').hidden; fillVoices(); syncVoiceUI(); } },
   install: { d: 'install ATSMATRIX as an app (or show how on this device)', run: () => doInstall() },
   listen: { d: 'speak one message (speech-to-text)', run(){ startListening(false); } },
@@ -2301,8 +2624,8 @@ function pushHist(line){ if(looksLikeKey(line)) return; if(HIST[HIST.length - 1]
 async function submitLine(line, { voice = false } = {}){
   line = String(line || '').trim(); if(!line) return;
   stopSpeaking();
-  if(looksLikeKey(line)){ tLine('warn', '⚠ That looks like an API key. It was not run, sent or saved to history. Paste keys in /keys instead.'); return; }
-  pushHist(line); tLine('cmd', (voice ? '🎤 ' : '') + line);
+  if(looksLikeKey(line)){ tLine('warn', '[!] That looks like an API key. It was not run, sent or saved to history. Paste keys in /keys instead.'); return; }
+  pushHist(line); tLine('cmd', (voice ? '[MIC] ' : '') + line);
   openTerm(false);
   if(line[0] === '/'){
     const m = /^\/(\S+)\s*([\s\S]*)$/.exec(line); const name = m[1].toLowerCase(); const arg = m[2].trim();
@@ -2356,10 +2679,14 @@ $('tIn').addEventListener('blur', () => setTimeout(() => { $('tSuggest').hidden 
 function openTerm(focus = true){ const s = $('stage'); if(!s.classList.contains('term-open')){ s.classList.add('term-open'); requestAnimationFrame(() => { resize(); if(map) map.invalidateSize(); }); } $('btnChat').classList.add('on'); setTimeout(() => typeof syncTabbar === 'function' && syncTabbar(), 0); if(focus && !matchMedia('(pointer: coarse)').matches) setTimeout(() => $('tIn').focus(), 0); setMenu(false); syncVV(); }
 function closeTerm(){ $('stage').classList.remove('term-open'); $('btnChat').classList.remove('on'); setTimeout(() => typeof syncTabbar === 'function' && syncTabbar(), 0); requestAnimationFrame(() => { resize(); if(map) map.invalidateSize(); }); }
 function toggleTerm(){ $('stage').classList.contains('term-open') ? closeTerm() : openTerm(); }
-function refreshKeyState(){
-  $('gemState').textContent = gemKey() ? '· saved ✓' : '· not set';
-  $('nasaState').textContent = store.get(LSK.nasa).trim() ? '· saved ✓' : '· using DEMO_KEY';
-  $('modelIn').value = model(); termStatus();
+function refreshKeyState(){ const A = window.ATSM_AUTH;
+  const st = (id, k, none) => { const v = store.get(k).trim(); $(id).innerHTML = v ? '· saved <span class="mask">' + esc(A ? A.mask(v) : '••••') + '</span>' + (A && A.guest ? ' (this session only)' : ' (encrypted)') : '· ' + none; };
+  st('gemState', LSK.gem, 'not set'); st('nasaState', LSK.nasa, 'not set, using DEMO_KEY');
+  $('saveGem').textContent = gemKey() ? 'REPLACE' : 'SAVE'; $('saveNasa').textContent = store.get(LSK.nasa).trim() ? 'REPLACE' : 'SAVE';
+  $('delGem').disabled = !gemKey(); $('delNasa').disabled = !store.get(LSK.nasa).trim(); $('testGem').disabled = !gemKey();
+  if(A){ $('vaultWho').textContent = A.guest ? '· GUEST session (keys in memory only)' : '· OPERATOR ' + A.user.name + ' · AES-GCM vault on this device'; $('userName').textContent = A.guest ? 'GUEST' : 'OP: ' + A.user.name; $('delProfile').hidden = A.guest; $('btnLock').hidden = A.guest; $('lockMin').disabled = A.guest; $('lockMin').value = String(A.lockMin);
+    $('vaultNote').textContent = A.guest ? (A.legacyFound ? 'Keys saved by an older version are stored unencrypted on this device. Create a profile to encrypt them (they are migrated and the plaintext is wiped).' : 'Guest session: keys you enter are not written to this device. Create a profile to keep them encrypted.') : (A.migrated ? `Migrated ${A.migrated} plaintext key(s) from an older version into your encrypted vault; the plaintext copies were wiped.` : 'Only ciphertext, salt and IV are stored. Your password is never stored.'); }
+  $('modelIn').value = model(); termStatus(); if(typeof provSelSync === 'function' && $('provSel').options.length) provSelSync();
 }
 $('btnChat').onclick = toggleTerm; $('tClose').onclick = closeTerm;
 $('btnTermM').onclick = () => { setMenu(false); toggleTerm(); };
@@ -2374,7 +2701,7 @@ syncVV();
 if(window.visualViewport){ visualViewport.addEventListener('resize', syncVV); visualViewport.addEventListener('scroll', syncVV); }
 window.addEventListener('resize', syncVV); window.addEventListener('orientationchange', () => setTimeout(() => { syncVV(); resize(); }, 250));
 $('tIn').addEventListener('focus', () => setTimeout(() => { syncVV(); const o = $('tOut'); o.scrollTop = o.scrollHeight; }, 300));
-function setMenu(open){ const hd = document.querySelector('header'); if(!hd) return; hd.classList.toggle('menu-open', !!open); $('btnMenu').setAttribute('aria-expanded', String(!!open)); $('btnMenu').textContent = open ? '✕' : '☰'; }
+function setMenu(open){ const hd = document.querySelector('header'); if(!hd) return; hd.classList.toggle('menu-open', !!open); $('btnMenu').setAttribute('aria-expanded', String(!!open)); $('btnMenu').textContent = open ? 'CLOSE' : 'MENU'; }
 $('btnMenu').onclick = e => { e.stopPropagation(); setMenu(!document.querySelector('header').classList.contains('menu-open')); };
 $('hbtns').addEventListener('click', e => { if(e.target.closest('button') && matchMedia('(max-width: 760px)').matches) setTimeout(() => setMenu(false), 0); });
 document.addEventListener('pointerdown', e => { if(!e.target.closest('header')) setMenu(false); });
@@ -2399,7 +2726,11 @@ $('vRate').oninput = () => { VOICE.rate = +$('vRate').value; saveVoice(); };
 $('vPitch').oninput = () => { VOICE.pitch = +$('vPitch').value; saveVoice(); };
 $('vAiSum').onchange = () => { VOICE.aiSum = $('vAiSum').checked; saveVoice(); };
 $('vHands').onchange = () => setHandsFree($('vHands').checked);
-$('vTest').onclick = () => { speak(VOICE.engine === 'gemini' ? `Hello, I'm ATSMATRIX, speaking with the ${VOICE.gVoice} voice.` : 'This is the ATSMATRIX voice. Rate ' + (+VOICE.rate).toFixed(2) + ', pitch ' + (+VOICE.pitch).toFixed(2) + '.', { force: true, natural: true }); };
+function voiceTest(){ const nat = naturalReady(); const t0 = performance.now();
+  tLine('sys', `[VOX] Voice test · ${nat ? 'Gemini natural voice (1 TTS request)' : TTS ? 'device voice' : 'no speech engine'}${VOICE.engine === 'gemini' && !nat ? ' (natural voice not usable: ' + naturalReason() + ')' : ''}…`);
+  speak('ATSMATRIX voice check. All systems are live.', { force: true, natural: true, report: (err, info) => { VS.lastTest = { ok: !err, err: err || null, info: info || '', ms: Math.round(performance.now() - t0) };
+    tLine(err ? 'err' : 'ok', err ? `[VOX] Voice test failed: ${err}` : `[VOX] Voice test OK · ${info} · ${Math.round(performance.now() - t0)} ms. (If you heard nothing, check the device volume / mute switch.)`); } }); }
+$('vTest').onclick = () => voiceTest();
 $('vEngine').onchange = () => { VOICE.engine = $('vEngine').value === 'gemini' ? 'gemini' : 'device'; saveVoice(); };
 $('vGVoice').onchange = () => { VOICE.gVoice = $('vGVoice').value; saveVoice(); };
 $('vTtsModel').onchange = () => { VOICE.ttsModel = $('vTtsModel').value; NAT.coolUntil = 0; saveVoice(); };
@@ -2408,10 +2739,60 @@ $('btnInstall').onclick = () => { openTerm(false); doInstall(); };
 $('installTipClose').onclick = () => { $('installTip').hidden = true; };
 GEMINI_VOICES.forEach(([n, d]) => { const o = document.createElement('option'); o.value = n; o.textContent = `${n} · ${d}`; $('vGVoice').appendChild(o); });
 TTS_MODELS.forEach(m => { const o = document.createElement('option'); o.value = m; o.textContent = m; $('vTtsModel').appendChild(o); });
-$('saveGem').onclick = () => { const v = $('gemKey').value.trim(); if(v){ store.set(LSK.gem, v); log('SYS', 'Gemini key saved to localStorage'); tLine('ok', 'Gemini key saved in this browser.'); } $('gemKey').value = ''; refreshKeyState(); };
-$('saveNasa').onclick = () => { const v = $('nasaKey').value.trim(); if(v) store.set(LSK.nasa, v); else store.del(LSK.nasa); log('SYS', v ? 'NASA key saved to localStorage' : 'NASA key cleared; using DEMO_KEY'); tLine('ok', v ? 'NASA key saved in this browser.' : 'NASA key cleared; using DEMO_KEY.'); $('nasaKey').value = ''; refreshKeyState(); };
+const vaultWhere = () => window.ATSM_AUTH && window.ATSM_AUTH.guest ? 'for this session only (guest, memory)' : 'to your encrypted vault on this device';
+$('saveGem').onclick = () => { const v = $('gemKey').value.trim(); if(v){ store.set(LSK.gem, v); log('SYS', 'Gemini key saved ' + vaultWhere()); tLine('ok', '[VAULT] Gemini key saved ' + vaultWhere() + '.'); } $('gemKey').value = ''; refreshKeyState(); };
+$('delGem').onclick = () => { if(!gemKey() || !confirm('Delete the saved Gemini key from this device?')) return; store.del(LSK.gem); log('SYS', 'Gemini key deleted'); tLine('ok', '[VAULT] Gemini key deleted.'); refreshKeyState(); };
+$('delNasa').onclick = () => { if(!store.get(LSK.nasa).trim() || !confirm('Delete the saved NASA key from this device?')) return; store.del(LSK.nasa); log('SYS', 'NASA key deleted; using DEMO_KEY'); tLine('ok', '[VAULT] NASA key deleted; using DEMO_KEY.'); refreshKeyState(); };
+async function vaultTest(which){ const b = $(which === 'gem' ? 'testGem' : 'testNasa'); b.disabled = true; const t0 = performance.now();
+  try{ let r; if(which === 'gem') r = await fetch('https://generativelanguage.googleapis.com/v1beta/models?pageSize=1', { headers: { 'x-goog-api-key': gemKey() }, cache: 'no-store' });
+    else r = await fetch('https://api.nasa.gov/neo/rest/v1/neo/3542519?api_key=' + encodeURIComponent(nasaKey()), { cache: 'no-store' });
+    const ms = Math.round(performance.now() - t0), name = which === 'gem' ? 'Gemini' : 'NASA' + (store.get(LSK.nasa).trim() ? '' : ' (DEMO_KEY)');
+    if(r.ok) tLine('ok', `[VAULT] ${name} key OK · HTTP ${r.status} · ${ms} ms · 1 request${which === 'gem' ? ' (models list, no generation)' : ''}`);
+    else tLine('err', `[VAULT] ${name} key test failed · HTTP ${r.status}${r.status === 400 || r.status === 401 || r.status === 403 ? ' (key rejected)' : r.status === 429 ? ' (rate limited)' : ''}`);
+  }catch(e){ tLine('err', '[VAULT] key test failed: ' + clip(e.message, 120)); } finally{ b.disabled = false; refreshKeyState(); } }
+
+/* ---------- v3.4: provider keys, failover order, other keys ---------- */
+function provRender(){ const A = window.ATSM_AUTH; const box = $('provList'); if(!box) return; box.textContent = '';
+  PCFG.order.forEach((id, i) => { const p = PROV(id), k = provKey(id), row = document.createElement('div'); row.className = 'prow';
+    const n = document.createElement('span'); n.className = 'pn'; n.textContent = `${i + 1}. ${p.label}`; const m = document.createElement('span'); m.className = k ? 'mask' : 'muted';
+    m.textContent = id === 'custom' ? (provBase(id) ? provBase(id) + (k ? ' · key ' + A.mask(k) : '') : 'not set') : (k ? A.mask(k) : 'no key');
+    const on = document.createElement('label'); const cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = !PCFG.off[id]; cb.onchange = () => { PCFG.off[id] = !cb.checked; if(cb.checked) delete PCFG.off[id]; pcfgSave(); provRender(); emUI(); }; on.append(cb, document.createTextNode('on'));
+    const up = document.createElement('button'); up.textContent = 'UP'; up.disabled = i === 0; up.dataset.up = id; up.onclick = () => provMove(id, -1);
+    const dn = document.createElement('button'); dn.textContent = 'DOWN'; dn.disabled = i === PCFG.order.length - 1; dn.dataset.dn = id; dn.onclick = () => provMove(id, 1);
+    row.append(n, m, on, up, dn); box.appendChild(row); });
+  const core = document.createElement('div'); core.className = 'prow core'; const cn = document.createElement('span'); cn.className = 'pn'; cn.textContent = `${PCFG.order.length + 1}. ATSMATRIX Core (local, on this device) · always last`; core.append(cn); box.appendChild(core);
+  const ch = provChain(); $('provHint').textContent = (ch.length ? 'Active chain: ' + ch.map(provLabel).join(' > ') + ' > ATSMATRIX Core' : 'No cloud provider ready: answers use ATSMATRIX Core (local) in Auto mode.') + provNote($('provSel').value);
+  const x = $('xList'); x.textContent = ''; (A ? A.names() : []).filter(nm => nm.startsWith('x.')).sort().forEach(nm => { const r = document.createElement('div'); r.className = 'prow'; const a = document.createElement('span'); a.className = 'pn'; a.textContent = nm.slice(2); const b = document.createElement('span'); b.className = 'mask'; b.textContent = A.mask(vk.get(nm)); const d = document.createElement('button'); d.textContent = 'DELETE'; d.onclick = () => { if(!confirm(`Delete the saved key "${nm.slice(2)}"?`)) return; vk.del(nm); tLine('ok', `[VAULT] Key "${nm.slice(2)}" deleted.`); provRender(); }; r.append(a, b, d); x.appendChild(r); });
+  if(!x.children.length) x.innerHTML = '<span class="muted">none saved</span>'; }
+function provNote(id){ return id === 'custom' ? ' · Custom: any OpenAI-compatible /chat/completions server (Ollama http://localhost:11434/v1, LM Studio http://localhost:1234/v1). A local server must allow this site\'s origin (e.g. OLLAMA_ORIGINS).' : id === 'anthropic' ? ' · Anthropic is called directly from the browser (anthropic-dangerous-direct-browser-access header).' : ''; }
+function provMove(id, d){ const i = PCFG.order.indexOf(id), j = i + d; if(j < 0 || j >= PCFG.order.length) return; [PCFG.order[i], PCFG.order[j]] = [PCFG.order[j], PCFG.order[i]]; pcfgSave(); provRender(); emUI(); }
+function provSelSync(){ const id = $('provSel').value, p = PROV(id); $('provModel').value = provModel(id); $('provModel').placeholder = p.model || 'model id'; $('provBaseRow').hidden = id !== 'custom'; $('provBase').value = PCFG.base.custom || '';
+  $('provKey').placeholder = id === 'gemini' ? 'use the GEMINI box above' : p.keyOptional ? 'API key (optional for local servers)' : `paste ${p.label} key`; $('provKey').disabled = id === 'gemini';
+  $('provSave').textContent = provKey(id) ? 'REPLACE' : 'SAVE'; $('provDel').disabled = id === 'gemini' || !(provKey(id) || (id === 'custom' && PCFG.base.custom)); provRender(); }
+PROVIDERS.forEach(p => { const o = document.createElement('option'); o.value = p.id; o.textContent = p.label + (p.site ? ' · ' + p.site.replace(/^https:\/\//, '') : ''); $('provSel').appendChild(o); });
+$('provSel').value = 'openai'; $('provSel').onchange = provSelSync;
+$('provModel').onchange = () => { const id = $('provSel').value, v = $('provModel').value.trim(); if(id === 'gemini'){ if(/^[a-z0-9.\-]+$/i.test(v)) store.set(LSK.model, v); refreshKeyState(); } else { if(v) PCFG.models[id] = v; else delete PCFG.models[id]; pcfgSave(); } provRender(); };
+$('provBase').onchange = () => { const v = $('provBase').value.trim(); if(v && !/^https?:\/\/[^\s]+$/i.test(v)){ tLine('err', '[VAULT] Base URL must start with http:// or https://'); return; } PCFG.base.custom = v; pcfgSave(); provSelSync(); emUI(); };
+$('provSave').onclick = () => { const id = $('provSel').value; if(id === 'gemini') return; const v = $('provKey').value.trim(); $('provKey').value = '';
+  if($('provModel').value.trim()) PCFG.models[id] = $('provModel').value.trim(); if(id === 'custom') PCFG.base.custom = $('provBase').value.trim(); pcfgSave();
+  if(v){ if(looksLikeKey && /\s/.test(v)){ tLine('err', '[VAULT] That key contains spaces; not saved.'); return; } vk.set('p.' + id, v); tLine('ok', `[VAULT] ${provLabel(id)} key saved ${vaultWhere()}.`); log('SYS', `${provLabel(id)} key saved`); }
+  else if(id === 'custom') tLine('ok', '[VAULT] Custom endpoint saved' + (provReady('custom') ? '.' : ' (needs base URL and model).'));
+  provSelSync(); emUI(); };
+$('provDel').onclick = () => { const id = $('provSel').value; if(id === 'gemini') return; if(!confirm(`Delete the saved ${provLabel(id)} key${id === 'custom' ? ' and endpoint' : ''} from this device?`)) return; vk.del('p.' + id); if(id === 'custom'){ delete PCFG.base.custom; pcfgSave(); } tLine('ok', `[VAULT] ${provLabel(id)} key deleted.`); provSelSync(); emUI(); };
+$('provTest').onclick = async () => { const id = $('provSel').value, p = PROV(id); if(id === 'gemini') return vaultTest('gem'); if(!provReady(id) && !(id === 'custom' && provBase(id))){ tLine('warn', `[VAULT] ${p.label}: save a key first.`); return; }
+  const b = $('provTest'); b.disabled = true; const t0 = performance.now();
+  try{ const h = provHeaders(p, provKey(id)); delete h['Content-Type']; const r = await fetch(provBase(id) + '/models', { headers: h, cache: 'no-store' }); const ms = Math.round(performance.now() - t0);
+    tLine(r.ok ? 'ok' : 'err', r.ok ? `[VAULT] ${p.label} key OK · HTTP ${r.status} · ${ms} ms · 1 request (models list, no generation)` : `[VAULT] ${p.label} test failed · HTTP ${r.status}${r.status === 401 || r.status === 403 ? ' (key rejected)' : r.status === 429 ? ' (rate limited)' : ''}`); }
+  catch(e){ tLine('err', `[VAULT] ${p.label} test failed: ${clip(e.message, 120)}${id === 'custom' ? ' (is the server running and allowing this origin?)' : ''}`); } finally{ b.disabled = false; } };
+$('xAdd').onclick = () => { const n = $('xName').value.trim().toLowerCase(), v = $('xVal').value.trim(); if(!/^[a-z0-9_.-]{2,32}$/.test(n)){ tLine('err', '[VAULT] Name: 2-32 letters, digits, _ . -'); return; } if(!v){ tLine('err', '[VAULT] Enter a key value.'); return; }
+  vk.set('x.' + n, v); $('xName').value = ''; $('xVal').value = ''; tLine('ok', `[VAULT] Key "${n}" saved ${vaultWhere()}.`); provRender(); };
+$('testGem').onclick = () => vaultTest('gem'); $('testNasa').onclick = () => vaultTest('nasa');
+$('delProfile').onclick = () => { const A = window.ATSM_AUTH; if(!A || A.guest) return; if(!confirm(`Delete profile "${A.user.name}" and all of its keys, settings and history from this device? This cannot be undone.`)) return; A.deleteProfile(); };
+$('lockMin').onchange = () => { const A = window.ATSM_AUTH; if(A && !A.guest){ A.setLockMin(+$('lockMin').value); tLine('ok', '[VAULT] Auto-lock ' + (+$('lockMin').value ? 'after ' + $('lockMin').value + ' min idle.' : 'off.')); } };
+$('btnLock').onclick = () => window.ATSM_AUTH && window.ATSM_AUTH.lock(); $('btnLogout').onclick = () => window.ATSM_AUTH && window.ATSM_AUTH.logout(); $('btnSwitch').onclick = () => window.ATSM_AUTH && window.ATSM_AUTH.logout();
+$('saveNasa').onclick = () => { const v = $('nasaKey').value.trim(); if(v) store.set(LSK.nasa, v); else store.del(LSK.nasa); log('SYS', v ? 'NASA key saved ' + vaultWhere() : 'NASA key cleared; using DEMO_KEY'); tLine('ok', v ? '[VAULT] NASA key saved ' + vaultWhere() + '.' : '[VAULT] NASA key cleared; using DEMO_KEY.'); $('nasaKey').value = ''; refreshKeyState(); };
 $('modelIn').onchange = () => { const v = $('modelIn').value.trim(); if(/^[a-z0-9.\-]+$/i.test(v)) store.set(LSK.model, v); else store.del(LSK.model); refreshKeyState(); log('SYS', 'Model set to ' + model()); };
-$('forgetKeys').onclick = () => { store.del(LSK.gem); store.del(LSK.nasa); refreshKeyState(); log('SYS', 'All keys removed from localStorage'); tLine('ok', 'All keys removed from this browser.'); };
+$('forgetKeys').onclick = () => { if(!confirm('Delete ALL of your saved API keys from this device?')) return; if(window.ATSM_AUTH) window.ATSM_AUTH.keyDelAll(); else { store.del(LSK.gem); store.del(LSK.nasa); } refreshKeyState(); log('SYS', 'All keys deleted'); tLine('ok', '[VAULT] All of your keys were deleted from this device.'); };
 $('btnFire').onclick = () => { const v = $('goalIn').value.trim(); if(!v) return; $('goalIn').value = ''; submitLine(v); };
 $('goalIn').addEventListener('keydown', e => { if(e.key === 'Enter') $('btnFire').click(); });
 $('btnOps').onclick = () => showView($('opsView').classList.contains('show') ? 'graph' : 'ops');
@@ -2430,22 +2811,29 @@ const TV_CHANNELS = [ // verified 2026-10-02: oEmbed 200 (embedding allowed), is
   { id: 'tj4knR4r1UU', name: 'afarTV · ISS Earth view 24/7', src: 'afarTV (relays NASA HD cameras)' }
 ];
 const LSK5 = { tv: 'atsm.tv' };
-const TV = Object.assign({ ch: 0, x: null, y: null, min: false }, (() => { try{ return JSON.parse(store.get(LSK5.tv, '{}')) || {}; }catch(e){ return {}; } })(), { on: false });
+const TV = Object.assign({ ch: 0, x: null, y: null, min: false, mode: 'dock', auto: true }, (() => { try{ return JSON.parse(store.get(LSK5.tv, '{}')) || {}; }catch(e){ return {}; } })(), { on: false });
 const tvUrl = c => `https://www.youtube-nocookie.com/embed/${encodeURIComponent(c.id)}?autoplay=1&mute=1&playsinline=1&rel=0&modestbranding=1`;
-function tvSave(){ store.set(LSK5.tv, JSON.stringify({ ch: TV.ch, x: TV.x, y: TV.y, min: TV.min })); }
+function tvSave(){ store.set(LSK5.tv, JSON.stringify({ ch: TV.ch, x: TV.x, y: TV.y, min: TV.min, mode: TV.mode, auto: TV.auto })); }
+function tvMount(){ const el = $('tv'), phone = isPhoneW(), dock = phone || TV.mode !== 'float'; el.classList.toggle('dock', dock); const target = !dock ? document.body : phone ? $('stage') : $('tvDock');
+  if(el.parentNode !== target){ target.appendChild(el); if(TV.on) $('tvFrame').src = tvUrl(TV_CHANNELS[TV.ch]); } tvPlace(); }
 function tvFill(){ const s = $('tvCh'); if(s.options.length) return; TV_CHANNELS.forEach((c, i) => { const o = document.createElement('option'); o.value = i; o.textContent = c.name; s.appendChild(o); }); }
 function tvTune(i){ TV.ch = ((i % TV_CHANNELS.length) + TV_CHANNELS.length) % TV_CHANNELS.length; const c = TV_CHANNELS[TV.ch]; $('tvCh').value = TV.ch; $('tvSrc').textContent = c.src + ' · muted autoplay · tap the player for sound';
   if(TV.on){ $('tvFrame').src = tvUrl(c); } tvSave(); log('SYS', 'Live TV: ' + c.name); }
-function tvPlace(){ const el = $('tv'); if(matchMedia('(max-width: 760px)').matches || TV.x == null){ el.style.left = el.style.top = ''; el.style.right = el.style.bottom = ''; return; }
+function tvPlace(){ const el = $('tv'); if(el.classList.contains('dock') || matchMedia('(max-width: 760px)').matches || TV.x == null){ el.style.left = el.style.top = ''; el.style.right = el.style.bottom = ''; return; }
   const w = el.offsetWidth || 360, hh = el.offsetHeight || 240; el.style.left = Math.max(4, Math.min(innerWidth - w - 4, TV.x)) + 'px'; el.style.top = Math.max(4, Math.min(innerHeight - 40, TV.y)) + 'px'; el.style.right = 'auto'; el.style.bottom = 'auto'; }
-function tvOpen(i = TV.ch){ tvFill(); TV.on = true; $('tv').hidden = false; $('tv').classList.toggle('min', !!TV.min); tvTune(i); tvPlace(); $('btnTv').classList.add('on'); window.__tv = { on: true, ch: TV.ch, url: $('tvFrame').src }; }
-function tvClose(){ TV.on = false; $('tv').hidden = true; $('tvFrame').src = 'about:blank'; $('btnTv').classList.remove('on'); window.__tv = { on: false }; if(document.body.dataset.mv === 'tv') setMView('graph'); }
+function tvOpen(i = TV.ch){ tvFill(); TV.on = true; TV.auto = true; $('tv').hidden = false; $('tv').classList.add('on'); $('tv').classList.toggle('min', !!TV.min); tvTune(i); tvPlace(); $('btnTv').classList.add('on'); window.__tv = { on: true, ch: TV.ch, url: $('tvFrame').src }; }
+function tvClose(user = true){ TV.on = false; if(user){ TV.auto = false; tvSave(); } $('tv').classList.remove('on'); $('tvFrame').src = 'about:blank'; $('btnTv').classList.remove('on'); window.__tv = { on: false }; if(document.body.dataset.mv === 'tv' && isPhoneW()) setMView('graph'); }
+$('tvStandby').onclick = () => tvOpen();
+$('tvPop').onclick = () => { TV.mode = TV.mode === 'float' ? 'dock' : 'float'; tvSave(); tvMount(); };
+function tvArm(){ tvFill(); tvMount(); $('tvCh').value = TV.ch; if(!TV.auto) return; let done = false; const go = () => { if(done) return; done = true; removeEventListener('pointerdown', go, true); removeEventListener('keydown', go, true); if(!TV.on && TV.auto) tvOpen(); };
+  addEventListener('pointerdown', go, true); addEventListener('keydown', go, true); setTimeout(() => { const r = $('tv').getBoundingClientRect(); if(r.width > 0 && r.height > 0 && document.visibilityState === 'visible') go(); }, 4000); }
 $('tvCh').onchange = e => tvTune(+e.target.value);
 $('tvClose').onclick = tvClose;
 $('tvMin').onclick = () => { TV.min = !$('tv').classList.toggle('min') ? false : true; tvSave(); };
 $('btnTv').onclick = () => TV.on ? tvClose() : tvOpen();
+matchMedia('(max-width: 760px)').addEventListener('change', () => { tvMount(); syncTabbar(); });
 (() => { let drag = null; const bar = $('tvBar');
-  bar.addEventListener('pointerdown', e => { if(e.target.closest('button,select') || matchMedia('(max-width: 760px)').matches) return; const r = $('tv').getBoundingClientRect(); drag = { dx: e.clientX - r.left, dy: e.clientY - r.top }; bar.setPointerCapture(e.pointerId); });
+  bar.addEventListener('pointerdown', e => { if(e.target.closest('button,select') || $('tv').classList.contains('dock') || matchMedia('(max-width: 760px)').matches) return; const r = $('tv').getBoundingClientRect(); drag = { dx: e.clientX - r.left, dy: e.clientY - r.top }; bar.setPointerCapture(e.pointerId); });
   bar.addEventListener('pointermove', e => { if(!drag) return; TV.x = e.clientX - drag.dx; TV.y = e.clientY - drag.dy; tvPlace(); });
   bar.addEventListener('pointerup', () => { if(drag){ drag = null; tvSave(); } });
   window.addEventListener('resize', () => { if(TV.on) tvPlace(); }); })();
@@ -2455,17 +2843,36 @@ function setMView(v){
   if(document.body.dataset.mv === 'settings' && v !== 'settings') ['keysPanel', 'voicePanel', 'enginePanel'].forEach(id => $(id).hidden = true);
   document.body.dataset.mv = v; $('term').classList.toggle('settings', v === 'settings');
   if(v === 'term' || v === 'settings'){ openTerm(false); if(v === 'settings'){ ['keysPanel', 'voicePanel', 'enginePanel'].forEach(id => $(id).hidden = false); fillVoices(); syncVoiceUI(); emSyncPanel(); } }
-  else { if($('stage').classList.contains('term-open')) closeTerm(); if(v === 'ops' || v === 'graph') showView(v); if(v === 'tv'){ showView('graph'); if(!TV.on) tvOpen(); $('tv').classList.remove('min'); } }
-  if(v !== 'tv' && TV.on && isPhoneW()) $('tv').classList.add('min');
+  else { const phone = isPhoneW(); if(phone && $('stage').classList.contains('term-open')) closeTerm(); if(v === 'ops' || v === 'graph') showView(v);
+    if(v === 'tv'){ if(phone) showView('graph'); if(!TV.on) tvOpen(); TV.min = false; $('tv').classList.remove('min'); $('tv').classList.add('flash'); setTimeout(() => $('tv').classList.remove('flash'), 900); if(!phone) $('tv').scrollIntoView({ block: 'nearest' }); } }
+  if(v === 'settings') setTimeout(() => { $('term').scrollTop = 0; refreshKeyState(); }, 0);
   syncTabbar();
 }
-function syncTabbar(){ const open = $('stage').classList.contains('term-open'); let v = document.body.dataset.mv || 'graph';
-  if(open && v !== 'settings') v = 'term'; if(!open && (v === 'term' || v === 'settings')) v = $('opsView').classList.contains('show') ? 'ops' : 'graph';
+const NAV_LBL = { term: 'COMMAND', graph: 'GRAPH', ops: 'SPACE OPS', tv: 'TV-LINK', settings: 'SETTINGS' };
+function syncTabbar(){ const open = $('stage').classList.contains('term-open'); let v = document.body.dataset.mv || 'graph'; const ops = $('opsView').classList.contains('show');
+  if(isPhoneW()){ if(open && v !== 'settings') v = 'term'; if(!open && (v === 'term' || v === 'settings')) v = ops ? 'ops' : 'graph'; }
+  else { if(!open && (v === 'term' || v === 'settings')) v = ops ? 'ops' : 'graph'; if(v === 'graph' && ops) v = 'ops'; if(v === 'ops' && !ops) v = 'graph'; }
+  if(v !== 'settings' && $('term').classList.contains('settings')) ['keysPanel', 'voicePanel', 'enginePanel'].forEach(id => $(id).hidden = true);
+  $('secInd').textContent = 'SECTOR // ' + (NAV_LBL[v] || v.toUpperCase());
   if(v !== 'settings') $('term').classList.remove('settings'); document.body.dataset.mv = v;
-  document.querySelectorAll('#tabbar button').forEach(b => { b.classList.toggle('active', b.dataset.mv === v); b.setAttribute('aria-current', b.dataset.mv === v ? 'page' : 'false'); }); }
-document.querySelectorAll('#tabbar button').forEach(b => b.onclick = () => setMView(b.dataset.mv));
+  document.querySelectorAll('#tabbar>button').forEach(b => { b.classList.toggle('active', b.dataset.mv === v); b.setAttribute('aria-current', b.dataset.mv === v ? 'page' : 'false'); }); }
+document.querySelectorAll('#tabbar>button').forEach(b => b.onclick = () => setMView(b.dataset.mv));
+$('btnUser').onclick = $('btnUserM').onclick = () => setMView('settings');
+/* ---------- v3.4: help + first-run quick tour (skippable, per profile) ---------- */
+const TOUR = [
+  ['[ NAV ] MAIN NAVIGATION', 'Five sections, one tap each: COMMAND (terminal), GRAPH, SPACE OPS, TV and SETTINGS. The highlighted tab always shows where you are.', () => $('tabbar')],
+  ['[ TV-LINK ] LIVE TV', 'Official NASA ISS feeds play muted right on the main page. Pick a channel, tap the player for sound, pop it out, or type /tv.', () => $('tv')],
+  ['[ COMMAND ] TERMINAL', 'Ask anything or type /help for every command. Live data commands (/iss, /apod, /neo, /weather) work without a key.', () => document.querySelector('#tabbar [data-mv=term]')],
+  ['[ VAULT ] SETTINGS & KEYS', 'Add your Gemini and NASA keys under SETTINGS > KEY VAULT. With a profile they are encrypted with your password on this device. HELP replays this tour.', () => document.querySelector('#tabbar [data-mv=settings]')]];
+let tourI = -1, tourEl = null;
+function tourShow(i){ if(tourEl) tourEl.classList.remove('tour-hl'); tourI = i; if(i < 0 || i >= TOUR.length){ $('tour').hidden = true; tourEl = null; store.set('atsm.tourDone', '1'); return; }
+  const [h, p, el] = TOUR[i]; $('tourH').textContent = h; $('tourP').textContent = p; $('tourN').textContent = `STEP ${i + 1}/${TOUR.length}`; $('tourBack').hidden = i === 0; $('tourNext').textContent = i === TOUR.length - 1 ? 'DONE' : 'NEXT';
+  tourEl = el(); if(tourEl && tourEl.getClientRects().length) tourEl.classList.add('tour-hl'); $('tour').hidden = false; }
+$('tourNext').onclick = () => tourShow(tourI + 1); $('tourBack').onclick = () => tourShow(tourI - 1); $('tourSkip').onclick = () => tourShow(-1);
+function helpOpen(){ openTerm(false); if(isPhoneW()) setMView('term'); tLine('sys', '[HELP] Navigation: COMMAND · GRAPH · SPACE OPS · TV · SETTINGS (bottom bar on phones, top bar on larger screens). Keys live in SETTINGS > KEY VAULT. Type /help for all commands, /tour to replay the tour, /lock or /logout to leave.'); tourShow(0); }
+$('btnHelp').onclick = $('btnHelpM').onclick = helpOpen;
 
-$('btnBoost').onclick = () => { speed = speed === 1 ? 2 : 1; $('btnBoost').classList.toggle('on', speed === 2); $('btnBoost').textContent = speed === 2 ? '🚀 BOOST: ON (2X)' : '🚀 BOOST: 2X'; };
+$('btnBoost').onclick = () => { speed = speed === 1 ? 2 : 1; $('btnBoost').classList.toggle('on', speed === 2); $('btnBoost').textContent = speed === 2 ? 'BOOST: ON (2X)' : 'BOOST: 2X'; };
 $('btnReset').onclick = () => { stopAll(); M.calls = 0; M.steps = 0; M.errors = 0; M.sources.clear(); M.lat = []; M.last = null; updStats(); $('log').innerHTML = '';
   [...$('wall').children].forEach(d => { d.style.background = ''; d.title = 'no event yet'; }); wallIdx = 0; turns = []; tClear(); $('taskPanel').hidden = true; CLUSTERS.forEach(c => { c.events = []; });
   Object.assign(GS, { pulses: [0, 0, 0, 0], handoffs: 0, tags: 0, errors: 0, events: 0 }); updGstat(); stageClear(); setLive('ok', 'READY'); log('SYS', 'Session reset'); tLine('ok', 'Session reset. Type /help.'); termStatus(); };
@@ -2536,13 +2943,112 @@ async function bootSequence(first){
 }
 (function boot(){
   const th = store.get(LSK.theme); document.documentElement.dataset.theme = th === 'light' ? 'light' : 'dark';
+  document.body.dataset.mv = isPhoneW() ? 'graph' : 'term'; tvArm(); if(!store.get('atsm.tourDone')) setTimeout(() => tourShow(0), 1200);
   refreshKeyState(); buildGraph(); resize(); requestAnimationFrame(frame); updStats(); updGstat(); fillVoices(); syncVoiceUI(); syncNatUI(); updInstallBtn(); showVoicePrompt(); emUI(); syncTabbar(); if(EM.gem.until) emScheduleProbe();
   if(typeof satellite === 'undefined') log('ERR', 'satellite.js did not load (CDN blocked?); TLE propagation unavailable');
-  log('SYS', `Booted · model ${model()} · NASA key: ${store.get(LSK.nasa) ? 'custom' : 'DEMO_KEY'} · Gemini key: ${gemKey() ? 'set' : 'not set'}`);
+  log('SYS', `Booted · ${window.ATSM_AUTH && !window.ATSM_AUTH.guest ? 'operator ' + window.ATSM_AUTH.user.name : 'guest'} · model ${model()} · NASA key: ${store.get(LSK.nasa) ? 'custom' : 'DEMO_KEY'} · Gemini key: ${gemKey() ? 'set' : 'not set'}`);
   const firstVisit = !store.get(LSK2.booted); store.set(LSK2.booted, '1');
   if(firstVisit || location.hash === '#term' || !/#(ops|graph)$/.test(location.hash)) openTerm(false);
   if(location.hash === '#ops') showView('ops');
   bootSequence(true);
+})();
+
+</script>
+<script>
+/* =====================================================================
+   v3.4 LOGIN + KEY VAULT (client-side only; honest by design)
+   - Profiles live on this device only (localStorage). No server, no sync.
+   - Per profile: random 16-byte salt, PBKDF2-SHA-256 (250,000 iterations) -> AES-GCM-256 key (non-extractable).
+   - Stored: profile {id, name, salt, iter, check{iv,ct}} and vault {name: {iv, ct}}. The password is never stored.
+   - Decrypted keys exist only in memory; lock/logout reloads the page to wipe them.
+   - Guest: keys entered are kept in memory for the session only.
+   ===================================================================== */
+(() => {
+  'use strict';
+  const ITER = 250000, PROFILES = 'atsm.auth.profiles', te = new TextEncoder(), td = new TextDecoder();
+  const KEYS = { 'atsm.geminiKey': 'gem', 'atsm.nasaKey': 'nasa' };
+  const LEGACY_SKIP = /^atsm\.(auth\.|vault\.|u\.|cache\.|geminiKey$|nasaKey$)/;
+  const $ = id => document.getElementById(id);
+  const b64 = u8 => { let s = ''; u8.forEach(c => s += String.fromCharCode(c)); return btoa(s); };
+  const unb64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+  const ls = { get(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }, set(k, v){ try{ localStorage.setItem(k, v); }catch(e){} }, del(k){ try{ localStorage.removeItem(k); }catch(e){} },
+    keys(){ try{ return Object.keys(localStorage); }catch(e){ return []; } } };
+  const profiles = () => { try{ return JSON.parse(ls.get(PROFILES)) || []; }catch(e){ return []; } };
+  const saveProfiles = p => ls.set(PROFILES, JSON.stringify(p));
+  window.ICON = n => `<svg class="ic" aria-hidden="true"><use href="#i-${n}"/></svg>`;
+  async function derive(pw, salt, iter){ const base = await crypto.subtle.importKey('raw', te.encode(pw), 'PBKDF2', false, ['deriveKey']);
+    return crypto.subtle.deriveKey({ name: 'PBKDF2', hash: 'SHA-256', salt, iterations: iter }, base, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']); }
+  async function enc(key, str, aad){ const iv = crypto.getRandomValues(new Uint8Array(12)); const ct = new Uint8Array(await crypto.subtle.encrypt({ name: 'AES-GCM', iv, additionalData: te.encode(aad) }, key, te.encode(str))); return { iv: b64(iv), ct: b64(ct) }; }
+  async function dec(key, o, aad){ return td.decode(await crypto.subtle.decrypt({ name: 'AES-GCM', iv: unb64(o.iv), additionalData: te.encode(aad) }, key, unb64(o.ct))); }
+  const S = { user: null, key: null, guest: false, mem: {}, legacyFound: false, migrated: 0, launched: false };
+  const vaultKey = id => 'atsm.vault.' + id;
+  const vaultRead = id => { try{ return JSON.parse(ls.get(vaultKey(id))) || {}; }catch(e){ return {}; } };
+  let q = Promise.resolve();
+  const persist = name => (q = q.then(async () => { if(S.guest || !S.user) return; const v = vaultRead(S.user.id);
+    if(S.mem[name]) v[name] = await enc(S.key, S.mem[name], S.user.id + ':' + name); else delete v[name]; ls.set(vaultKey(S.user.id), JSON.stringify(v)); }).catch(e => console.warn('vault write failed', e)));
+  const wipeAndReload = msg => { q.finally(() => { S.mem = {}; S.key = null; try{ if(msg) sessionStorage.setItem('atsm.auth.msg', msg); }catch(e){} location.reload(); }); };
+
+  window.ATSM_AUTH = null;
+  const API = {
+    get user(){ return S.user ? { id: S.user.id, name: S.user.name } : null; }, get guest(){ return S.guest; }, get legacyFound(){ return S.legacyFound; }, get migrated(){ return S.migrated; },
+    get lockMin(){ return S.user ? (S.user.lockMin ?? 30) : 0; }, iter: ITER,
+    isKey: k => k in KEYS,
+    ns: k => S.guest || !S.user || !k.startsWith('atsm.') ? k : 'atsm.u.' + S.user.id + '.' + k.slice(5),
+    keyGet: k => S.mem[KEYS[k] || k] || '',
+    keySet(k, v){ const n = KEYS[k] || k; v = String(v || '').trim(); if(!v) return API.keyDel(k); S.mem[n] = v; return persist(n); },
+    keyDel(k){ const n = KEYS[k] || k; delete S.mem[n]; if(S.guest){ for(const [lk, nn] of Object.entries(KEYS)) if(nn === n) ls.del(lk); } return persist(n); },
+    names: () => Object.keys(S.mem).filter(n => S.mem[n]),
+    keyDelAll(){ [...new Set([...Object.keys(S.mem), ...Object.values(KEYS)])].forEach(n => { delete S.mem[n]; persist(n); }); if(S.guest) Object.keys(KEYS).forEach(lk => ls.del(lk)); S.legacyFound = false; return q; },
+    mask: v => v ? '•••• ' + String(v).slice(-4) : '',
+    flush: () => q,
+    setLockMin(m){ if(!S.user) return; const p = profiles(); const me = p.find(x => x.id === S.user.id); if(me){ me.lockMin = m; saveProfiles(p); } S.user.lockMin = m; },
+    lock(){ try{ sessionStorage.setItem('atsm.auth.last', S.user ? S.user.id : ''); }catch(e){} wipeAndReload('Locked. Enter your password to unlock.'); },
+    logout(){ try{ sessionStorage.removeItem('atsm.auth.last'); }catch(e){} wipeAndReload('Logged out.'); },
+    deleteProfile(){ if(!S.user) return; const id = S.user.id; saveProfiles(profiles().filter(x => x.id !== id)); ls.del(vaultKey(id)); ls.keys().filter(k => k.startsWith('atsm.u.' + id + '.')).forEach(k => ls.del(k)); S.user = null; try{ sessionStorage.removeItem('atsm.auth.last'); }catch(e){} wipeAndReload('Profile deleted from this device.'); }
+  };
+
+  /* ---------- auth screen ---------- */
+  let mode = 'in', sel = null;
+  const err = m => { $('authErr').textContent = m || ''; };
+  function render(){ const p = profiles(); if(!p.length && mode === 'in') mode = 'up';
+    $('authModeIn').classList.toggle('on', mode === 'in'); $('authModeUp').classList.toggle('on', mode === 'up'); $('authModeIn').disabled = !p.length;
+    $('authPass2Row').hidden = mode !== 'up'; $('authGo').textContent = mode === 'up' ? 'CREATE PROFILE' : 'UNLOCK';
+    $('authPass').autocomplete = mode === 'up' ? 'new-password' : 'current-password';
+    const box = $('authProfiles'); box.textContent = ''; box.hidden = mode !== 'in' || !p.length;
+    p.forEach(x => { const b = document.createElement('button'); b.type = 'button'; b.textContent = x.name; b.className = sel === x.id ? 'on' : ''; b.onclick = () => { sel = x.id; $('authUser').value = x.name; render(); $('authPass').focus(); }; box.appendChild(b); }); }
+  $('authModeIn').onclick = () => { mode = 'in'; err(); render(); }; $('authModeUp').onclick = () => { mode = 'up'; sel = null; $('authUser').value = ''; err(); render(); };
+  async function start(profile, key, mem){ S.user = profile; S.key = key; S.mem = mem; S.guest = false;
+    for(const [lk, n] of Object.entries(KEYS)){ const v = (ls.get(lk) || '').trim(); if(v){ if(!S.mem[n]) S.mem[n] = v; await persist(n); await q; ls.del(lk); S.migrated++; } }
+    try{ sessionStorage.setItem('atsm.auth.last', profile.id); }catch(e){} launch(); }
+  async function signup(name, pw, pw2){ const p = profiles();
+    if(!/^[A-Za-z0-9 _.-]{2,24}$/.test(name)) return err('Callsign: 2-24 letters, digits, space, _ . -');
+    if(p.some(x => x.name.toLowerCase() === name.toLowerCase())) return err('That callsign already exists on this device. Sign in instead.');
+    if(pw.length < 8) return err('Password: at least 8 characters.'); if(pw !== pw2) return err('Passwords do not match.');
+    const id = Array.from(crypto.getRandomValues(new Uint8Array(6)), b => b.toString(16).padStart(2, '0')).join(''); const salt = crypto.getRandomValues(new Uint8Array(16));
+    const key = await derive(pw, salt, ITER); const profile = { id, name, salt: b64(salt), iter: ITER, kdf: 'PBKDF2-SHA-256', cipher: 'AES-GCM-256', check: await enc(key, 'atsm-vault-check', id + ':check'), created: Date.now(), lockMin: 30 };
+    if(!p.length) ls.keys().filter(k => k.startsWith('atsm.') && !LEGACY_SKIP.test(k)).forEach(k => ls.set('atsm.u.' + id + '.' + k.slice(5), ls.get(k)));
+    p.push(profile); saveProfiles(p); await start(profile, key, {}); }
+  async function login(name, pw){ const p = profiles().find(x => x.name.toLowerCase() === name.toLowerCase()); if(!p) return err('No profile with that callsign on this device.');
+    const key = await derive(pw, unb64(p.salt), p.iter || ITER);
+    try{ if(await dec(key, p.check, p.id + ':check') !== 'atsm-vault-check') throw 0; }catch(e){ $('authPass').value = ''; return err('Wrong password.'); }
+    const mem = {}, v = vaultRead(p.id); for(const [n, o] of Object.entries(v)){ try{ mem[n] = await dec(key, o, p.id + ':' + n); }catch(e){} }
+    await start(p, key, mem); }
+  $('authForm').addEventListener('submit', async e => { e.preventDefault(); err(); const go = $('authGo'), label = go.textContent; go.disabled = true; go.textContent = 'DERIVING KEY…';
+    try{ const name = $('authUser').value.trim(), pw = $('authPass').value; if(!name || !pw) return err('Enter a callsign and password.');
+      if(mode === 'up') await signup(name, pw, $('authPass2').value); else await login(name, pw); }
+    catch(x){ err('Error: ' + (x && x.message || x)); } finally{ go.disabled = false; go.textContent = label; } });
+  $('authGuest').onclick = () => { S.guest = true; S.user = null; S.mem = {};
+    for(const [lk, n] of Object.entries(KEYS)){ const v = (ls.get(lk) || '').trim(); if(v){ S.mem[n] = v; S.legacyFound = true; } } launch(); };
+
+  function launch(){ if(S.launched) return; S.launched = true; window.ATSM_AUTH = API; $('authPass').value = ''; $('authPass2').value = ''; $('auth').hidden = true;
+    const src = $('atsmMain').textContent, sc = document.createElement('script'); sc.textContent = src; document.body.appendChild(sc);
+    if(!S.guest){ let last = Date.now(); const bump = () => { last = Date.now(); }; ['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach(ev => addEventListener(ev, bump, { passive: true, capture: true }));
+      setInterval(() => { const m = API.lockMin; if(m > 0 && Date.now() - last > m * 60000) API.lock(); }, 15000); } }
+
+  if(!window.crypto || !crypto.subtle){ $('authModeUp').disabled = $('authModeIn').disabled = $('authGo').disabled = true; err('This browser has no WebCrypto here (needs HTTPS). Continue as guest.'); }
+  try{ const m = sessionStorage.getItem('atsm.auth.msg'); if(m){ err(m); sessionStorage.removeItem('atsm.auth.msg'); } const last = sessionStorage.getItem('atsm.auth.last'); const lp = profiles().find(x => x.id === last); if(lp){ sel = lp.id; $('authUser').value = lp.name; } }catch(e){}
+  if(!sel && profiles().length === 1){ sel = profiles()[0].id; $('authUser').value = profiles()[0].name; }
+  render(); if(matchMedia('(pointer: fine)').matches) setTimeout(() => (sel ? $('authPass') : $('authUser')).focus(), 50);
 })();
 
 </script>

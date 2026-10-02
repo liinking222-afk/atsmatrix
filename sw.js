@@ -1,7 +1,7 @@
 /* ATSMATRIX service worker: offline app shell + CDN libs; network-first for live data.
    Never touches Gemini traffic and never caches URLs that carry an api_key. */
 'use strict';
-const VERSION = 'atsm-v3-2026-10-02e';
+const VERSION = 'atsm-v3-2026-10-02f';
 const SHELL_CACHE = 'atsm-shell-' + VERSION, DATA_CACHE = 'atsm-data-v1', TILE_CACHE = 'atsm-tiles-v1', LIB_CACHE = 'atsm-lib-v1', FONT_CACHE = 'atsm-fonts-v1';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png', './icons/icon-maskable-512.png', './icons/apple-touch-icon.png', './icons/icon.svg'];
 const CDN = [
