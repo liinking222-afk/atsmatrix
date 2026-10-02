@@ -298,6 +298,16 @@ header{padding-top:max(10px,env(safe-area-inset-top));padding-left:max(18px,env(
 @media (max-width:760px){.vprompt{z-index:75}.itip{z-index:76}.taphint{z-index:74}}
 @media (max-width:380px){.mquick .btn{padding:6px 9px;font-size:11px}.brand-main{font-size:14px}}
 @media (max-width:760px) and (orientation:landscape){#hud.collapsed .stats{display:none}#hud{max-height:40vh}}
+/* ---------- engine monitor ---------- */
+.emw{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center;padding:4px 12px;border-bottom:1px solid #1e293b;font-size:10.5px;background:#0a1324;cursor:pointer}
+.emw b{color:#fbbf24;letter-spacing:.1em}.emw .em-mode{color:#c4b5fd;font-weight:700}
+.em-g.ok,.em-l.ok{color:#4ade80}.em-g.warn,.em-l.warn{color:#fbbf24}.em-g.err,.em-l.err{color:#f87171}.em-l.muted,.em-g.muted{color:#8191a8}
+.emchip{position:absolute;right:14px;top:56px;z-index:5;display:flex;flex-direction:column;gap:1px;font-family:var(--mono);font-size:10px;background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:5px 9px;box-shadow:var(--shadow);cursor:pointer;max-width:270px}
+.emchip b{font-size:9.5px;letter-spacing:.12em;color:var(--amber)}.emchip .em-mode{color:var(--purple);font-weight:700}
+.emchip .ok{color:var(--green)}.emchip .warn{color:var(--amber)}.emchip .err{color:var(--magenta)}.emchip .muted{color:var(--muted)}
+#stage.term-open .emchip{display:none}
+details.tl.second{border:1px dashed #334155;border-radius:8px;padding:4px 8px;margin:6px 0}details.tl.second summary{color:#c4b5fd;font-size:11.5px;cursor:pointer}
+@media (max-width:760px){.emchip{top:112px;right:8px;font-size:9.5px;max-width:60vw}.emw{font-size:10px;padding:3px 8px}}
 </style>
 </head>
 <body>
@@ -348,6 +358,7 @@ header{padding-top:max(10px,env(safe-area-inset-top));padding-left:max(18px,env(
     </div>
     <div class="legend">Wired to the agent: <b style="color:var(--blue)">DISCOVERY</b> = data tool calls · <b style="color:var(--purple)">REASONING</b> = Gemini steps · <b style="color:var(--magenta)">VERIFICATION</b> = result &amp; citation checks · <b style="color:var(--cyan)">SYNTHESIS</b> = answers / speech. Idle = calm drift; nothing fires without a real event. Tap or click a cluster for its event log; drag to move; pinch or Ctrl+scroll to zoom.</div>
     <div class="gstat" id="gstat">graph events: 0</div>
+    <div class="emchip" id="emChip" role="status" title="Engine Monitor"><b>⚙ ENGINE MONITOR</b><span class="em-mode"></span><span class="em-g"></span><span class="em-l"></span></div>
     <div class="hubpop" id="hubPop" hidden></div>
   </div>
   <div id="opsView">
@@ -380,12 +391,21 @@ header{padding-top:max(10px,env(safe-area-inset-top));padding-left:max(18px,env(
         <button id="tMic" title="Speak a message (/listen)">🎤</button>
         <button id="tVoice" title="Voice settings (/voice settings)">🔊</button>
         <button id="tKeys" title="API keys &amp; model (/keys)">🔑</button>
+        <button id="tEngine" title="Engine Monitor (/engine)">⚙</button>
         <button id="tAuto" title="Autonomous mode (/auto)">🤖</button>
         <button id="tExport" title="Export transcript (/export)">⤓</button>
         <button id="tClear" title="Clear terminal (/clear)">🗑</button>
         <button id="tStop" class="stop" hidden title="Stop (/stop)">■ STOP</button>
         <button id="tClose" title="Close (` or Ctrl+K)">✕</button>
       </span>
+    </div>
+    <div class="emw" id="emw" role="status" title="Engine Monitor (tap for settings)"><b>⚙ ENGINE</b> <span class="em-mode"></span> <span class="em-g"></span> <span class="em-l"></span></div>
+    <div class="tpanel" id="enginePanel" hidden>
+      <div class="row">Engine <select id="emPref"><option value="auto">Auto · Gemini first, instant failover to ATSMATRIX Core (local)</option><option value="gemini">Gemini only</option><option value="local">ATSMATRIX Core (local) only · free, offline, private</option></select></div>
+      <div class="row"><label><input type="checkbox" id="emPar"> Parallel: ask both engines at once, show the first good answer, keep the other as a second opinion (costs the same Gemini requests; uses more battery)</label></div>
+      <div class="row">Local model <select id="emModel"><option value="auto">Auto (by device)</option><option value="tiny">Tiny · SmolLM2 135M · ~120-140 MB</option><option value="small">Small · LFM2.5 350M on GPU (~255 MB) · SmolLM2 360M on CPU (~365 MB)</option><option value="plus">Plus · Qwen3 0.6B · ~570-620 MB (GPU recommended)</option></select></div>
+      <div class="row">Preload <select id="emPre"><option value="wifi">On Wi-Fi / unmetered only (default)</option><option value="always">Always (also on mobile data)</option><option value="off">Never (load on first failover)</option></select><button id="emLoad">LOAD CORE NOW</button><button id="emProbeBtn">PROBE GEMINI (1 request)</button></div>
+      <pre class="muted" id="emStats" style="margin:0;white-space:pre-wrap;font-size:10.5px"></pre>
     </div>
     <div class="tpanel" id="keysPanel" hidden>
       <div>Gemini API key <span id="gemState" class="muted"></span> · <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer">get a free key</a></div>
@@ -1206,12 +1226,12 @@ function mergeParts(acc, parts){
     else acc.push({ ...p });
   }
 }
-async function readSSE(resp, onChunk, signal){
+async function readSSE(resp, onChunk, signal, stallMs = 0, onStall = null){
   const reader = resp.body.getReader(); const dec = new TextDecoder(); let buf = '';
   const flush = block => { const data = block.split(/\r?\n/).filter(l => l.startsWith('data:')).map(l => l.slice(5).replace(/^ /, '')).join('\n'); if(!data || data === '[DONE]') return; let j; try{ j = JSON.parse(data); }catch(e){ return; } onChunk(j); };
   for(;;){
     if(signal && signal.aborted) throw new DOMException('aborted', 'AbortError');
-    const { value, done } = await reader.read(); if(done) break;
+    let st = null; const rd = reader.read(); const { value, done } = stallMs ? await Promise.race([rd, new Promise((_, rej) => { st = setTimeout(() => { if(onStall) onStall(); rej(Object.assign(new Error('stream stalled'), { stalled: true })); try{ reader.cancel().catch(() => {}); }catch(e){} }, stallMs); })]).finally(() => clearTimeout(st)) : await rd; if(done) break;
     buf += dec.decode(value, { stream: true });
     let i; while((i = buf.search(/\r?\n\r?\n/)) >= 0){ const block = buf.slice(0, i); buf = buf.slice(i).replace(/^\r?\n\r?\n/, ''); flush(block); }
   }
@@ -1226,14 +1246,15 @@ async function gemini(body, { run = null, stream = true, onDelta = null, label =
     const m = (run && run.modelOverride) || model();
     if(sysFn) body.systemInstruction = { parts: [{ text: sysFn() }] }; // refreshed per attempt so the budget line stays accurate
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(m)}:${stream ? 'streamGenerateContent?alt=sse' : 'generateContent'}`;
-    M.steps++; bumpReqDay(); if(run){ run.reqs++; renderRunMeta(run); } updStats(); stage('CROSS-LINK');
+    M.steps++; bumpReqDay(); emRecord(m, 'req'); if(run){ run.reqs++; renderRunMeta(run); } updStats(); stage('CROSS-LINK');
     gPulse(CL.REASONING, { label: `◆ LLM req ${M.steps} · ${m}`, color: 'var(--purple)', strength: 1, ev: `◆ ${label}: request ${run ? run.reqs + '/' + run.budget : M.steps} → ${m}${stream ? ' (stream)' : ''}` });
     log('MODEL', `${stream ? 'streamGenerateContent' : 'generateContent'} → ${m} (request ${M.steps}${run ? ` · run ${run.reqs}/${run.budget}` : ''})`);
     const ctrl = new AbortController(); const onAbort = () => ctrl.abort(); if(run) run.ctrls.add(ctrl);
-    const to = setTimeout(() => { ctrl.timedOut = true; ctrl.abort(); }, 180000);
+    const fo = emFailoverOn(run); const to = setTimeout(() => { ctrl.timedOut = true; ctrl.abort(); }, fo ? EMT().headerMs : 180000); let gotHeaders = false;
     const t0 = performance.now();
     try{
       const resp = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key }, body: JSON.stringify(body), signal: ctrl.signal, cache: 'no-store' });
+      gotHeaders = true; if(fo){ clearTimeout(to); }
       if(!resp.ok){
         const txt = await resp.text(); let msg = txt.slice(0, 300), quota = null;
         try{ const j = JSON.parse(txt); const er = (Array.isArray(j) ? j[0] : j)?.error; msg = er?.message || msg;
@@ -1251,22 +1272,24 @@ async function gemini(body, { run = null, stream = true, onDelta = null, label =
           const ps = c.content?.parts || []; mergeParts(parts, ps);
           if(onDelta) for(const p of ps){ if(p.text) onDelta({ thought: !!p.thought, text: p.text }); }
           const now = performance.now(); if(now - lastPulse > 350){ lastPulse = now; gPulse(CL.REASONING, { strength: .25, color: 'var(--purple)' }); }
-        }, ctrl.signal);
+        }, ctrl.signal, fo ? EMT().stallMs : 0, () => { ctrl.timedOut = true; });
         data = { candidates: [{ content: { role: 'model', parts }, finishReason: finish }], usageMetadata: usage, modelVersion: version, _chunks: chunks };
         if(block) data.promptFeedback = { blockReason: block };
       } else {
         data = JSON.parse(await resp.text()); if(Array.isArray(data)) { const parts = []; data.forEach(d => mergeParts(parts, d.candidates?.[0]?.content?.parts)); data = { candidates: [{ content: { role: 'model', parts } }], usageMetadata: data[data.length - 1]?.usageMetadata }; }
       }
-      const ms = performance.now() - t0; M.last = ms; M.lat.push(ms); M.sources.add('Gemini'); updStats();
+      const ms = performance.now() - t0; M.last = ms; M.lat.push(ms); M.sources.add('Gemini'); updStats(); emRecord(m, 'ok');
       log('MODEL', `${data.modelVersion || m} replied · ${Math.round(ms)} ms · ${data.usageMetadata?.totalTokenCount ?? '?'} tokens${data._chunks ? ' · ' + data._chunks + ' SSE chunks' : ''}`);
       wallFlash('model', `Gemini ${m} · ${Math.round(ms)} ms`);
       return data;
     }catch(e){
       if(e.name === 'AbortError' && !ctrl.timedOut) throw e;
-      if(ctrl.timedOut) e = new Error('Timed out after 180 s');
+      if(ctrl.timedOut || e.stalled) e = new Error(e.stalled ? 'Timed out: the stream stalled mid-answer' : `Timed out after ${fo ? Math.round(EMT().headerMs / 1000) : 180} s`);
       if(e instanceof TypeError) e.message = 'Network/CORS error (' + e.message + ')';
       M.errors++; updStats(); wallFlash('err', 'Gemini error: ' + e.message); log('ERR', `Gemini ${m}: ${e.message}`);
       gPulse(CL.REASONING, { kind: 'error', label: '✗ Gemini ' + (e.status || ''), strength: .8, ev: `✗ Gemini ${m}: ${clip(e.message, 160)}` });
+      { const kind = emClassify(e); emRecord(m, kind, e);
+        if(fo && kind !== 'other' && kind !== 'auth') throw Object.assign(new Error(e.message), { code: 'FAILOVER', kind, status: e.status, quota: e.quota, model: m }); }
       if(e.status === 404 && m !== FALLBACK_MODEL && !(run && run.modelOverride)){
         tLine('warn', `Model "${m}" isn't available for this key (${clip(e.message, 160)}). Switching to "${FALLBACK_MODEL}" (change with /model).`);
         store.set(LSK.model, FALLBACK_MODEL); refreshKeyState(); continue;
@@ -1358,6 +1381,9 @@ function makeStreamView(){
       else { text += d.text; if(!mdEl){ mdEl = document.createElement('div'); mdEl.className = 'tl md'; tOut.appendChild(mdEl); } }
       if(!pending){ pending = true; setTimeout(paint, 60); }
     },
+    abandon(){ done = true; const t = text; if(thoughtEl){ thoughtEl.remove(); thoughtEl = null; } if(mdEl){ mdEl.classList.remove('caret'); if(t.trim()){ mdEl.innerHTML = renderMarkdown(t); mdEl.classList.add('draft'); mdEl.title = 'Partial Gemini answer (interrupted)'; } else { mdEl.remove(); mdEl = null; } } return t; },
+    toSecond(label){ if(!mdEl || !mdEl.isConnected) return; const d = document.createElement('details'); d.className = 'tl second'; const s = document.createElement('summary'); s.textContent = label; mdEl.replaceWith(d); d.append(s, mdEl); },
+    text(){ return text; },
     finish(finalText, isFinal){
       done = true;
       if(thoughtEl) TRANSCRIPT.push({ t: Date.now(), cls: 'thought', text: '💭 ' + clip(thought.trim(), 1200) });
@@ -1368,9 +1394,273 @@ function makeStreamView(){
   };
 }
 
+
+/* =====================================================================
+   ENGINE MONITOR + ATSMATRIX Core (local model, Transformers.js in the browser)
+   Tracks Gemini health, warms up the local model, fails over instantly,
+   probes Gemini (1 request max) after the limit resets, optional parallel race.
+   ===================================================================== */
+const LSK4 = { em: 'atsm.engine', gemBlock: 'atsm.gemBlock' };
+const TFJS_URL = 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@4.3.0';
+const CORE_MODELS = { // per backend: WASM (CPU) can't run every quantization (e.g. LFM2.5 q4 needs GatherBlockQuantized), so CPU uses SmolLM2 int8
+  tiny:  { webgpu: { id: 'HuggingFaceTB/SmolLM2-135M-Instruct', label: 'SmolLM2 135M', mb: 118, dtype: 'q4f16' }, wasm: { id: 'HuggingFaceTB/SmolLM2-135M-Instruct', label: 'SmolLM2 135M', mb: 137, dtype: 'int8' } },
+  small: { webgpu: { id: 'onnx-community/LFM2.5-350M-ONNX', label: 'LFM2.5 350M', mb: 255, dtype: 'q4f16' }, wasm: { id: 'HuggingFaceTB/SmolLM2-360M-Instruct', label: 'SmolLM2 360M', mb: 365, dtype: 'int8' } },
+  plus:  { webgpu: { id: 'onnx-community/Qwen3-0.6B-ONNX', label: 'Qwen3 0.6B', mb: 570, dtype: 'q4f16' }, wasm: { id: 'onnx-community/Qwen3-0.6B-ONNX', label: 'Qwen3 0.6B', mb: 618, dtype: 'int8' } }
+};
+const EM_STORED = (() => { try{ return JSON.parse(store.get(LSK4.em, '{}')) || {}; }catch(e){ return {}; } })();
+const EM = Object.assign({ pref: 'auto', parallel: false, preload: 'wifi', coreModel: 'auto' }, EM_STORED, {
+  active: 'gemini', gem: { state: 'ok', until: 0, reason: '', lastErr: '' }, models: {}, probeT: null, probes: 0, switches: [],
+  loc: { state: 'idle', pct: 0, device: '', model: '', label: '', tokps: 0, err: '', loadedMB: 0 } });
+const EMT = () => Object.assign({ headerMs: 30000, stallMs: 20000, probeMinS: 60 }, window.__EM_TEST || {});
+function emSave(){ store.set(LSK4.em, JSON.stringify({ pref: EM.pref, parallel: EM.parallel, preload: EM.preload, coreModel: EM.coreModel })); }
+const fmtT = ts => new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+function nextPacificMidnight(){ const p = Object.fromEntries(new Intl.DateTimeFormat('en-US', { timeZone: 'America/Los_Angeles', hour12: false, hour: 'numeric', minute: 'numeric', second: 'numeric' }).formatToParts(new Date()).map(x => [x.type, x.value]));
+  const s = (+p.hour % 24) * 3600 + (+p.minute) * 60 + (+p.second); return Date.now() + (86400 - s) * 1000 + 5000; }
+(function restoreBlock(){ try{ const b = JSON.parse(store.get(LSK4.gemBlock, 'null')); if(b && b.d === ptDate() && b.until > Date.now()) Object.assign(EM.gem, { state: 'daily', until: b.until, reason: b.reason || 'daily quota used up' }); }catch(e){} })();
+function emStat(m){ return EM.models[m] || (EM.models[m] = { req: 0, ok: 0, r429m: 0, r429d: 0, r503: 0, timeouts: 0, net: 0, other: 0 }); }
+function emClassify(e){
+  if(e.code === 'NO_KEY') return 'nokey';
+  if(e.status === 429){ const id = (e.quota && e.quota.id) || ''; return (/PerDay/i.test(id) || (!/PerMinute/i.test(id) && /per ?day|daily/i.test(e.message))) ? '429d' : '429m'; }
+  if(e.status === 503 || e.status === 500 || e.status === 502 || e.status === 504) return '503';
+  if(/^Timed out/.test(e.message)) return 'timeout';
+  if(e instanceof TypeError || /^Network/.test(e.message)) return navigator.onLine === false ? 'offline' : 'net';
+  if(e.status === 401 || e.status === 403) return 'auth';
+  return 'other';
+}
+function emRecord(m, kind, e){
+  const s = emStat(m);
+  if(kind === 'req'){ s.req++; return emUI(); }
+  if(kind === 'ok'){ s.ok++; if(EM.gem.state !== 'ok'){ EM.gem.state = 'ok'; EM.gem.until = 0; } store.del(LSK4.gemBlock); return emUI(); }
+  const hint = e && /retry in ([\d.]+)\s*(ms|s)/i.exec(e.message || ''); const hintS = hint ? (+hint[1]) / (hint[2].toLowerCase() === 'ms' ? 1000 : 1) : 0;
+  EM.gem.lastErr = e ? clip(e.message, 160) : '';
+  if(kind === '429d'){ s.r429d++; Object.assign(EM.gem, { state: 'daily', until: nextPacificMidnight(), reason: `daily quota used up for ${(e.quota && e.quota.model) || m}${e.quota && e.quota.value ? ' (limit ' + e.quota.value + '/day)' : ''}` }); store.set(LSK4.gemBlock, JSON.stringify({ d: ptDate(), until: EM.gem.until, reason: EM.gem.reason })); }
+  else if(kind === '429m'){ s.r429m++; Object.assign(EM.gem, { state: 'rate', until: Date.now() + Math.max(EMT().probeMinS, Math.ceil(hintS) + 2) * 1000, reason: 'per-minute rate limit' }); }
+  else if(kind === '503'){ s.r503++; Object.assign(EM.gem, { state: 'overloaded', until: Date.now() + 30000, reason: 'overloaded (HTTP ' + (e.status || 503) + ')' }); }
+  else if(kind === 'timeout'){ s.timeouts++; Object.assign(EM.gem, { state: 'slow', until: Date.now() + 30000, reason: 'timed out' }); }
+  else if(kind === 'net' || kind === 'offline'){ s.net++; Object.assign(EM.gem, { state: kind === 'offline' ? 'offline' : 'error', until: Date.now() + 20000, reason: kind === 'offline' ? 'device offline' : 'network error' }); }
+  else if(kind === 'nokey'){ Object.assign(EM.gem, { state: 'nokey', until: 0, reason: 'no Gemini key' }); }
+  else s.other++;
+  if(EM.gem.until) emScheduleProbe();
+  emUI();
+}
+const emFailoverOn = run => EM.pref === 'auto' && !!run && !run.noFailover;
+function emCanFailover(e, run){ return EM.pref === 'auto' && !run.aborted && (e.code === 'FAILOVER' || e.code === 'QUOTA' || e.code === 'NO_KEY'); }
+function emReasonText(e){ const k = e.kind || emClassify(e);
+  return ({ '429d': 'Gemini out of daily quota', '429m': 'Gemini rate-limited (per-minute)', '503': 'Gemini overloaded (HTTP ' + (e.status || 503) + ')', timeout: 'Gemini timed out' + (/stalled/.test(e.message) ? ' mid-answer' : ''), net: 'Gemini unreachable (network)', offline: 'Device offline', nokey: 'No Gemini key' })[k] || ('Gemini failed: ' + clip(e.message, 80)); }
+/* before a run: should it go straight to the local engine (saves a doomed request)? */
+function emPreRoute(mode){
+  if(EM.pref === 'local') return 'engine set to local (/engine auto to re-enable Gemini)';
+  if(EM.pref !== 'auto') return null;
+  if(!gemKey()) return 'No Gemini key';
+  if(navigator.onLine === false) return 'Device offline';
+  if(EM.gem.until > Date.now() && /daily|rate/.test(EM.gem.state)) return `Gemini ${EM.gem.state === 'daily' ? 'out of daily quota' : 'rate-limited'} until ${fmtT(EM.gem.until)}`;
+  return null;
+}
+function emSwitch(to, reason, { quiet = false } = {}){
+  const from = EM.active; EM.active = to; EM.switches.push({ t: Date.now(), from, to, reason }); if(EM.switches.length > 30) EM.switches.shift();
+  const msg = to === 'local' ? `${reason}, switching to ATSMATRIX Core (local)` : `${reason}, switching back to Gemini`;
+  tLine(to === 'local' ? 'warn' : 'ok', '⚙ Engine Monitor: ' + msg); log('AGENT', 'Engine Monitor: ' + msg); wallFlash(to === 'local' ? 'err' : 'verify', 'engine: ' + msg);
+  gPulse(CL.REASONING, { label: to === 'local' ? '⇄ failover → Core (local)' : '⇄ back to Gemini', color: 'var(--amber)', strength: 1.2, ev: '⇄ Engine Monitor: ' + msg });
+  gHandoff(CL.REASONING, CL.SYNTHESIS, { n: 8, color: 'var(--amber)' });
+  if(!quiet && VOICE.on) speak(to === 'local' ? `${reason.replace(/\(.*?\)/g, '')}. Switching to my local core.` : 'Gemini is back. Switching back.');
+  emUI();
+}
+function emScheduleProbe(){
+  clearTimeout(EM.probeT); if(!EM.gem.until || EM.pref === 'local') return;
+  const wait = Math.max(1000, EM.gem.until - Date.now());
+  EM.probeT = setTimeout(emProbe, Math.min(wait, 2 ** 31 - 1));
+}
+/* one cheap request (maxOutputTokens 1) to see if Gemini is usable again */
+async function emProbe(force = false){
+  if(!gemKey() || (!force && EM.pref !== 'auto')) return { skipped: 'no key / not auto' };
+  if(navigator.onLine === false){ EM.gem.until = Date.now() + 30000; emScheduleProbe(); return { skipped: 'offline' }; }
+  if(document.hidden && !force){ document.addEventListener('visibilitychange', () => emProbe(), { once: true }); return { skipped: 'hidden' }; }
+  if(AG.run && !force){ EM.gem.until = Date.now() + 15000; emScheduleProbe(); return { skipped: 'busy' }; }
+  const m = model(); EM.probes++; M.steps++; bumpReqDay(); emRecord(m, 'req'); updStats();
+  log('MODEL', `Engine Monitor probe → ${m} (1 request, maxOutputTokens 1)`);
+  try{
+    const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(m)}:generateContent`, { method: 'POST', cache: 'no-store', headers: { 'Content-Type': 'application/json', 'x-goog-api-key': gemKey() },
+      body: JSON.stringify({ contents: [{ role: 'user', parts: [{ text: 'ping' }] }], generationConfig: { maxOutputTokens: 1, thinkingConfig: { thinkingBudget: 0 } } }) });
+    if(r.ok){ emRecord(m, 'ok'); if(EM.active !== 'gemini') emSwitch('gemini', 'Gemini is available again (probe OK, 1 request)'); else tLine('ok', '⚙ Engine Monitor: Gemini probe OK.'); return { ok: true }; }
+    const txt = await r.text(); let quota = null, msg = txt.slice(0, 200);
+    try{ const er = JSON.parse(txt).error; msg = er.message || msg; const v = (er.details || []).find(d => /QuotaFailure/.test(d['@type'] || ''))?.violations?.[0]; if(v) quota = { id: v.quotaId || '', model: m, value: v.quotaValue || '' }; }catch(e){}
+    const e = Object.assign(new Error(`HTTP ${r.status}: ${msg}`), { status: r.status, quota }); const kind = emClassify(e); emRecord(m, kind, e);
+    tLine('sys', `⚙ Engine Monitor: Gemini probe → still unavailable (${emReasonText(Object.assign(e, { kind }))}); next check ${EM.gem.until ? fmtT(EM.gem.until) : 'on next request'}. Using ATSMATRIX Core meanwhile.`);
+    return { ok: false, kind };
+  }catch(e){ const kind = emClassify(e); emRecord(m, kind, e); return { ok: false, kind }; }
+}
+/* ---------- the local engine ---------- */
+const CORE = { tf: null, tok: null, model: null, loading: null, stopper: null };
+function coreChoice(){
+  const phone = matchMedia('(max-width: 760px)').matches || matchMedia('(pointer: coarse)').matches;
+  const key = CORE.forceKey || (EM.coreModel !== 'auto' && CORE_MODELS[EM.coreModel] ? EM.coreModel : (EM.loc.device === 'webgpu' || !phone ? 'small' : 'tiny'));
+  return { key, ...CORE_MODELS[key][EM.loc.device === 'webgpu' ? 'webgpu' : 'wasm'] };
+}
+function preloadAllowed(){
+  if(EM.preload === 'off') return { ok: false, why: 'preloading is off (/engine preload wifi|always)' };
+  if(EM.preload === 'always') return { ok: true };
+  const c = navigator.connection; const coarse = matchMedia('(pointer: coarse)').matches;
+  if(c && c.saveData) return { ok: false, why: 'Data Saver is on' };
+  if(c && c.type === 'cellular') return { ok: false, why: 'on mobile data' };
+  if(c && /(^|-)2g|3g/.test(c.effectiveType || '')) return { ok: false, why: 'slow connection' };
+  if(!c && coarse) return { ok: false, why: 'connection type unknown on this phone/tablet (could be mobile data)' };
+  if(navigator.deviceMemory && navigator.deviceMemory < 2) return { ok: false, why: 'low device memory' };
+  return { ok: true };
+}
+async function coreLoad(why = 'manual'){
+  if(EM.loc.state === 'ready') return true;
+  if(CORE.loading) return CORE.loading;
+  CORE.loading = (async () => {
+    EM.loc.state = 'loading'; EM.loc.pct = 0; EM.loc.err = ''; emUI();
+    try{
+      if(window.__coreBackend){ // test hook: same lifecycle, no download
+        EM.loc.device = 'mock'; const info = await window.__coreBackend.load(p => { EM.loc.pct = p; emUI(); }); Object.assign(EM.loc, { model: info?.model || 'mock', label: info?.label || 'mock core' });
+      } else {
+        EM.loc.device = (navigator.gpu && await navigator.gpu.requestAdapter().catch(() => null)) ? 'webgpu' : 'wasm';
+        const ch = coreChoice(); Object.assign(EM.loc, { model: ch.id, label: ch.label });
+        tLine('sys', `⚙ Engine Monitor: loading ATSMATRIX Core (${ch.label}, ~${ch.mb} MB, ${EM.loc.device === 'webgpu' ? 'WebGPU' : 'CPU/WASM'}; ${why}). Downloaded once, then cached in this browser.`);
+        const T = CORE.tf = await import(TFJS_URL);
+        const files = {}; const prog = x => { if(x.status === 'progress' && x.total){ files[x.file] = [x.loaded, x.total]; const v = Object.values(files); const L = v.reduce((a, b) => a + b[0], 0), Tt = v.reduce((a, b) => a + b[1], 0); EM.loc.pct = Math.min(99, Math.round(100 * L / Math.max(Tt, 1))); EM.loc.loadedMB = Math.round(L / 1e6); emUI(); } };
+        CORE.tok = await T.AutoTokenizer.from_pretrained(ch.id, { progress_callback: prog });
+        try{ CORE.model = await T.AutoModelForCausalLM.from_pretrained(ch.id, { dtype: ch.dtype, device: EM.loc.device, progress_callback: prog }); }
+        catch(err){ if(ch.key === 'tiny' && EM.loc.device === 'wasm') throw err; tLine('warn', `⚙ Engine Monitor: ${ch.label} failed on ${EM.loc.device} (${clip(err.message, 120)}); falling back to SmolLM2 135M on CPU.`); EM.loc.device = 'wasm'; CORE.forceKey = 'tiny'; const fb = coreChoice(); Object.assign(EM.loc, { model: fb.id, label: fb.label });
+          CORE.tok = await T.AutoTokenizer.from_pretrained(fb.id, { progress_callback: prog }); CORE.model = await T.AutoModelForCausalLM.from_pretrained(fb.id, { dtype: fb.dtype, device: 'wasm', progress_callback: prog }); }
+      }
+      EM.loc.state = 'ready'; EM.loc.pct = 100; emUI();
+      log('SYS', `ATSMATRIX Core ready (${EM.loc.label} · ${EM.loc.device})`); gPulse(CL.SYNTHESIS, { label: '◆ Core (local) ready', color: 'var(--green)', strength: .6, ev: `◆ ATSMATRIX Core ready: ${EM.loc.label} on ${EM.loc.device}` });
+      return true;
+    }catch(e){ EM.loc.state = 'error'; EM.loc.err = clip(e.message || String(e), 160); emUI(); log('ERR', 'ATSMATRIX Core failed to load: ' + EM.loc.err); return false; }
+    finally{ CORE.loading = null; }
+  })();
+  return CORE.loading;
+}
+async function coreGenerate(messages, { onToken, signal, maxNew = 420 } = {}){
+  let t0 = 0; let n = 0, out = '';
+  const tick = s => { if(!t0) t0 = performance.now(); out += s; onToken && onToken(s); const dt = (performance.now() - t0) / 1000; if(dt > .3){ EM.loc.tokps = +(n / dt).toFixed(1); emUIThrottled(); } };
+  if(window.__coreBackend){ await window.__coreBackend.generate(messages, { onToken: s => { n++; tick(s); }, signal }); }
+  else {
+    const T = CORE.tf; const stop = CORE.stopper = new T.InterruptableStoppingCriteria(); if(signal) signal.addEventListener('abort', () => stop.interrupt(), { once: true });
+    const inputs = CORE.tok.apply_chat_template(messages, { add_generation_prompt: true, return_dict: true, enable_thinking: false });
+    const streamer = new T.TextStreamer(CORE.tok, { skip_prompt: true, skip_special_tokens: true, callback_function: s => tick(s), token_callback_function: () => { n++; } });
+    await CORE.model.generate({ ...inputs, max_new_tokens: maxNew, do_sample: false, repetition_penalty: 1.15, streamer, stopping_criteria: stop });
+  }
+  const dt = t0 ? (performance.now() - t0) / 1000 : 0; if(dt > .2) EM.loc.tokps = +(n / dt).toFixed(1); emUI();
+  if(signal && signal.aborted) throw new DOMException('aborted', 'AbortError');
+  return out.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
+}
+/* deterministic tool router for the small local model (it can't do function calling reliably) */
+function coreRoute(goal, used){
+  const g = goal.toLowerCase(), out = [];
+  const add = (n, a = {}) => { if(!used.has(n) && !out.some(x => x[0] === n)) out.push([n, a]); };
+  if(/\biss\b|space station/.test(g)) add('iss_position');
+  if(/astronaut|people in space|who is in space|crew/.test(g)) add('people_in_space');
+  if(/asteroid|neo\b|near.earth|comet/.test(g)) add('nasa_neo_feed');
+  if(/space weather|solar|flare|cme|geomagnetic|aurora|kp\b|storm/.test(g)) add('space_weather');
+  if(/apod|picture of the day/.test(g)) add('nasa_apod');
+  if(/epic|earth image|photo of earth|dscovr/.test(g)) add('nasa_epic', { count: 2 });
+  const sat = /(?:track|where is|position of)\s+([a-z0-9\- ]{2,24})/i.exec(goal); if(sat && !/\biss\b/i.test(sat[1])) add('track_satellite', { query: sat[1].trim() });
+  if(!out.length && !used.size){ const q = goal.replace(/^(what|who|how|why|explain|tell me about|invent|research|design)\b\s*/i, '').replace(/[?.!]/g, '').slice(0, 80); if(q.length > 2) add('wikipedia_search', { query: q, limit: 2 }); }
+  return out.slice(0, 3);
+}
+const CORE_SYS = mode => `You are ATSMATRIX Core, a small assistant running offline on the user's device. Gemini is unavailable, so you are finishing the task.
+Answer the user's request in clear English using the facts provided. Copy numbers exactly from the facts; do not invent numbers. After a fact, name its source in brackets, for example [iss_position]. If the facts do not cover something, say you are not sure.
+${mode === 'invent' ? 'Write: a short concept, how it would work, and two next steps.' : mode === 'chat' ? 'Keep it to 3-6 sentences.' : 'Write a short result (4-8 sentences) and say which facts came from which source.'}`;
+function flatFacts(o, pre = '', out = [], depth = 0){
+  if(out.length >= 14 || o == null) return out;
+  if(typeof o !== 'object'){ out.push(`${pre}: ${clip(String(o), 160)}`); return out; }
+  if(Array.isArray(o)){ o.slice(0, 4).forEach((v, i) => flatFacts(v, `${pre}[${i + 1}]`, out, depth + 1)); if(o.length > 4) out.push(`${pre}: (${o.length} items in total)`); return out; }
+  for(const [k, v] of Object.entries(o)){ if(out.length >= 14) break; if(/url|href|image|thumb|_offline_copy|hdurl/i.test(k)) continue; if(depth > 2 && typeof v === 'object') continue; flatFacts(v, pre ? pre + '.' + k : k, out, depth + 1); }
+  return out;
+}
+function gatherToolResults(turn){ const out = []; for(const c of turn) for(const p of c.parts || []) if(p.functionResponse && p.functionResponse.name !== 'update_plan') out.push({ name: p.functionResponse.name, result: p.functionResponse.response?.result }); return out; }
+function coreMessages({ goal, mode, history, results, partial }){
+  const hist = (history || []).map(c => (c.parts || []).filter(p => p.text && !p.thought).map(p => (c.role === 'model' ? 'ATSMATRIX: ' : 'User: ') + clip(p.text, 400)).join('\n')).filter(Boolean).slice(-4).join('\n');
+  let budget = 2400; const data = results.map(r => { const s = clip(flatFacts(r.result).join('; '), Math.min(800, Math.max(0, budget))); budget -= s.length; return s ? `[${r.name}] ${s}` : ''; }).filter(Boolean).join('\n');
+  const u = `Task (${mode}): ${goal}` + (hist ? `\n\nConversation so far:\n${hist}` : '') + (data ? `\n\nFacts from live tools (source in brackets):\n${data}` : '\n\nNo live data is available; answer from general knowledge and say so.') + (partial && partial.trim() ? `\n\nGemini's partial answer before it stopped (continue and complete it; do not repeat it):\n${clip(partial, 900)}` : '') + '\n\nWrite the answer now.';
+  return [{ role: 'system', content: CORE_SYS(mode) }, { role: 'user', content: u }];
+}
+function ensureSources(text, used){ if(/^#+\s*sources/im.test(text)) return text; return text + `\n\n## Sources\n${[...used].map(n => `- [${n}]`).join('\n')}${used.size ? '\n' : ''}- ATSMATRIX Core (local model ${EM.loc.label}); unverified details may be imprecise`; }
+/* hand an in-flight run to the local engine, keeping context + gathered tool results */
+async function coreTakeover(run, { goal, mode, history, turn, used, partial, reason }){
+  run.engine = 'local'; run.handoff = { reason, at: Date.now(), partialChars: (partial || '').length, toolsBefore: used.size };
+  if(reason) emSwitch('local', reason);
+  if(partial && partial.trim()) tLine('sys', `↳ Kept Gemini's partial answer (${partial.length} chars, shown dimmed); ATSMATRIX Core continues from it.`);
+  if(EM.loc.state !== 'ready'){ run.state = 'loading local engine'; renderRunMeta(run); const ok = await coreLoad('failover'); if(!ok) throw new Error(`${reason}, and ATSMATRIX Core (local) could not load: ${EM.loc.err || 'unknown error'}`); }
+  if(run.aborted) throw new DOMException('aborted', 'AbortError');
+  const extra = coreRoute(goal, used);
+  for(const [name, args] of extra){ tLine('tool', `▶ ${name}(${clip(JSON.stringify(args), 120)}) · by Core`); try{ const t0 = performance.now(); const r = await runTool(name, args, 'agent'); used.add(name); run.toolCalls++; turn.push({ role: 'user', parts: [{ functionResponse: { name, response: { result: packResult(r) } } }] }); tLine('res', `✓ ${name} · ${Math.round(performance.now() - t0)} ms · ${clip(JSON.stringify(r), 140)}`); }catch(e){ tLine('err', `✗ ${name}: ${clip(e.message, 200)}`); } }
+  const results = gatherToolResults(turn);
+  if(mode !== 'chat' && run.tasks && run.tasks.length){ run.tasks.forEach(t => { if(t.status === 'pending' || t.status === 'active'){ t.status = 'done'; t.note = 'finished by ATSMATRIX Core (local), lower confidence'; } }); renderTasks(run); }
+  run.state = 'writing answer (local)'; renderRunMeta(run); termStatus(`ATSMATRIX Core (local · ${EM.loc.label}) writing…`);
+  tLine('sys', `◆ ATSMATRIX Core (local · ${EM.loc.label} · ${EM.loc.device}) continues the ${mode} task with ${results.length} tool result(s) and the conversation context.`);
+  const view = makeStreamView(); view.delta({ reset: true });
+  let text = await coreGenerate(coreMessages({ goal, mode, history, results, partial }), { onToken: s => view.delta({ text: s }), signal: run.signal });
+  if(partial && partial.trim()) text = partial.trim() + '\n\n' + text;
+  text = ensureSources(text || '(ATSMATRIX Core produced no text.)', used);
+  view.finish(text, true); M.sources.add('ATSMATRIX Core'); updStats();
+  tLine('sys', `◆ Core: ${EM.loc.tokps} tok/s · ${text.length} chars`);
+  return text;
+}
+/* a whole run on the local engine (no key / offline / known rate limit / engine=local) */
+async function coreOnlyRun({ goal, mode, reason }){
+  if(AG.run){ tLine('warn', 'The agent is still working. /stop first.'); return; }
+  stopSpeaking();
+  const run = AG.run = { goal, mode, budget: 0, timeBudget: 5 * 60000, reqs: 0, toolCalls: 0, rounds: 0, t0: Date.now(), tasks: [], aborted: false, ctrls: new Set(), abort: new AbortController(), state: 'running', engine: 'local' };
+  run.signal = run.abort.signal; $('tStop').hidden = false; let finalText = '', ended = 'done';
+  const turn = [{ role: 'user', parts: [{ text: goal }] }]; const history = mode === 'chat' ? turns.slice(-2).flat() : []; const used = new Set();
+  try{
+    if(EM.active !== 'local') emSwitch('local', reason, { quiet: true }); else tLine('sys', `⚙ Engine Monitor: ${reason}; using ATSMATRIX Core (local).`);
+    finalText = await coreTakeover(run, { goal, mode, history, turn, used, partial: '', reason: null }).catch(e => { throw e; });
+    if(mode === 'chat'){ turns.push([...turn, { role: 'model', parts: [{ text: finalText }] }]); if(turns.length > 6) turns.shift(); }
+    gPulse(CL.SYNTHESIS, { label: `★ answer (Core) · ${finalText.length} chars`, color: 'var(--cyan)', strength: 1.2, ev: `★ final answer by ATSMATRIX Core (local) · ${finalText.length} chars` });
+    run.state = 'done'; speakAnswer(finalText, run);
+  }catch(e){ ended = (e.name === 'AbortError' || run.aborted) ? 'stopped' : 'error'; tLine(ended === 'stopped' ? 'warn' : 'err', ended === 'stopped' ? '■ Stopped.' : '⚠ ' + e.message); }
+  finally{ AG.run = null; $('tStop').hidden = true; termStatus(); window.__lastRun = { mode, ended, engine: 'local', handoff: run.handoff, reqs: 0, toolCalls: run.toolCalls, tasks: [], finalChars: finalText.length }; }
+  return window.__lastRun;
+}
+/* parallel: Core races Gemini in the background; first good answer is primary */
+function coreRace(run, goal, history){
+  const race = { done: false, text: '', primary: null, t0: Date.now() };
+  tLine('sys', '⚙ Engine Monitor: parallel mode — ATSMATRIX Core (local) is racing Gemini on this question.');
+  (async () => {
+    if(!(await coreLoad('parallel'))) return;
+    const used = new Set(), turn = [{ role: 'user', parts: [{ text: goal }] }];
+    for(const [name, args] of coreRoute(goal, used)){ try{ const r = await runTool(name, args, 'agent'); used.add(name); turn.push({ role: 'user', parts: [{ functionResponse: { name, response: { result: packResult(r) } } }] }); }catch(e){} }
+    let t = await coreGenerate(coreMessages({ goal, mode: 'chat', history, results: gatherToolResults(turn), partial: '' }), { signal: run.signal });
+    t = ensureSources(t, used); race.done = true; race.text = t; race.ms = Date.now() - race.t0;
+    if(race.primary === null && run.state !== 'done' && !run.aborted){ race.primary = 'local'; tLine('ok', `⚡ First answer · ATSMATRIX Core (local) in ${(race.ms / 1000).toFixed(1)} s — Gemini still working; its answer will be kept as a second opinion.`); tMD(t); gPulse(CL.SYNTHESIS, { label: '⚡ Core answered first', color: 'var(--green)', strength: 1, ev: '⚡ parallel: Core answered first' }); speakAnswer(t, run); }
+    else if(!run.aborted){ const d = document.createElement('details'); d.className = 'tl second'; const s = document.createElement('summary'); s.textContent = `Second opinion · ATSMATRIX Core (local) · ${(race.ms / 1000).toFixed(1)} s`; const b = document.createElement('div'); b.className = 'tl md'; b.innerHTML = renderMarkdown(t); d.append(s, b); tOut.appendChild(d); tScroll(); }
+  })().catch(e => { race.done = true; race.err = e.message; });
+  return race;
+}
+/* ---------- widget + panel ---------- */
+let emUIT = 0; function emUIThrottled(){ if(emUIT) return; emUIT = setTimeout(() => { emUIT = 0; emUI(); }, 400); }
+function emGemText(){ const g = EM.gem; if(!gemKey()) return ['Gemini: no key', 'warn'];
+  if(navigator.onLine === false) return ['Gemini: offline', 'err'];
+  if(g.until > Date.now()){ if(g.state === 'daily') return [`Gemini: out of daily quota · back ${fmtT(g.until)}`, 'err']; if(g.state === 'rate') return [`Gemini: rate-limited until ${fmtT(g.until)}`, 'warn']; return [`Gemini: ${g.reason}`, 'warn']; }
+  return [`Gemini: OK · ${reqDayCount()} req today`, 'ok']; }
+function emLocText(){ const l = EM.loc; return l.state === 'ready' ? [`Local: ready · ${l.label}${l.tokps ? ' · ' + l.tokps + ' tok/s' : ''}`, 'ok'] : l.state === 'loading' ? [`Local: loading ${l.pct}%`, 'warn'] : l.state === 'error' ? ['Local: failed to load', 'err'] : ['Local: not loaded', 'muted']; }
+function emUI(){
+  const [gt, gc] = emGemText(), [lt, lc] = emLocText(); const mode = EM.pref.toUpperCase() + (EM.parallel && EM.pref === 'auto' ? ' · PARALLEL' : '');
+  for(const id of ['emw', 'emChip']){ const el = $(id); if(!el) continue; el.querySelector('.em-mode').textContent = mode + ' → ' + (EM.active === 'local' ? 'CORE' : 'GEMINI'); const g = el.querySelector('.em-g'), l = el.querySelector('.em-l'); g.textContent = gt; g.className = 'em-g ' + gc; l.textContent = lt; l.className = 'em-l ' + lc; }
+  window.__engine = { pref: EM.pref, parallel: EM.parallel, active: EM.active, gem: { ...EM.gem }, loc: { ...EM.loc }, models: JSON.parse(JSON.stringify(EM.models)), probes: EM.probes, switches: EM.switches.map(s => s.from + '→' + s.to + ': ' + s.reason) };
+  const p = $('enginePanel'); if(p && !p.hidden){ $('emStats').textContent = Object.entries(EM.models).map(([m, s]) => `${m}: ${s.req} req · ${s.ok} ok · 429/min ${s.r429m} · 429/day ${s.r429d} · 503 ${s.r503} · timeouts ${s.timeouts} · network ${s.net}`).join('\n') || 'No Gemini requests yet this session.'; }
+}
+function emSyncPanel(){ $('emPref').value = EM.pref; $('emPar').checked = EM.parallel; $('emPre').value = EM.preload; $('emModel').value = EM.coreModel; emUI(); }
+function emSetPref(v){ if(!['auto', 'gemini', 'local'].includes(v)) return false; EM.pref = v; emSave(); if(v === 'gemini') EM.active = 'gemini'; if(v === 'local') EM.active = 'local'; if(v === 'auto' && EM.gem.until) emScheduleProbe(); emSyncPanel(); return true; }
+/* warm-up: after the first interaction, when idle, if the network policy allows */
+let emWarmed = false;
+function emWarmup(){ if(emWarmed || EM.pref !== 'auto' || EM.loc.state !== 'idle') return; emWarmed = true;
+  const a = preloadAllowed(); if(!a.ok){ log('SYS', `Core preload skipped: ${a.why} (/engine load to load now)`); return; }
+  const go = () => coreLoad('background warm-up in Auto mode'); (window.requestIdleCallback || (f => setTimeout(f, 1500)))(go, { timeout: 8000 }); }
+['pointerdown', 'keydown'].forEach(t => window.addEventListener(t, () => setTimeout(emWarmup, 400), { once: true, capture: true }));
+window.addEventListener('online', emUI); window.addEventListener('offline', emUI); setInterval(emUI, 15000);
+
 async function agentRun({ goal, mode = 'chat', budget = null, timeBudget = null }){
   goal = String(goal || '').trim(); if(!goal) return;
   if(AG.run){ tLine('warn', 'The agent is still working. /stop first.'); return; }
+  const pre = emPreRoute(mode);
+  if(pre) return coreOnlyRun({ goal, mode, budget, timeBudget, reason: pre });
   if(!gemKey()){
     tLine('warn', '🔑 A Gemini API key is needed for the agent (free at https://aistudio.google.com/apikey). Open /keys and paste it there. Data commands (/iss, /sat, /apod, /weather, /neo, /epic, /people, /images, /wiki) work without one.');
     $('keysPanel').hidden = false; log('SYS', 'Agent request not run: no Gemini key set');
@@ -1387,9 +1677,11 @@ async function agentRun({ goal, mode = 'chat', budget = null, timeBudget = null 
   const turn = [{ role: 'user', parts: [{ text: (mode === 'invent' ? 'Invention idea to brainstorm: ' : mode === 'research' ? 'Research topic: ' : mode === 'auto' ? 'Goal: ' : '') + goal }] }];
   const history = mode === 'chat' ? turns.slice(-2).flat() : [];
   if(mode === 'chat'){ turns.push(turn); if(turns.length > 6) turns.shift(); }
-  const used = new Set(); let finalText = ''; let ended = 'done';
+  const used = new Set(); let finalText = ''; let ended = 'done'; let curView = null; run.engine = 'gemini';
+  const race = (EM.parallel && EM.pref === 'auto' && mode === 'chat') ? coreRace(run, goal, history) : null;
   const maxRounds = MAX_ROUNDS[mode] || 8;
   try{
+   try{
     for(;;){
       if(run.aborted) throw new DOMException('aborted', 'AbortError');
       const left = run.budget - run.reqs, overTime = Date.now() - run.t0 > run.timeBudget;
@@ -1399,7 +1691,7 @@ async function agentRun({ goal, mode = 'chat', budget = null, timeBudget = null 
         tools: [{ functionDeclarations: toolDecls(mode) }], generationConfig: { temperature: mode === 'invent' ? 0.8 : 0.5, thinkingConfig: { includeThoughts: true } } };
       if(finalOnly) body.toolConfig = { functionCallingConfig: { mode: 'NONE' } };
       run.state = finalOnly ? 'writing answer' : 'thinking'; renderRunMeta(run); termStatus(`${mode} · ${run.state} · request ${run.reqs + 1}/${run.budget}`);
-      const view = makeStreamView();
+      const view = curView = makeStreamView();
       const data = await gemini(body, { run, stream: true, onDelta: d => view.delta(d), label: mode, sysFn: () => SYSTEM_PROMPT(run) });
       const c = data?.candidates?.[0];
       if(!c) throw new Error('Gemini returned no candidates' + (data?.promptFeedback?.blockReason ? ' (blocked: ' + data.promptFeedback.blockReason + ')' : ''));
@@ -1438,6 +1730,13 @@ async function agentRun({ goal, mode = 'chat', budget = null, timeBudget = null 
       gHandoff(CL.VERIFICATION, CL.REASONING, { n: Math.min(10, 2 + responses.length * 2), color: 'var(--purple)' });
       log('AGENT', `fed ${responses.length} result(s) back to the model (round ${run.rounds})`);
     }
+   }catch(fe){
+    if(run.aborted || !emCanFailover(fe, run)) throw fe;
+    const partial = curView ? curView.abandon() : '';
+    if(race && race.done && race.text){ finalText = race.text; run.engine = 'local'; race.primary = 'local'; emSwitch('local', emReasonText(fe), { quiet: false }); }
+    else finalText = await coreTakeover(run, { goal, mode, history, turn, used, partial, reason: emReasonText(fe) });
+   }
+    if(race && run.engine === 'gemini'){ if(race.primary === 'local'){ curView && curView.toSecond('Second opinion · Gemini (arrived after ATSMATRIX Core)'); run.skipSpeak = true; } else race.primary = 'gemini'; }
     stage('VERIFY');
     const v = verifyCitations(finalText, used);
     const note = `Trace check: ${used.size} tool(s) used [${[...used].join(', ') || 'none'}]; answer cites ${v.cited.length} by name` +
@@ -1451,7 +1750,7 @@ async function agentRun({ goal, mode = 'chat', budget = null, timeBudget = null 
     tLine('sys', `${note} · ${run.reqs} Gemini request(s) · ${run.toolCalls} tool call(s) · ${Math.round((Date.now() - run.t0) / 1000)} s`);
     log('AGENT', `final answer · ${finalText.length} chars · ${run.rounds} round(s) · ${run.reqs} request(s)`);
     run.state = 'done';
-    if(finalText) speakAnswer(finalText, run);
+    if(finalText && !run.skipSpeak) speakAnswer(finalText, run);
   }catch(e){
     if(e.name === 'AbortError' || run.aborted){ ended = 'stopped'; run.state = 'stopped'; tLine('warn', `■ Stopped by user after ${run.reqs} request(s) and ${run.toolCalls} tool call(s).`); log('AGENT', 'stopped by user'); }
     else if(e.code === 'BUDGET'){ ended = 'budget'; run.state = 'budget exhausted'; tLine('warn', `Budget exhausted: ${run.reqs}/${run.budget} Gemini requests used before a final answer (retries count). Raise it with /budget <n> or simplify the goal.`); log('AGENT', 'budget exhausted'); }
@@ -1462,13 +1761,13 @@ async function agentRun({ goal, mode = 'chat', budget = null, timeBudget = null 
     (run.tasks || []).forEach(t => { if(t.status === 'active' && run.state !== 'done') t.status = 'pending'; });
     if(mode !== 'chat') renderTasks(run);
     AG.run = null; $('tStop').hidden = true; $('autoBadge').hidden = true; termStatus();
-    window.__lastRun = { mode, ended, reqs: run.reqs, budget: run.budget, toolCalls: run.toolCalls, tasks: run.tasks.map(t => t.status), finalChars: finalText.length };
+    window.__lastRun = { mode, ended, engine: run.engine, handoff: run.handoff || null, reqs: run.reqs, budget: run.budget, toolCalls: run.toolCalls, tasks: run.tasks.map(t => t.status), finalChars: finalText.length };
   }
   return window.__lastRun;
 }
 function stopAll(){
   let did = false;
-  if(AG.run){ AG.run.aborted = true; AG.run.abort.abort(); AG.run.ctrls.forEach(c => c.abort()); did = true; }
+  if(AG.run){ AG.run.aborted = true; AG.run.abort.abort(); AG.run.ctrls.forEach(c => c.abort()); try{ CORE.stopper && CORE.stopper.interrupt(); }catch(e){} did = true; }
   if(VOICE.speaking || VOICE.listening || VOICE.hands){ const wasHands = VOICE.hands; VOICE.hands = false; $('vHands').checked = false; stopSpeaking(); stopListening(); if(wasHands) tLine('sys', 'Hands-free off.'); did = true; }
   log('AGENT', 'stop requested'); return did;
 }
@@ -1828,7 +2127,7 @@ async function dataCmd(name, args, render){ try{ const r = await runTool(name, a
 const CMDS = {
   help: { d: 'list commands', run(){
     tLine('ok', 'ATSMATRIX terminal · data commands need no Gemini key · plain text goes to the agent');
-    const groups = [['LIVE DATA', ['iss','sat','apod','neo','weather','epic','people','images','wiki']], ['AGENT', ['invent','research','auto','stop','budget','model','keys']], ['VOICE', ['voice','listen','handsfree']], ['SYSTEM', ['install','watch','status','boot','ops','graph','clear','export','theme','help']]];
+    const groups = [['LIVE DATA', ['iss','sat','apod','neo','weather','epic','people','images','wiki']], ['AGENT', ['invent','research','auto','engine','stop','budget','model','keys']], ['VOICE', ['voice','listen','handsfree']], ['SYSTEM', ['install','watch','status','boot','ops','graph','clear','export','theme','help']]];
     for(const [g, list] of groups){ tLine('sys', '— ' + g); tKV(list.map(c => ['/' + c + (CMDS[c].a ? ' ' + CMDS[c].a : ''), CMDS[c].d])); }
     tLine('sys', 'Keys: ` or Ctrl+K toggles the terminal · Tab completes · ↑/↓ history · Esc closes panels.');
   }},
@@ -1877,6 +2176,18 @@ const CMDS = {
     tMD(md.join('\n')); toSynth('prior-art template'); } },
   research: { a: '<topic>', d: 'autonomous multi-step research with a visible plan', run: a => needArg(a, '/research how do CMEs affect GPS?') ? null : agentRun({ goal: a, mode: 'research' }) },
   auto: { a: '<goal>', d: `autonomous goal loop (plan → tools → self-check), budget ${'{n}'} requests`, run: a => needArg(a, '/auto find the next close asteroid approach and explain the risk') ? null : agentRun({ goal: a, mode: 'auto' }) },
+  engine: { a: 'auto|gemini|local|parallel on|off|load|probe|preload wifi|always|off|model tiny|small|plus|auto', d: 'Engine Monitor: Gemini ↔ ATSMATRIX Core (local) failover', async run(a){
+    const [x, y] = String(a || '').trim().toLowerCase().split(/\s+/);
+    if(['auto', 'gemini', 'local'].includes(x)){ emSetPref(x); tLine('ok', `Engine: ${x}${x === 'auto' ? ' (Gemini first, instant failover to ATSMATRIX Core)' : ''}.`); }
+    else if(x === 'parallel'){ EM.parallel = y !== 'off'; emSave(); tLine('ok', `Parallel mode ${EM.parallel ? 'on: both engines answer chat questions; first good answer wins' : 'off (sequential failover, saves quota)'}.`); }
+    else if(x === 'load'){ const ok = await coreLoad('manual'); tLine(ok ? 'ok' : 'err', ok ? `ATSMATRIX Core ready: ${EM.loc.label} (${EM.loc.device}).` : 'ATSMATRIX Core failed to load: ' + EM.loc.err); }
+    else if(x === 'probe'){ const r = await emProbe(true); tLine('sys', 'Probe: ' + JSON.stringify(r)); }
+    else if(x === 'preload' && ['wifi', 'always', 'off'].includes(y)){ EM.preload = y; emSave(); tLine('ok', 'Preload: ' + y); }
+    else if(x === 'model' && (CORE_MODELS[y] || y === 'auto')){ EM.coreModel = y; emSave(); tLine('ok', 'Local model: ' + y + (EM.loc.state === 'ready' ? ' (reload to apply)' : '')); }
+    const [gt] = emGemText(), [lt] = emLocText();
+    tKV([['engine', EM.pref + (EM.parallel ? ' + parallel' : '') + ' · active ' + (EM.active === 'local' ? 'ATSMATRIX Core (local)' : 'Gemini')], ['gemini', gt + (EM.gem.lastErr ? ' · last error: ' + EM.gem.lastErr : '')], ['local', lt + (EM.loc.err ? ' · ' + EM.loc.err : '')], ['preload', EM.preload + ' · ' + (preloadAllowed().ok ? 'allowed here' : preloadAllowed().why)], ['probes', String(EM.probes) + ' (max 1 request each)'],
+      ...Object.entries(EM.models).map(([m, s]) => [m, `${s.req} req · ${s.ok} ok · 429/min ${s.r429m} · 429/day ${s.r429d} · 503 ${s.r503} · timeouts ${s.timeouts} · net ${s.net}`])]);
+  } },
   stop: { d: 'stop the agent, speech, listening and hands-free', run(){ if(!stopAll()) tLine('sys', 'Nothing running.'); } },
   budget: { a: '[n]', d: 'show/set the request budget for /auto /research /invent', run: a => { if(a){ const n = parseInt(a); if(!(n >= 2 && n <= 60)){ tLine('warn', 'Budget must be 2–60 requests.'); return; } store.set(LSK2.budget, String(n)); }
     tLine('ok', `Run budget: ${autoBudget()} Gemini requests (time: 5 min for /auto, 4 min otherwise). This session: ${M.steps}; today in this browser (Pacific day): ${reqDayCount()}. Free tier is roughly 20/day on the fallback model.`); } },
@@ -2011,6 +2322,11 @@ $('hudToggle').onclick = () => { const hud = $('hud'); const c = hud.classList.t
 
 $('btnAuto').onclick = $('tAuto').onclick = () => { openTerm(); if(!$('tIn').value) $('tIn').value = '/auto '; $('tIn').focus(); renderSuggest(); };
 $('tKeys').onclick = () => { $('keysPanel').hidden = !$('keysPanel').hidden; };
+const emOpen = () => { openTerm(false); $('enginePanel').hidden = !$('enginePanel').hidden; emSyncPanel(); };
+$('tEngine').onclick = emOpen; $('emw').onclick = emOpen; $('emChip').onclick = () => { openTerm(false); $('enginePanel').hidden = false; emSyncPanel(); };
+$('emPref').onchange = e => emSetPref(e.target.value); $('emPar').onchange = e => { EM.parallel = e.target.checked; emSave(); emUI(); };
+$('emPre').onchange = e => { EM.preload = e.target.value; emSave(); }; $('emModel').onchange = e => { EM.coreModel = e.target.value; emSave(); CORE.forceKey = null; if(EM.loc.state === 'ready') tLine('sys', 'Model change applies after a reload.'); };
+$('emLoad').onclick = () => coreLoad('manual'); $('emProbeBtn').onclick = () => emProbe(true);
 $('tVoice').onclick = $('btnVoiceH').onclick = () => { openTerm(false); $('voicePanel').hidden = !$('voicePanel').hidden; fillVoices(); syncVoiceUI(); };
 $('tMic').onclick = $('vListen').onclick = () => { openTerm(false); startListening(false); };
 $('tExport').onclick = exportTranscript; $('tClear').onclick = tClear;
@@ -2116,7 +2432,7 @@ async function bootSequence(first){
 }
 (function boot(){
   const th = store.get(LSK.theme); if(th === 'dark' || th === 'light') document.documentElement.dataset.theme = th;
-  refreshKeyState(); buildGraph(); resize(); requestAnimationFrame(frame); updStats(); updGstat(); fillVoices(); syncVoiceUI(); syncNatUI(); updInstallBtn(); showVoicePrompt();
+  refreshKeyState(); buildGraph(); resize(); requestAnimationFrame(frame); updStats(); updGstat(); fillVoices(); syncVoiceUI(); syncNatUI(); updInstallBtn(); showVoicePrompt(); emUI(); if(EM.gem.until) emScheduleProbe();
   if(typeof satellite === 'undefined') log('ERR', 'satellite.js did not load (CDN blocked?); TLE propagation unavailable');
   log('SYS', `Booted · model ${model()} · NASA key: ${store.get(LSK.nasa) ? 'custom' : 'DEMO_KEY'} · Gemini key: ${gemKey() ? 'set' : 'not set'}`);
   const firstVisit = !store.get(LSK2.booted); store.set(LSK2.booted, '1');

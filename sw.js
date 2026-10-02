@@ -1,8 +1,8 @@
 /* ATSMATRIX service worker: offline app shell + CDN libs; network-first for live data.
    Never touches Gemini traffic and never caches URLs that carry an api_key. */
 'use strict';
-const VERSION = 'atsm-v3-2026-10-02c';
-const SHELL_CACHE = 'atsm-shell-' + VERSION, DATA_CACHE = 'atsm-data-v1', TILE_CACHE = 'atsm-tiles-v1';
+const VERSION = 'atsm-v3-2026-10-02d';
+const SHELL_CACHE = 'atsm-shell-' + VERSION, DATA_CACHE = 'atsm-data-v1', TILE_CACHE = 'atsm-tiles-v1', LIB_CACHE = 'atsm-lib-v1';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png', './icons/icon-maskable-512.png', './icons/apple-touch-icon.png', './icons/icon.svg'];
 const CDN = [
   'https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css',
@@ -62,6 +62,8 @@ self.addEventListener('fetch', e => {
   if(url.protocol !== 'https:' && url.protocol !== 'http:') return;
   if(url.hostname === 'generativelanguage.googleapis.com') return;            // Gemini: never intercepted or cached
   if(/[?&]api_key=/i.test(url.search)) return;                                // keyed NASA URLs: straight to network, never cached
+  if(/(^|\.)(huggingface\.co|hf\.co)$/.test(url.hostname) || /xethub/.test(url.hostname)) return; // local-model weights: Transformers.js caches them itself
+  if(url.hostname === 'cdn.jsdelivr.net' && /^\/npm\/(@huggingface\/transformers|onnxruntime-web)@/.test(url.pathname)) return e.respondWith(cacheFirst(req, LIB_CACHE, 40)); // pinned local-engine runtime (works offline once loaded)
   if(url.origin === self.location.origin){
     if(req.mode === 'navigate') return e.respondWith(networkFirst(req, SHELL_CACHE, { timeout: 4000, fallbackUrl: './index.html' }));
     return e.respondWith(networkFirst(req, SHELL_CACHE, { timeout: 4000 }));
