@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <title>ATSMATRIX // Autonomous Research Agent · NASA + Live Satellites</title>
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#0b1220">
+<meta name="theme-color" content="#000000">
 <meta name="description" content="ATSMATRIX: autonomous research and invention agent on live NASA and satellite data, with a voice terminal.">
 <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
@@ -15,20 +15,23 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="ATSMATRIX">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Share+Tech+Mono&display=swap">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css"
       integrity="sha384-sHL9NAb7lN7rfvG5lfHpm643Xkcjzp4jFvuavGOndn6pjVqS6ny56CAt3nsEVT4H" crossorigin="anonymous">
 <style>
 :root{
-  --bg:#f6f8fa; --panel:rgba(255,255,255,0.96); --border:#e2e8f0; --text:#0f172a; --muted:#64748b;
+  --bg:#f6f8fa; --panel:rgba(255,255,255,0.96); --border:#e2e8f0; --text:#0a0a0a; --muted:#64748b;
   --blue:#0284c7; --magenta:#e11d48; --purple:#7c3aed; --cyan:#06b6d4; --amber:#f59e0b; --green:#16a34a;
-  --mono:'JetBrains Mono','Fira Code',Consolas,monospace;
-  --sans:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --mono:'Share Tech Mono','JetBrains Mono','Fira Code',Consolas,monospace;
+  --sans:'Share Tech Mono','JetBrains Mono',system-ui,-apple-system,'Segoe UI',Roboto,monospace;
+  --stencil:'Black Ops One','Saira Stencil One',Impact,'Arial Black',sans-serif;
   --shadow:0 8px 30px rgba(15,23,42,0.08); --tile:#e2e8f0; --canvas-bg:#f8fafc;
 }
 [data-theme="dark"]{
-  --bg:#030712; --panel:rgba(15,23,42,0.94); --border:#1e293b; --text:#e2e8f0; --muted:#94a3b8;
-  --blue:#38bdf8; --magenta:#f43f5e; --purple:#a855f7; --cyan:#22d3ee; --amber:#fbbf24; --green:#4ade80;
-  --shadow:0 8px 30px rgba(0,0,0,0.45); --tile:#1e293b; --canvas-bg:#020617;
+  --bg:#000; --panel:rgba(6,6,6,0.97); --border:#2a2a2a; --text:#f5f5f5; --muted:#a3a3a3;
+  --blue:#38bdf8; --magenta:#ff3b5c; --purple:#c084fc; --cyan:#22e5ff; --amber:#ffc400; --green:#3dff7a;
+  --shadow:0 8px 30px rgba(0,0,0,0.7); --tile:#1a1a1a; --canvas-bg:#000;
 }
 *{box-sizing:border-box}
 html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font-family:var(--sans);overflow:hidden}
@@ -131,20 +134,20 @@ details summary{cursor:pointer;font-size:12px;color:var(--blue)}
 .ctabs{display:flex;gap:6px;margin:10px 0 6px;flex-wrap:wrap}
 .ctabs button{font-size:10.5px;padding:6px 10px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--muted)}
 .ctabs button.active{background:var(--purple);color:#fff;border-color:var(--purple)}
-pre.code{background:#0b1220;color:#e2e8f0;font-family:var(--mono);font-size:11.5px;padding:12px;border-radius:8px;overflow:auto;white-space:pre}
+pre.code{background:#000;color:#e2e8f0;font-family:var(--mono);font-size:11.5px;padding:12px;border-radius:8px;overflow:auto;white-space:pre}
 .mbox textarea{width:100%;height:90px;font-family:var(--mono);font-size:11.5px;border:1px solid var(--border);border-radius:8px;background:transparent;color:var(--text);padding:8px}
 .leaflet-container{background:var(--canvas-bg)}
 [data-theme="dark"] .leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) brightness(.9) contrast(.9)}
 .satIcon{font-size:20px;line-height:20px;text-align:center;filter:drop-shadow(0 0 3px rgba(0,0,0,.6))}
-.satLbl{font-family:var(--mono);font-size:10px;font-weight:700;background:rgba(15,23,42,.8);color:#fff;border-radius:4px;padding:1px 4px;white-space:nowrap;display:inline-block}
+.satLbl{font-family:var(--mono);font-size:10px;font-weight:700;background:rgba(10,10,10,.85);color:#fff;border-radius:4px;padding:1px 4px;white-space:nowrap;display:inline-block}
 @media (max-width:900px){#hud{grid-template-columns:1fr;height:auto;max-height:45vh;overflow:auto}#opsView.show{grid-template-columns:1fr;overflow:auto}#mapWrap{min-height:320px}#chat{width:calc(100vw - 20px);right:10px}.legend{display:none}.pillbar{top:52px;width:92vw}}
 [hidden]{display:none!important}
 /* ---------- terminal ---------- */
 :root{--termW:min(620px,46vw)}
 #stage.term-open #graphView,#stage.term-open #opsView{right:var(--termW)}
-#term{position:absolute;top:0;right:0;bottom:0;width:var(--termW);display:none;flex-direction:column;background:#0b1220;color:#dbe4f0;border-left:1px solid #1e293b;z-index:15;font-family:var(--mono);box-shadow:-12px 0 30px rgba(0,0,0,.18)}
+#term{position:absolute;top:0;right:0;bottom:0;width:var(--termW);display:none;flex-direction:column;background:#000;color:#dbe4f0;border-left:1px solid #262626;z-index:15;font-family:var(--mono);box-shadow:-12px 0 30px rgba(0,0,0,.18)}
 #stage.term-open #term{display:flex}
-.term-h{display:flex;align-items:center;gap:8px;padding:7px 10px;border-bottom:1px solid #1e293b;font-size:10.5px;flex-wrap:wrap}
+.term-h{display:flex;align-items:center;gap:8px;padding:7px 10px;border-bottom:1px solid #262626;font-size:10.5px;flex-wrap:wrap}
 .term-title{font-weight:800;letter-spacing:.14em;color:#7dd3fc}
 .term-status{color:#94a3b8;flex:1;min-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .term-btns{display:flex;gap:4px}
@@ -158,8 +161,8 @@ pre.code{background:#0b1220;color:#e2e8f0;font-family:var(--mono);font-size:11.5
 .badge.auto{background:#f59e0b;color:#111}
 .badge.watch{background:#0e7490;color:#fff}
 @keyframes blink{50%{opacity:.55}}
-.tpanel{border-bottom:1px solid #1e293b;padding:8px 12px;font-size:11px;display:flex;flex-direction:column;gap:6px;background:#0e1628;max-height:45%;overflow:auto}
-.tpanel input[type=password],.tpanel input[type=text],.tpanel select,.tpanel input:not([type]){background:#0b1220;border:1px solid #23314d;color:#dbe4f0;border-radius:6px;padding:5px 7px;font-family:var(--mono);font-size:11px}
+.tpanel{border-bottom:1px solid #262626;padding:8px 12px;font-size:11px;display:flex;flex-direction:column;gap:6px;background:#070707;max-height:45%;overflow:auto}
+.tpanel input[type=password],.tpanel input[type=text],.tpanel select,.tpanel input:not([type]){background:#000;border:1px solid #23314d;color:#dbe4f0;border-radius:6px;padding:5px 7px;font-family:var(--mono);font-size:11px}
 .tpanel .row{gap:6px;flex-wrap:wrap}
 .tpanel button{background:#111a2e;border:1px solid #23314d;color:#dbe4f0;border-radius:6px;font-size:10.5px;padding:4px 8px}
 .tpanel a{color:#7dd3fc}
@@ -183,7 +186,7 @@ pre.code{background:#0b1220;color:#e2e8f0;font-family:var(--mono);font-size:11.5
 .tl.md a,.tout a{color:#7dd3fc}
 .codewrap{position:relative;margin:6px 0}
 .codewrap pre{background:#060b16;border:1px solid #1f2d4a;padding:8px;border-radius:6px;overflow:auto;font-size:11.5px;margin:0}
-.codewrap .copy{position:absolute;top:4px;right:4px;background:#1e293b;color:#cbd5e1;border:1px solid #334155;border-radius:4px;font-size:10px;padding:1px 6px}
+.codewrap .copy{position:absolute;top:4px;right:4px;background:#262626;color:#cbd5e1;border:1px solid #3a3a3a;border-radius:4px;font-size:10px;padding:1px 6px}
 .caret::after{content:'▍';animation:blink .9s infinite;color:#38bdf8}
 .tkv{display:grid;grid-template-columns:auto 1fr;gap:1px 12px;margin:3px 0 3px 2px;font-size:11.5px}
 .tkv b{color:#8191a8;font-weight:600}
@@ -191,9 +194,9 @@ pre.code{background:#0b1220;color:#e2e8f0;font-family:var(--mono);font-size:11.5
 .timgs a{color:#cbd5e1;font-size:10.5px;text-decoration:none}
 .timgs img,.tl img{max-width:100%;border-radius:6px;display:block}
 .tl img.big{max-height:260px;object-fit:contain}
-.tsuggest{border-top:1px solid #1e293b;background:#0e1628;max-height:150px;overflow:auto;font-size:11px;padding:4px 10px}
+.tsuggest{border-top:1px solid #262626;background:#070707;max-height:150px;overflow:auto;font-size:11px;padding:4px 10px}
 .tsuggest div{padding:1px 0;color:#8191a8} .tsuggest div b{color:#7dd3fc;font-weight:700} .tsuggest div.sel b{color:#fbbf24}
-.tprompt{display:flex;align-items:center;gap:6px;border-top:1px solid #1e293b;padding:8px 10px}
+.tprompt{display:flex;align-items:center;gap:6px;border-top:1px solid #262626;padding:8px 10px}
 .ps1{color:#38bdf8;font-weight:800;font-size:12px;white-space:nowrap}
 .tprompt input{flex:1;background:transparent;border:none;outline:none;color:#e2e8f0;font-family:var(--mono);font-size:12.5px;min-width:0}
 .tprompt button{background:#0284c7;border:none;color:#fff;border-radius:6px;padding:4px 10px;font-weight:800}
@@ -204,7 +207,7 @@ pre.code{background:#0b1220;color:#e2e8f0;font-family:var(--mono);font-size:11.5
 @media (max-width:900px){:root{--termW:100vw}#stage.term-open #graphView,#stage.term-open #opsView{right:0}}
 #stage.term-open .pillbar{top:52px;left:14px;transform:none;width:min(560px,calc(100% - 28px))}
 /* ---------- v3: voice prompt, tap hint, install tip ---------- */
-.vprompt{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:60;display:flex;align-items:center;gap:14px;background:#0b1220;color:#e2e8f0;border:1px solid #38bdf8;border-radius:14px;padding:14px 16px;box-shadow:0 18px 50px rgba(2,6,23,.45);max-width:min(640px,calc(100vw - 24px));font-size:13px}
+.vprompt{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:60;display:flex;align-items:center;gap:14px;background:#000;color:#e2e8f0;border:1px solid #38bdf8;border-radius:14px;padding:14px 16px;box-shadow:0 18px 50px rgba(2,6,23,.45);max-width:min(640px,calc(100vw - 24px));font-size:13px}
 .vprompt .vp-ic{font-size:30px}
 .vprompt .vp-txt div{color:#94a3b8;font-size:12px;margin-top:3px}
 .vprompt code{color:#7dd3fc}
@@ -294,20 +297,64 @@ header{padding-top:max(10px,env(safe-area-inset-top));padding-left:max(18px,env(
   .ftag{font-size:9px}
 }
 #opsView{z-index:1}#mapWrap{isolation:isolate}
-@media (min-width:761px) and (max-width:900px){#term{top:auto;height:62%;width:100%;border-left:none;border-top:1px solid #1e293b;box-shadow:0 -12px 30px rgba(0,0,0,.25)}}
+@media (min-width:761px) and (max-width:900px){#term{top:auto;height:62%;width:100%;border-left:none;border-top:1px solid #262626;box-shadow:0 -12px 30px rgba(0,0,0,.25)}}
 @media (max-width:760px){.vprompt{z-index:75}.itip{z-index:76}.taphint{z-index:74}}
 @media (max-width:380px){.mquick .btn{padding:6px 9px;font-size:11px}.brand-main{font-size:14px}}
 @media (max-width:760px) and (orientation:landscape){#hud.collapsed .stats{display:none}#hud{max-height:40vh}}
 /* ---------- engine monitor ---------- */
-.emw{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center;padding:4px 12px;border-bottom:1px solid #1e293b;font-size:10.5px;background:#0a1324;cursor:pointer}
+.emw{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center;padding:4px 12px;border-bottom:1px solid #262626;font-size:10.5px;background:#050505;cursor:pointer}
 .emw b{color:#fbbf24;letter-spacing:.1em}.emw .em-mode{color:#c4b5fd;font-weight:700}
 .em-g.ok,.em-l.ok{color:#4ade80}.em-g.warn,.em-l.warn{color:#fbbf24}.em-g.err,.em-l.err{color:#f87171}.em-l.muted,.em-g.muted{color:#8191a8}
 .emchip{position:absolute;right:14px;top:56px;z-index:5;display:flex;flex-direction:column;gap:1px;font-family:var(--mono);font-size:10px;background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:5px 9px;box-shadow:var(--shadow);cursor:pointer;max-width:270px}
 .emchip b{font-size:9.5px;letter-spacing:.12em;color:var(--amber)}.emchip .em-mode{color:var(--purple);font-weight:700}
 .emchip .ok{color:var(--green)}.emchip .warn{color:var(--amber)}.emchip .err{color:var(--magenta)}.emchip .muted{color:var(--muted)}
 #stage.term-open .emchip{display:none}
-details.tl.second{border:1px dashed #334155;border-radius:8px;padding:4px 8px;margin:6px 0}details.tl.second summary{color:#c4b5fd;font-size:11.5px;cursor:pointer}
+details.tl.second{border:1px dashed #3a3a3a;border-radius:8px;padding:4px 8px;margin:6px 0}details.tl.second summary{color:#c4b5fd;font-size:11.5px;cursor:pointer}
 @media (max-width:760px){.emchip{top:112px;right:8px;font-size:9.5px;max-width:60vw}.emw{font-size:10px;padding:3px 8px}}
+/* ---------- v3.3: black ops theme, stencil type, TV, layout ---------- */
+body{font-family:var(--sans)}
+.brand-main,.hud-title,.card h3,.tab,.term-title,.btn,.pillbar label,.pillbar button,.emchip b,.emw b,.tv-h b,#tabbar button,.mbox h2,.stat .l,.pipe div,.vprompt b{font-family:var(--stencil);font-weight:400;letter-spacing:.08em}
+.brand-main .t-long,.brand-main .t-short{color:transparent;-webkit-text-stroke:1px var(--text);text-stroke:1px var(--text);letter-spacing:.06em}
+@supports not (-webkit-text-stroke:1px #fff){.brand-main .t-long,.brand-main .t-short{color:var(--text)}}
+[data-theme="light"] .brand-main .t-long,[data-theme="light"] .brand-main .t-short{-webkit-text-stroke:1px #0f172a}
+[data-theme="dark"] header{background:#000;border-bottom-color:#262626}
+[data-theme="dark"] .btn{background:#0a0a0a;border-color:#333}
+[data-theme="dark"] .card,[data-theme="dark"] #hud{background:#050505}
+.term-title{color:#22e5ff}
+.tv{position:fixed;right:16px;bottom:226px;width:360px;z-index:55;background:#000;border:1px solid #333;border-radius:12px;box-shadow:0 20px 50px rgba(0,0,0,.6);overflow:hidden;color:#f5f5f5}
+.tv-h{display:flex;align-items:center;gap:6px;padding:5px 6px 5px 10px;background:#0a0a0a;cursor:move;touch-action:none;user-select:none}
+.tv-h b{font-size:11px;color:#ff3b5c;white-space:nowrap}
+.tv-h select{flex:1;min-width:0;background:#000;color:#f5f5f5;border:1px solid #333;border-radius:6px;font-family:var(--mono);font-size:11px;padding:3px}
+.tv-h button{background:#111;color:#f5f5f5;border:1px solid #333;border-radius:6px;min-width:30px;min-height:28px}
+.tv-body{position:relative;aspect-ratio:16/9;background:#000}.tv-body iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.tv-src{font-family:var(--mono);font-size:10px;color:#a3a3a3;padding:3px 10px 5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tv.min .tv-body,.tv.min .tv-src{display:none}
+#tabbar{display:none}
+@media (min-width:761px) and (max-width:1100px){:root{--termW:50vw}#stage.term-open #graphView,#stage.term-open #opsView{right:var(--termW)}#term{top:0!important;height:auto!important;bottom:0;width:var(--termW)!important;border-left:1px solid #262626!important;border-top:none!important}.tv{width:300px}}
+@media (pointer:coarse){.tv-h button{min-width:44px;min-height:44px}.tv-h select{min-height:40px;font-size:16px}}
+@media (max-width:760px){
+  #tabbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:72;background:#000;border-top:1px solid #2a2a2a;padding-bottom:env(safe-area-inset-bottom);padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
+  [data-theme="light"] #tabbar{background:#fff;border-top-color:#e2e8f0}
+  #tabbar button{flex:1;min-width:0;height:56px;min-height:56px;white-space:nowrap;overflow:hidden;letter-spacing:.04em;background:transparent;border:none;color:var(--muted);font-size:9.5px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:4px 2px}
+  #tabbar button span{font-size:18px;font-family:system-ui,sans-serif}
+  #tabbar button.active{color:var(--cyan);box-shadow:inset 0 2px 0 var(--cyan)}
+  html.kb-open #tabbar{display:none}
+  #app{padding-bottom:calc(57px + env(safe-area-inset-bottom))}
+  #hud,.mquick #btnTermM,.tabs{display:none!important}
+  #term{height:calc(var(--vvh,100dvh) - 57px - env(safe-area-inset-bottom))}
+  html.kb-open #term{height:var(--vvh,100dvh)}
+  #term.settings .tout,#term.settings .tprompt,#term.settings .tsuggest,#term.settings .emw{display:none}
+  #term.settings .tpanel{max-height:none;flex:0 0 auto}
+  #term.settings{overflow-y:auto}
+  #term.settings .term-h .term-btns{display:none}
+  .pillbar,#stage.term-open .pillbar{top:8px}
+  .emchip{top:62px}
+  #opsView{padding-top:8px}
+  .tv{left:8px;right:8px;width:auto;bottom:calc(66px + env(safe-area-inset-bottom))}
+  body[data-mv="tv"] .tv{top:calc(env(safe-area-inset-top) + 64px);bottom:calc(64px + env(safe-area-inset-bottom));border-radius:10px}
+  body[data-mv="tv"] .tv-h{cursor:default}
+  .itip,.vprompt,.taphint{bottom:calc(70px + env(safe-area-inset-bottom))}
+}
 </style>
 </head>
 <body>
@@ -339,6 +386,7 @@ details.tl.second{border:1px dashed #334155;border-radius:8px;padding:4px 8px;ma
     <button class="btn" id="btnBoost" title="Visual only: doubles the graph's drift speed">🚀 BOOST: 2X</button>
     <button class="btn" id="btnReset" title="Clear log, stats, evidence wall, terminal and agent session">↺ RESET</button>
     <button class="btn primary" id="btnInstall" hidden title="Install ATSMATRIX as an app (/install)">⬇ INSTALL APP</button>
+    <button class="btn" id="btnTv" title="Live TV picture-in-picture (/tv)">📺 LIVE TV</button>
     <button class="btn" id="btnVoiceH" title="Voice settings">🔊</button>
     <button class="btn" id="btnTheme" title="Toggle light/dark theme" aria-label="Toggle theme">🌓</button>
   </div>
@@ -460,6 +508,14 @@ details.tl.second{border:1px dashed #334155;border-radius:8px;padding:4px 8px;ma
 </div>
 </div>
 
+<div id="tv" class="tv" hidden role="dialog" aria-label="Live TV">
+  <div class="tv-h" id="tvBar"><b>📺 LIVE TV</b><select id="tvCh" aria-label="Channel"></select><button id="tvMin" title="Collapse / expand" aria-label="Collapse">▁</button><button id="tvClose" title="Close (/tv off)" aria-label="Close">✕</button></div>
+  <div class="tv-body"><iframe id="tvFrame" title="Live TV" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+  <div class="tv-src" id="tvSrc"></div>
+</div>
+<nav id="tabbar" aria-label="Sections">
+  <button data-mv="term"><span>⌨</span>TERMINAL</button><button data-mv="graph"><span>◉</span>GRAPH</button><button data-mv="ops"><span>🛰</span>SPACE OPS</button><button data-mv="tv"><span>📺</span>TV</button><button data-mv="settings"><span>⚙</span>SETTINGS</button>
+</nav>
 <div id="modal" role="dialog" aria-modal="true">
   <div class="mbox">
     <div class="row" style="justify-content:space-between"><h2>⚡ Connect your AI (how it really works)</h2><button class="btn small" id="btnCloseModal">✕</button></div>
@@ -988,7 +1044,7 @@ function showView(v){
   document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.view === v));
   $('graphView').style.display = v === 'graph' ? '' : 'none';
   $('opsView').classList.toggle('show', v === 'ops');
-  $('btnOps').classList.toggle('on', v === 'ops');
+  $('btnOps').classList.toggle('on', v === 'ops'); if(typeof syncTabbar === 'function') setTimeout(syncTabbar, 0);
   if(v === 'ops'){
     initMap(); setTimeout(() => map && map.invalidateSize(), 60);
     if(!issTimer){ pollISS(); issTimer = setInterval(() => { pollISS(); updateTracked(); }, 5000); }
@@ -2127,7 +2183,7 @@ async function dataCmd(name, args, render){ try{ const r = await runTool(name, a
 const CMDS = {
   help: { d: 'list commands', run(){
     tLine('ok', 'ATSMATRIX terminal · data commands need no Gemini key · plain text goes to the agent');
-    const groups = [['LIVE DATA', ['iss','sat','apod','neo','weather','epic','people','images','wiki']], ['AGENT', ['invent','research','auto','engine','stop','budget','model','keys']], ['VOICE', ['voice','listen','handsfree']], ['SYSTEM', ['install','watch','status','boot','ops','graph','clear','export','theme','help']]];
+    const groups = [['LIVE DATA', ['iss','sat','apod','neo','weather','epic','people','images','wiki']], ['AGENT', ['invent','research','auto','engine','stop','budget','model','keys']], ['VOICE', ['voice','listen','handsfree']], ['SYSTEM', ['install','tv','watch','status','boot','ops','graph','clear','export','theme','help']]];
     for(const [g, list] of groups){ tLine('sys', '— ' + g); tKV(list.map(c => ['/' + c + (CMDS[c].a ? ' ' + CMDS[c].a : ''), CMDS[c].d])); }
     tLine('sys', 'Keys: ` or Ctrl+K toggles the terminal · Tab completes · ↑/↓ history · Esc closes panels.');
   }},
@@ -2188,6 +2244,11 @@ const CMDS = {
     tKV([['engine', EM.pref + (EM.parallel ? ' + parallel' : '') + ' · active ' + (EM.active === 'local' ? 'ATSMATRIX Core (local)' : 'Gemini')], ['gemini', gt + (EM.gem.lastErr ? ' · last error: ' + EM.gem.lastErr : '')], ['local', lt + (EM.loc.err ? ' · ' + EM.loc.err : '')], ['preload', EM.preload + ' · ' + (preloadAllowed().ok ? 'allowed here' : preloadAllowed().why)], ['probes', String(EM.probes) + ' (max 1 request each)'],
       ...Object.entries(EM.models).map(([m, s]) => [m, `${s.req} req · ${s.ok} ok · 429/min ${s.r429m} · 429/day ${s.r429d} · 503 ${s.r503} · timeouts ${s.timeouts} · net ${s.net}`])]);
   } },
+  tv: { a: '[on|off|next|list|1-4]', d: 'Live TV picture-in-picture (NASA ISS live, Sen 4K, afarTV)', run(a){ a = String(a || '').trim().toLowerCase();
+    if(a === 'off'){ tvClose(); tLine('sys', 'Live TV off.'); return; }
+    if(a === 'list'){ TV_CHANNELS.forEach((c, i) => tLine('sys', `${i + 1}. ${c.name} · ${c.src}`)); return; }
+    const n = parseInt(a); if(n >= 1 && n <= TV_CHANNELS.length){ tvOpen(n - 1); } else if(a === 'next'){ tvOpen(TV.ch + 1); } else if(a === 'on' || !a){ if(TV.on && !a){ tvClose(); tLine('sys', 'Live TV off.'); return; } tvOpen(); }
+    tLine('ok', `📺 Live TV: ${TV_CHANNELS[TV.ch].name} (muted autoplay; tap the player for sound). /tv next · /tv list · /tv off`); } },
   stop: { d: 'stop the agent, speech, listening and hands-free', run(){ if(!stopAll()) tLine('sys', 'Nothing running.'); } },
   budget: { a: '[n]', d: 'show/set the request budget for /auto /research /invent', run: a => { if(a){ const n = parseInt(a); if(!(n >= 2 && n <= 60)){ tLine('warn', 'Budget must be 2–60 requests.'); return; } store.set(LSK2.budget, String(n)); }
     tLine('ok', `Run budget: ${autoBudget()} Gemini requests (time: 5 min for /auto, 4 min otherwise). This session: ${M.steps}; today in this browser (Pacific day): ${reqDayCount()}. Free tier is roughly 20/day on the fallback model.`); } },
@@ -2292,8 +2353,8 @@ $('tIn').addEventListener('blur', () => setTimeout(() => { $('tSuggest').hidden 
 /* =====================================================================
    UI WIRING
    ===================================================================== */
-function openTerm(focus = true){ const s = $('stage'); if(!s.classList.contains('term-open')){ s.classList.add('term-open'); requestAnimationFrame(() => { resize(); if(map) map.invalidateSize(); }); } $('btnChat').classList.add('on'); if(focus && !matchMedia('(pointer: coarse)').matches) setTimeout(() => $('tIn').focus(), 0); setMenu(false); syncVV(); }
-function closeTerm(){ $('stage').classList.remove('term-open'); $('btnChat').classList.remove('on'); requestAnimationFrame(() => { resize(); if(map) map.invalidateSize(); }); }
+function openTerm(focus = true){ const s = $('stage'); if(!s.classList.contains('term-open')){ s.classList.add('term-open'); requestAnimationFrame(() => { resize(); if(map) map.invalidateSize(); }); } $('btnChat').classList.add('on'); setTimeout(() => typeof syncTabbar === 'function' && syncTabbar(), 0); if(focus && !matchMedia('(pointer: coarse)').matches) setTimeout(() => $('tIn').focus(), 0); setMenu(false); syncVV(); }
+function closeTerm(){ $('stage').classList.remove('term-open'); $('btnChat').classList.remove('on'); setTimeout(() => typeof syncTabbar === 'function' && syncTabbar(), 0); requestAnimationFrame(() => { resize(); if(map) map.invalidateSize(); }); }
 function toggleTerm(){ $('stage').classList.contains('term-open') ? closeTerm() : openTerm(); }
 function refreshKeyState(){
   $('gemState').textContent = gemKey() ? '· saved ✓' : '· not set';
@@ -2361,6 +2422,49 @@ $('btnWx').onclick = loadWx;
 $('btnNeo').onclick = () => { cacheDel(`neo.${utcDate()}.${utcDate()}`); loadNeo(); };
 $('btnPeople').onclick = loadPeople; $('btnEpic').onclick = loadEpic;
 $('btnTheme').onclick = () => CMDS.theme.run();
+/* ---------- v3.3: Live TV (picture-in-picture, youtube-nocookie, muted autoplay) ---------- */
+const TV_CHANNELS = [ // verified 2026-10-02: oEmbed 200 (embedding allowed), isLiveNow true, plays in an embedded player
+  { id: 'M3HKLzjvKPc', name: 'NASA · ISS live video (official)', src: 'NASA official YouTube' },
+  { id: 'awQzjn72bI0', name: 'NASA · ISS HD Earth views (official)', src: 'NASA official YouTube' },
+  { id: 'fO9e9jnhYK8', name: 'Sen · 4K Earth from the ISS', src: 'Sen (free 24/7 stream)' },
+  { id: 'tj4knR4r1UU', name: 'afarTV · ISS Earth view 24/7', src: 'afarTV (relays NASA HD cameras)' }
+];
+const LSK5 = { tv: 'atsm.tv' };
+const TV = Object.assign({ ch: 0, x: null, y: null, min: false }, (() => { try{ return JSON.parse(store.get(LSK5.tv, '{}')) || {}; }catch(e){ return {}; } })(), { on: false });
+const tvUrl = c => `https://www.youtube-nocookie.com/embed/${encodeURIComponent(c.id)}?autoplay=1&mute=1&playsinline=1&rel=0&modestbranding=1`;
+function tvSave(){ store.set(LSK5.tv, JSON.stringify({ ch: TV.ch, x: TV.x, y: TV.y, min: TV.min })); }
+function tvFill(){ const s = $('tvCh'); if(s.options.length) return; TV_CHANNELS.forEach((c, i) => { const o = document.createElement('option'); o.value = i; o.textContent = c.name; s.appendChild(o); }); }
+function tvTune(i){ TV.ch = ((i % TV_CHANNELS.length) + TV_CHANNELS.length) % TV_CHANNELS.length; const c = TV_CHANNELS[TV.ch]; $('tvCh').value = TV.ch; $('tvSrc').textContent = c.src + ' · muted autoplay · tap the player for sound';
+  if(TV.on){ $('tvFrame').src = tvUrl(c); } tvSave(); log('SYS', 'Live TV: ' + c.name); }
+function tvPlace(){ const el = $('tv'); if(matchMedia('(max-width: 760px)').matches || TV.x == null){ el.style.left = el.style.top = ''; el.style.right = el.style.bottom = ''; return; }
+  const w = el.offsetWidth || 360, hh = el.offsetHeight || 240; el.style.left = Math.max(4, Math.min(innerWidth - w - 4, TV.x)) + 'px'; el.style.top = Math.max(4, Math.min(innerHeight - 40, TV.y)) + 'px'; el.style.right = 'auto'; el.style.bottom = 'auto'; }
+function tvOpen(i = TV.ch){ tvFill(); TV.on = true; $('tv').hidden = false; $('tv').classList.toggle('min', !!TV.min); tvTune(i); tvPlace(); $('btnTv').classList.add('on'); window.__tv = { on: true, ch: TV.ch, url: $('tvFrame').src }; }
+function tvClose(){ TV.on = false; $('tv').hidden = true; $('tvFrame').src = 'about:blank'; $('btnTv').classList.remove('on'); window.__tv = { on: false }; if(document.body.dataset.mv === 'tv') setMView('graph'); }
+$('tvCh').onchange = e => tvTune(+e.target.value);
+$('tvClose').onclick = tvClose;
+$('tvMin').onclick = () => { TV.min = !$('tv').classList.toggle('min') ? false : true; tvSave(); };
+$('btnTv').onclick = () => TV.on ? tvClose() : tvOpen();
+(() => { let drag = null; const bar = $('tvBar');
+  bar.addEventListener('pointerdown', e => { if(e.target.closest('button,select') || matchMedia('(max-width: 760px)').matches) return; const r = $('tv').getBoundingClientRect(); drag = { dx: e.clientX - r.left, dy: e.clientY - r.top }; bar.setPointerCapture(e.pointerId); });
+  bar.addEventListener('pointermove', e => { if(!drag) return; TV.x = e.clientX - drag.dx; TV.y = e.clientY - drag.dy; tvPlace(); });
+  bar.addEventListener('pointerup', () => { if(drag){ drag = null; tvSave(); } });
+  window.addEventListener('resize', () => { if(TV.on) tvPlace(); }); })();
+/* ---------- v3.3: phone bottom tab bar, one view at a time ---------- */
+const isPhoneW = () => matchMedia('(max-width: 760px)').matches;
+function setMView(v){
+  if(document.body.dataset.mv === 'settings' && v !== 'settings') ['keysPanel', 'voicePanel', 'enginePanel'].forEach(id => $(id).hidden = true);
+  document.body.dataset.mv = v; $('term').classList.toggle('settings', v === 'settings');
+  if(v === 'term' || v === 'settings'){ openTerm(false); if(v === 'settings'){ ['keysPanel', 'voicePanel', 'enginePanel'].forEach(id => $(id).hidden = false); fillVoices(); syncVoiceUI(); emSyncPanel(); } }
+  else { if($('stage').classList.contains('term-open')) closeTerm(); if(v === 'ops' || v === 'graph') showView(v); if(v === 'tv'){ showView('graph'); if(!TV.on) tvOpen(); $('tv').classList.remove('min'); } }
+  if(v !== 'tv' && TV.on && isPhoneW()) $('tv').classList.add('min');
+  syncTabbar();
+}
+function syncTabbar(){ const open = $('stage').classList.contains('term-open'); let v = document.body.dataset.mv || 'graph';
+  if(open && v !== 'settings') v = 'term'; if(!open && (v === 'term' || v === 'settings')) v = $('opsView').classList.contains('show') ? 'ops' : 'graph';
+  if(v !== 'settings') $('term').classList.remove('settings'); document.body.dataset.mv = v;
+  document.querySelectorAll('#tabbar button').forEach(b => { b.classList.toggle('active', b.dataset.mv === v); b.setAttribute('aria-current', b.dataset.mv === v ? 'page' : 'false'); }); }
+document.querySelectorAll('#tabbar button').forEach(b => b.onclick = () => setMView(b.dataset.mv));
+
 $('btnBoost').onclick = () => { speed = speed === 1 ? 2 : 1; $('btnBoost').classList.toggle('on', speed === 2); $('btnBoost').textContent = speed === 2 ? '🚀 BOOST: ON (2X)' : '🚀 BOOST: 2X'; };
 $('btnReset').onclick = () => { stopAll(); M.calls = 0; M.steps = 0; M.errors = 0; M.sources.clear(); M.lat = []; M.last = null; updStats(); $('log').innerHTML = '';
   [...$('wall').children].forEach(d => { d.style.background = ''; d.title = 'no event yet'; }); wallIdx = 0; turns = []; tClear(); $('taskPanel').hidden = true; CLUSTERS.forEach(c => { c.events = []; });
@@ -2431,8 +2535,8 @@ async function bootSequence(first){
   booting = false; window.__bootDone = { ok, total: results.length };
 }
 (function boot(){
-  const th = store.get(LSK.theme); if(th === 'dark' || th === 'light') document.documentElement.dataset.theme = th;
-  refreshKeyState(); buildGraph(); resize(); requestAnimationFrame(frame); updStats(); updGstat(); fillVoices(); syncVoiceUI(); syncNatUI(); updInstallBtn(); showVoicePrompt(); emUI(); if(EM.gem.until) emScheduleProbe();
+  const th = store.get(LSK.theme); document.documentElement.dataset.theme = th === 'light' ? 'light' : 'dark';
+  refreshKeyState(); buildGraph(); resize(); requestAnimationFrame(frame); updStats(); updGstat(); fillVoices(); syncVoiceUI(); syncNatUI(); updInstallBtn(); showVoicePrompt(); emUI(); syncTabbar(); if(EM.gem.until) emScheduleProbe();
   if(typeof satellite === 'undefined') log('ERR', 'satellite.js did not load (CDN blocked?); TLE propagation unavailable');
   log('SYS', `Booted · model ${model()} · NASA key: ${store.get(LSK.nasa) ? 'custom' : 'DEMO_KEY'} · Gemini key: ${gemKey() ? 'set' : 'not set'}`);
   const firstVisit = !store.get(LSK2.booted); store.set(LSK2.booted, '1');
